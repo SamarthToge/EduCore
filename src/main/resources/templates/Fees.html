@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{Fragments/Head :: head}"></head>
+<body>
+    <nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
+    <header th:replace="~{Fragments/Header :: header}"></header>
+    <div class="overlay-bg" id="overlayBg" onclick="toggleSidebar()"></div>
+
+    <main class="main">
+        <section class="page active" id="page-fees">
+            <div class="page-header">
+                <div class="page-header-left"><h1>Fee Management</h1><p>Academic Year 2025–26</p></div>
+                <div class="page-header-actions">
+                    <button class="btn btn-ghost">📄 Invoice</button>
+                    <button class="btn btn-primary" onclick="openModal('addFeeModal')">+ Record Payment</button>
+                </div>
+            </div>
+            <div class="fee-summary mb-20" id="feeSummary"></div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Fee Records</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Student</th><th>Class</th><th>Total Fee</th><th>Paid</th><th>Due</th><th>Due Date</th><th>Status</th><th>Action</th></tr></thead>
+                        <tbody id="feeTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div th:replace="~{Fragments/Modals :: modals}"></div>
+    <div th:replace="~{Fragments/Scripts :: scripts}"></div>
+</body>
+</html>

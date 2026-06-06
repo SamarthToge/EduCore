@@ -1,0 +1,67 @@
+<nav class="sidebar" id="sidebar" th:fragment="sidebar">
+    <div class="sidebar-logo">
+        <div class="logo-icon">🎓</div>
+        <div>
+            <div class="logo-text">EduCore</div>
+            <div class="logo-sub">SCHOOL MANAGEMENT</div>
+        </div>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-label">Overview</div>
+        <a th:href="@{/}" class="nav-item" th:classappend="${currentPage == 'dashboard' ? 'active' : ''}">
+            <span class="nav-icon">⊞</span> Dashboard
+        </a>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-label">Academics</div>
+        <a th:href="@{/students}" class="nav-item" th:classappend="${currentPage == 'students' ? 'active' : ''}">
+            <span class="nav-icon">👥</span> Students
+            <span class="nav-badge">1,247</span>
+        </a>
+        <a th:href="@{/teachers}" class="nav-item" th:classappend="${currentPage == 'teachers' ? 'active' : ''}">
+            <span class="nav-icon">🧑‍🏫</span> Teachers
+        </a>
+        <a th:href="@{/classes}" class="nav-item" th:classappend="${currentPage == 'classes' ? 'active' : ''}">
+            <span class="nav-icon">📚</span> Classes
+        </a>
+        <a th:href="@{/schedule}" class="nav-item" th:classappend="${currentPage == 'schedule' ? 'active' : ''}">
+            <span class="nav-icon">🗓</span> Schedule
+        </a>
+        <a th:href="@{/exams}" class="nav-item" th:classappend="${currentPage == 'exams' ? 'active' : ''}">
+            <span class="nav-icon">📝</span> Exams & Grades
+        </a>
+        <a th:href="@{/attendance}" class="nav-item" th:classappend="${currentPage == 'attendance' ? 'active' : ''}">
+            <span class="nav-icon">✅</span> Attendance
+        </a>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-label">Administration</div>
+        <a th:href="@{/fees}" class="nav-item" th:classappend="${currentPage == 'fees' ? 'active' : ''}">
+            <span class="nav-icon">💳</span> Fee Management
+            <span class="nav-badge danger">3</span>
+        </a>
+        <a th:href="@{/library}" class="nav-item" th:classappend="${currentPage == 'library' ? 'active' : ''}">
+            <span class="nav-icon">📖</span> Library
+        </a>
+        <a th:href="@{/notices}" class="nav-item" th:classappend="${currentPage == 'notices' ? 'active' : ''}">
+            <span class="nav-icon">📢</span> Notices
+        </a>
+        <a th:href="@{/settings}" class="nav-item" th:classappend="${currentPage == 'settings' ? 'active' : ''}">
+            <span class="nav-icon">⚙️</span> Settings
+        </a>
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="user-card">
+            <div class="user-avatar">AK</div>
+            <div>
+                <div class="user-name">Admin Kumar</div>
+                <div class="user-role">Super Admin</div>
+            </div>
+            <span style="margin-left:auto;color:var(--text3);font-size:0.8rem;">↗</span>
+        </div>
+    </div>
+</nav>

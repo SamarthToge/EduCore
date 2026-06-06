@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{Fragments/Head :: head}"></head>
+<body>
+    <nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
+    <header th:replace="~{Fragments/Header :: header}"></header>
+    <div class="overlay-bg" id="overlayBg" onclick="toggleSidebar()"></div>
+
+    <main class="main">
+        <section class="page active" id="page-students">
+            <div class="page-header">
+                <div class="page-header-left">
+                    <h1>Students</h1>
+                    <p>1,247 students enrolled across 38 classes</p>
+                </div>
+                <div class="page-header-actions">
+                    <button class="btn btn-ghost">⬇ Export</button>
+                    <button class="btn btn-primary" onclick="openModal('addStudentModal')">+ Add Student</button>
+                </div>
+            </div>
+            <div class="tabs">
+                <div class="tab active">All Students</div>
+                <div class="tab">Active</div>
+                <div class="tab">Inactive</div>
+                <div class="tab">Alumni</div>
+            </div>
+            <div class="flex gap-8 mb-16" style="flex-wrap:wrap;">
+                <div style="flex:1;min-width:200px;display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:8px 14px;">
+                    <span>🔍</span>
+                    <input type="text" placeholder="Search by name or ID…" style="border:none;background:transparent;padding:0;"/>
+                </div>
+                <select style="width:130px;"><option>All Classes</option><option>Grade 6</option><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option></select>
+                <select style="width:130px;"><option>All Sections</option><option>Section A</option><option>Section B</option><option>Section C</option></select>
+            </div>
+            <div class="grid-auto" id="studentCards"></div>
+        </section>
+    </main>
+
+    <div th:replace="~{Fragments/Modals :: modals}"></div>
+    <div th:replace="~{Fragments/Scripts :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{Fragments/Head :: head}"></head>
+<body>
+    <nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
+    <header th:replace="~{Fragments/Header :: header}"></header>
+    <div class="overlay-bg" id="overlayBg" onclick="toggleSidebar()"></div>
+
+    <main class="main">
+        <section class="page active" id="page-attendance">
+            <div class="page-header">
+                <div class="page-header-left"><h1>Attendance</h1><p>Mark and track daily attendance</p></div>
+                <div class="page-header-actions">
+                    <select style="width:150px;"><option>Grade 10 – A</option><option>Grade 9 – B</option></select>
+                    <button class="btn btn-primary" onclick="showToast('Attendance saved!','success')">💾 Save Attendance</button>
+                </div>
+            </div>
+            <div class="grid-2 mb-20">
+                <div class="card">
+                    <div class="card-title"><span class="dot"></span> Today's Summary — June 6</div>
+                    <div class="att-circles" id="attCircles"></div>
+                    <div class="divider"></div>
+                    <div style="font-size:0.82rem;color:var(--text2);">
+                        <div style="display:flex;justify-content:space-between;padding:6px 0;"><span>Present</span><span class="color-green fw-600">42</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:6px 0;"><span>Absent</span><span class="color-danger fw-600">3</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:6px 0;"><span>Late</span><span class="color-amber fw-600">2</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:6px 0;"><span>Leave</span><span class="color-accent fw-600">1</span></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent4)"></span> Monthly Trend</div>
+                    <div class="bar-chart" id="attBarChart"></div>
+                    <div class="bar-labels" id="attBarLabels"></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot" style="background:var(--accent2)"></span> Mark Attendance — Grade 10A</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Roll</th><th>Student Name</th><th>Present</th><th>Absent</th><th>Late</th><th>Leave</th><th>Remark</th></tr></thead>
+                        <tbody id="attTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div th:replace="~{Fragments/Modals :: modals}"></div>
+    <div th:replace="~{Fragments/Scripts :: scripts}"></div>
+</body>
+</html>

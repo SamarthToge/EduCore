@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{Fragments/Head :: head}"></head>
+<body>
+    <nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
+    <header th:replace="~{Fragments/Header :: header}"></header>
+    <div class="overlay-bg" id="overlayBg" onclick="toggleSidebar()"></div>
+
+    <main class="main">
+        <section class="page active" id="page-schedule">
+            <div class="page-header">
+                <div class="page-header-left"><h1>Timetable</h1><p>Weekly schedule — Grade 10, Section A</p></div>
+                <div class="page-header-actions">
+                    <select style="width:150px;"><option>Grade 10 – A</option><option>Grade 9 – A</option></select>
+                    <button class="btn btn-ghost">🖨 Print</button>
+                </div>
+            </div>
+            <div class="card" style="overflow:auto;">
+                <div class="schedule-row" style="margin-bottom:8px;">
+                    <div></div>
+                    <div style="text-align:center;font-size:0.72rem;font-weight:700;color:var(--text2);">MON</div>
+                    <div style="text-align:center;font-size:0.72rem;font-weight:700;color:var(--text2);">TUE</div>
+                    <div style="text-align:center;font-size:0.72rem;font-weight:700;color:var(--text2);">WED</div>
+                    <div style="text-align:center;font-size:0.72rem;font-weight:700;color:var(--text2);">THU</div>
+                    <div style="text-align:center;font-size:0.72rem;font-weight:700;color:var(--text2);">FRI</div>
+                </div>
+                <div id="scheduleGrid"></div>
+            </div>
+        </section>
+    </main>
+
+    <div th:replace="~{Fragments/Modals :: modals}"></div>
+    <div th:replace="~{Fragments/Scripts :: scripts}"></div>
+</body>
+</html>

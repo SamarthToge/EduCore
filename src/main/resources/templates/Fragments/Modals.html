@@ -1,0 +1,92 @@
+<div th:fragment="modals">
+    <!-- MODALS -->
+    <div class="overlay" id="addStudentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Add New Student</div>
+                <div class="modal-close" onclick="closeModal('addStudentModal')">✕</div>
+            </div>
+            <div class="form-grid">
+                <div class="form-group"><label>First Name</label><input type="text" placeholder="Arjun" /></div>
+                <div class="form-group"><label>Last Name</label><input type="text" placeholder="Sharma" /></div>
+                <div class="form-group"><label>Date of Birth</label><input type="date" /></div>
+                <div class="form-group"><label>Gender</label><select><option>Male</option><option>Female</option><option>Other</option></select></div>
+                <div class="form-group"><label>Class</label><select><option>Grade 6</option><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option></select></div>
+                <div class="form-group"><label>Section</label><select><option>A</option><option>B</option><option>C</option></select></div>
+                <div class="form-group"><label>Parent/Guardian Name</label><input type="text" placeholder="Ramesh Sharma" /></div>
+                <div class="form-group"><label>Contact Number</label><input type="tel" placeholder="+91 98765 43210" /></div>
+                <div class="form-group full"><label>Address</label><textarea rows="2" placeholder="House No, Street, City"></textarea></div>
+                <div class="form-group"><label>Admission Date</label><input type="date" /></div>
+                <div class="form-group"><label>Previous School</label><input type="text" placeholder="St. Xavier's High School" /></div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+                <button class="btn btn-ghost" onclick="closeModal('addStudentModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="closeModal('addStudentModal');showToast('Student added successfully!','success')">Add Student</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="addTeacherModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Add New Teacher</div>
+                <div class="modal-close" onclick="closeModal('addTeacherModal')">✕</div>
+            </div>
+            <div class="form-grid">
+                <div class="form-group"><label>First Name</label><input type="text" placeholder="Priya" /></div>
+                <div class="form-group"><label>Last Name</label><input type="text" placeholder="Patel" /></div>
+                <div class="form-group"><label>Subject</label><select><option>Mathematics</option><option>Science</option><option>English</option><option>Hindi</option><option>Social Studies</option><option>Computer Science</option></select></div>
+                <div class="form-group"><label>Experience (years)</label><input type="number" placeholder="5" /></div>
+                <div class="form-group"><label>Qualification</label><input type="text" placeholder="M.Sc. Mathematics" /></div>
+                <div class="form-group"><label>Contact</label><input type="tel" placeholder="+91 99887 76655" /></div>
+                <div class="form-group full"><label>Email</label><input type="email" placeholder="teacher@school.edu.in" /></div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+                <button class="btn btn-ghost" onclick="closeModal('addTeacherModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="closeModal('addTeacherModal');showToast('Teacher added!','success')">Add Teacher</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="addFeeModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Record Fee Payment</div>
+                <div class="modal-close" onclick="closeModal('addFeeModal')">✕</div>
+            </div>
+            <div class="form-grid">
+                <div class="form-group full"><label>Student Name / ID</label><input type="text" placeholder="Search student…" /></div>
+                <div class="form-group"><label>Fee Type</label><select><option>Tuition Fee</option><option>Transport Fee</option><option>Lab Fee</option><option>Exam Fee</option></select></div>
+                <div class="form-group"><label>Amount (₹)</label><input type="number" placeholder="12,000" /></div>
+                <div class="form-group"><label>Payment Mode</label><select><option>Cash</option><option>UPI</option><option>Bank Transfer</option><option>Cheque</option></select></div>
+                <div class="form-group"><label>Payment Date</label><input type="date" /></div>
+                <div class="form-group"><label>Receipt No.</label><input type="text" placeholder="RC-2026-0041" /></div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+                <button class="btn btn-ghost" onclick="closeModal('addFeeModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="closeModal('addFeeModal');showToast('Payment recorded!','success')">Record Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="addNoticeModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Post New Notice</div>
+                <div class="modal-close" onclick="closeModal('addNoticeModal')">✕</div>
+            </div>
+            <div class="form-grid">
+                <div class="form-group full"><label>Title</label><input type="text" placeholder="Notice title…" /></div>
+                <div class="form-group"><label>Category</label><select><option>Academic</option><option>Event</option><option>Holiday</option><option>Exam</option><option>General</option></select></div>
+                <div class="form-group"><label>Audience</label><select><option>All</option><option>Students</option><option>Teachers</option><option>Parents</option></select></div>
+                <div class="form-group full"><label>Description</label><textarea rows="3" placeholder="Notice details…"></textarea></div>
+                <div class="form-group"><label>Publish Date</label><input type="date" /></div>
+                <div class="form-group"><label>Expiry Date</label><input type="date" /></div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+                <button class="btn btn-ghost" onclick="closeModal('addNoticeModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="closeModal('addNoticeModal');showToast('Notice posted!','success')">Post Notice</button>
+            </div>
+        </div>
+    </div>
+</div>

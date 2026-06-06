@@ -1,0 +1,13 @@
+<header class="topbar" th:fragment="header">
+    <div class="menu-btn" onclick="toggleSidebar()" id="menuBtn">☰</div>
+    <div class="topbar-title" id="topbarTitle">Dashboard</div>
+    <div class="topbar-search">
+        <span>🔍</span>
+        <input type="text" placeholder="Search students, teachers…" />
+    </div>
+    <div class="topbar-btn" onclick="showToast('No new notifications','info')">
+        🔔
+        <span class="notif-dot"></span>
+    </div>
+    <div class="topbar-btn">🌙</div>
+</header>

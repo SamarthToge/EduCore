@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{Fragments/Head :: head}"></head>
+<body>
+    <nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
+    <header th:replace="~{Fragments/Header :: header}"></header>
+    <div class="overlay-bg" id="overlayBg" onclick="toggleSidebar()"></div>
+
+    <main class="main">
+        <section class="page active" id="page-library">
+            <div class="page-header">
+                <div class="page-header-left"><h1>Library</h1><p>3,412 books, 284 issued</p></div>
+                <div class="page-header-actions">
+                    <button class="btn btn-primary">+ Add Book</button>
+                </div>
+            </div>
+            <div class="grid-4 mb-20">
+                <div class="stat-card blue"><div class="stat-icon blue">📚</div><div class="stat-value">3,412</div><div class="stat-label">Total Books</div></div>
+                <div class="stat-card green"><div class="stat-icon green">✅</div><div class="stat-value">3,128</div><div class="stat-label">Available</div></div>
+                <div class="stat-card amber"><div class="stat-icon amber">📤</div><div class="stat-value">284</div><div class="stat-label">Issued</div></div>
+                <div class="stat-card purple"><div class="stat-icon purple">⚠️</div><div class="stat-value">12</div><div class="stat-label">Overdue</div></div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Issued Books</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Book Title</th><th>Author</th><th>Issued To</th><th>Issue Date</th><th>Due Date</th><th>Status</th></tr></thead>
+                        <tbody id="libraryTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div th:replace="~{Fragments/Modals :: modals}"></div>
+    <div th:replace="~{Fragments/Scripts :: scripts}"></div>
+</body>
+</html>

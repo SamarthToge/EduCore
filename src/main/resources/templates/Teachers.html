@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{Fragments/Head :: head}"></head>
+<body>
+    <nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
+    <header th:replace="~{Fragments/Header :: header}"></header>
+    <div class="overlay-bg" id="overlayBg" onclick="toggleSidebar()"></div>
+
+    <main class="main">
+        <section class="page active" id="page-teachers">
+            <div class="page-header">
+                <div class="page-header-left">
+                    <h1>Teachers</h1>
+                    <p>86 faculty members across all departments</p>
+                </div>
+                <div class="page-header-actions">
+                    <button class="btn btn-primary" onclick="openModal('addTeacherModal')">+ Add Teacher</button>
+                </div>
+            </div>
+            <div class="grid-auto" id="teacherCards"></div>
+        </section>
+    </main>
+
+    <div th:replace="~{Fragments/Modals :: modals}"></div>
+    <div th:replace="~{Fragments/Scripts :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{Fragments/Head :: head}"></head>
+<body>
+    <nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
+    <header th:replace="~{Fragments/Header :: header}"></header>
+    <div class="overlay-bg" id="overlayBg" onclick="toggleSidebar()"></div>
+
+    <main class="main">
+        <section class="page active" id="page-exams">
+            <div class="page-header">
+                <div class="page-header-left"><h1>Exams & Grades</h1><p>Mid-term 2026 Results</p></div>
+                <div class="page-header-actions">
+                    <button class="btn btn-ghost">📄 Report Cards</button>
+                    <button class="btn btn-primary">+ Schedule Exam</button>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title"><span class="dot"></span> Grade Distribution</div>
+                    <div id="gradeChart"></div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent2)"></span> Subject Performance</div>
+                    <div id="subjectPerf"></div>
+                </div>
+            </div>
+            <div class="card" style="margin-top:16px;">
+                <div class="card-title"><span class="dot" style="background:var(--accent3)"></span> Student Results — Grade 10A</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Student</th><th>Maths</th><th>Science</th><th>English</th><th>Hindi</th><th>Social</th><th>Total %</th><th>Grade</th></tr></thead>
+                        <tbody id="examTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div th:replace="~{Fragments/Modals :: modals}"></div>
+    <div th:replace="~{Fragments/Scripts :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{Fragments/Head :: head}"></head>
+<body>
+
+<!-- SIDEBAR -->
+<nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
+
+<!-- TOPBAR -->
+<header th:replace="~{Fragments/Header :: header}"></header>
+
+<!-- OVERLAY BG (mobile sidebar close) -->
+<div class="overlay-bg" id="overlayBg" onclick="toggleSidebar()"></div>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+    <div th:replace="~{Dashboard :: content}"></div>
+</main>
+
+<!-- MODALS -->
+<div th:replace="~{Fragments/Modals :: modals}"></div>
+
+<div th:replace="~{Fragments/Scripts :: scripts}"></div>
+</body>
+</html>

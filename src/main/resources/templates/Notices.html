@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{Fragments/Head :: head}"></head>
+<body>
+    <nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
+    <header th:replace="~{Fragments/Header :: header}"></header>
+    <div class="overlay-bg" id="overlayBg" onclick="toggleSidebar()"></div>
+
+    <main class="main">
+        <section class="page active" id="page-notices">
+            <div class="page-header">
+                <div class="page-header-left"><h1>Notices & Announcements</h1><p>Stay updated with school news</p></div>
+                <div class="page-header-actions">
+                    <button class="btn btn-primary" onclick="openModal('addNoticeModal')">+ Post Notice</button>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="card" id="noticesList"></div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--accent3)"></span> Upcoming Events</div>
+                    <div id="noticeEvents"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div th:replace="~{Fragments/Modals :: modals}"></div>
+    <div th:replace="~{Fragments/Scripts :: scripts}"></div>
+</body>
+</html>
