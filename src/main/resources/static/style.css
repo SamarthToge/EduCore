@@ -28,7 +28,13 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
 }
-
+a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 /* ── SIDEBAR ── */
 .sidebar {
     position: fixed; left: 0; top: 0; bottom: 0;
