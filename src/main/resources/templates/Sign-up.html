@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create account — EduCore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+        :root{
+            --ink:#08090d;
+            --ink2:#0d0f16;
+            --ink3:#131620;
+            --glass:rgba(255,255,255,0.03);
+            --glass2:rgba(255,255,255,0.06);
+            --line:rgba(255,255,255,0.07);
+            --line2:rgba(255,255,255,0.12);
+            --text:#f0f1f5;
+            --text2:#8e94ad;
+            --text3:#4a5070;
+            --blue:#4a8cff;
+            --blue2:#2563eb;
+            --violet:#7c5cfc;
+            --teal:#00d4aa;
+            --amber:#f5a623;
+            --red:#ff4d4f;
+            --r:12px;
+            --r-sm:8px;
+        }
+
+        html{scroll-behavior:smooth;font-size:16px}
+        body{
+            font-family:'Instrument Sans',sans-serif;
+            background:var(--ink);
+            color:var(--text);
+            min-height:100vh;
+            overflow-x:hidden;
+        }
+
+        body::before{
+            content:'';
+            position:fixed;inset:0;z-index:0;pointer-events:none;
+            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+            opacity:.4;
+        }
+
+        .page{display:flex;min-height:100vh}
+
+        #signup{
+            min-height:100vh;
+            flex-direction:row;
+            width: 100%;
+        }
+
+        .auth-left{
+            flex:1;position:relative;overflow:hidden;
+            display:flex;flex-direction:column;justify-content:space-between;
+            padding:40px 52px;
+            background:var(--ink2);border-right:1px solid var(--line);
+        }
+        .auth-left-bg{
+            position:absolute;inset:0;pointer-events:none;
+            background:
+                    radial-gradient(ellipse 70% 50% at 20% 20%,rgba(74,140,255,0.07),transparent),
+                    radial-gradient(ellipse 60% 60% at 80% 80%,rgba(124,92,252,0.06),transparent);
+        }
+        .auth-grid-lines{
+            position:absolute;inset:0;
+            background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);
+            background-size:48px 48px;
+            mask-image:radial-gradient(ellipse 80% 70% at 30% 40%,black,transparent);
+        }
+        .auth-left-content{position:relative;z-index:1}
+        .auth-brand{display:flex;align-items:center;gap:12px;margin-bottom:64px}
+        .auth-brand-icon{
+            width:42px;height:42px;border-radius:12px;
+            background:linear-gradient(135deg,var(--blue),var(--violet));
+            display:flex;align-items:center;justify-content:center;font-size:20px;
+            box-shadow:0 8px 28px rgba(74,140,255,0.3);
+        }
+        .auth-brand-name{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700}
+        .auth-brand-sub{font-size:.65rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-top:1px}
+        .auth-tagline{
+            font-family:'Clash Display',sans-serif;
+            font-size:clamp(1.6rem,2.5vw,2.4rem);font-weight:700;
+            letter-spacing:-.03em;line-height:1.15;margin-bottom:20px;
+        }
+        .auth-tagline .hl{
+            background:linear-gradient(135deg,var(--blue),var(--violet));
+            -webkit-background-clip:text;background-clip:text;color:transparent;
+        }
+        .auth-desc{font-size:.9rem;color:var(--text2);line-height:1.7;max-width:340px}
+        .auth-features{display:flex;flex-direction:column;gap:14px;margin-top:40px}
+        .auth-feat{display:flex;align-items:flex-start;gap:12px}
+        .auth-feat-icon{
+            width:34px;height:34px;border-radius:8px;flex-shrink:0;
+            display:flex;align-items:center;justify-content:center;font-size:.9rem;
+            border:1px solid var(--line2);margin-top:1px;
+        }
+        .auth-feat-text .t{font-size:.85rem;font-weight:500}
+        .auth-feat-text .s{font-size:.75rem;color:var(--text2);margin-top:2px}
+
+        .auth-trust{
+            display:flex;align-items:center;gap:16px;
+            position:relative;z-index:1;
+        }
+        .trust-item{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text3)}
+        .trust-icon{font-size:.85rem}
+
+        .auth-right{
+            width:480px;flex-shrink:0;
+            display:flex;flex-direction:column;justify-content:center;
+            padding:56px 52px;overflow-y:auto;
+            background:var(--ink);
+        }
+        .auth-form-wrap{max-width:360px;width:100%;margin:0 auto}
+
+        .auth-form-title{
+            font-family:'Clash Display',sans-serif;font-size:1.65rem;font-weight:700;
+            letter-spacing:-.03em;margin-bottom:6px;
+        }
+        .auth-form-sub{font-size:.87rem;color:var(--text2);margin-bottom:30px}
+
+        .role-select-row{display:flex;gap:8px;margin-bottom:20px}
+        .rs-chip{
+            flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
+            padding:10px 6px;border-radius:var(--r-sm);
+            border:1px solid var(--line);background:var(--glass);
+            cursor:pointer;transition:all .18s;
+        }
+        .rs-chip:hover{border-color:var(--line2)}
+        .rs-chip.sel{border-color:var(--blue);background:rgba(74,140,255,0.08)}
+        .rs-icon{font-size:1.1rem}
+        .rs-lbl{font-size:.68rem;font-weight:500;color:var(--text2)}
+        .rs-chip.sel .rs-lbl{color:var(--blue)}
+
+        .soc-row{display:flex;gap:8px;margin-bottom:22px}
+        .soc-btn{
+            flex:1;display:flex;align-items:center;justify-content:center;gap:7px;
+            padding:10px;border-radius:var(--r-sm);
+            background:var(--glass2);border:1px solid var(--line);
+            font-size:.82rem;font-weight:500;color:var(--text2);cursor:pointer;
+            transition:all .15s;
+        }
+        .soc-btn:hover{border-color:var(--line2);color:var(--text)}
+        .soc-btn svg{width:15px;height:15px;flex-shrink:0}
+        .or-row{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+        .or-line{flex:1;height:1px;background:var(--line)}
+        .or-text{font-size:.7rem;color:var(--text3);font-family:'JetBrains Mono',monospace}
+
+        .field{margin-bottom:14px}
+        .field-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+        label{display:block;font-size:.75rem;font-weight:500;color:var(--text2);margin-bottom:6px}
+        .inp-wrap{position:relative}
+        .inp-wrap input{
+            width:100%;padding:10px 38px 10px 13px;
+            background:var(--glass2);border:1px solid var(--line);
+            border-radius:var(--r-sm);
+            font-family:'Instrument Sans',sans-serif;font-size:.875rem;color:var(--text);
+            outline:none;transition:border-color .18s,box-shadow .18s;
+        }
+        .inp-wrap input::placeholder{color:var(--text3)}
+        .inp-wrap input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(74,140,255,0.1)}
+        .inp-wrap input.err{border-color:var(--red);box-shadow:0 0 0 3px rgba(255,77,79,0.1)}
+        .inp-ico{
+            position:absolute;right:11px;top:50%;transform:translateY(-50%);
+            font-size:.85rem;color:var(--text3);cursor:pointer;user-select:none;transition:color .15s;
+        }
+        .inp-ico:hover{color:var(--text2)}
+        .err-msg{font-size:.7rem;color:var(--red);margin-top:4px;display:none}
+        .err-msg.show{display:block}
+
+        .pw-str{margin-top:7px;display:none}
+        .pw-str.show{display:block}
+        .pw-bars{display:flex;gap:3px;height:3px;margin-bottom:4px}
+        .pw-seg{flex:1;border-radius:2px;background:var(--line);transition:background .3s}
+        .pw-hint{font-size:.67rem;color:var(--text3)}
+
+        .chk-label{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:.8rem;color:var(--text2)}
+        .chk-label input{display:none}
+        .chk-box{
+            width:15px;height:15px;border-radius:4px;flex-shrink:0;
+            border:1.5px solid var(--line2);background:var(--glass);
+            display:flex;align-items:center;justify-content:center;transition:all .15s;
+        }
+        .chk-label input:checked+.chk-box{background:var(--blue);border-color:var(--blue)}
+        .chk-label input:checked+.chk-box::after{content:'✓';font-size:.6rem;color:#fff}
+        .link-sm{font-size:.8rem;color:var(--blue);cursor:pointer;transition:opacity .15s; text-decoration: none;}
+        .link-sm:hover{opacity:.75}
+
+        .btn-submit{
+            width:100%;padding:12px;border-radius:var(--r-sm);
+            background:var(--blue);color:#fff;border:none;
+            font-family:'Instrument Sans',sans-serif;font-size:.9rem;font-weight:600;
+            cursor:pointer;transition:all .2s;
+            display:flex;align-items:center;justify-content:center;gap:8px;
+            margin-bottom:18px;position:relative;overflow:hidden;
+            box-shadow:0 4px 18px rgba(74,140,255,0.25);
+        }
+        .btn-submit:hover{background:#3a7cf0;transform:translateY(-1px);box-shadow:0 8px 24px rgba(74,140,255,0.35)}
+        .btn-submit .spin{
+            width:15px;height:15px;border:2px solid rgba(255,255,255,.3);
+            border-top-color:#fff;border-radius:50%;
+            animation:rotate .7s linear infinite;display:none;
+        }
+        .btn-submit.loading .spin{display:block}
+        .btn-submit.loading .blbl{display:none}
+
+        .switch-row{text-align:center;font-size:.82rem;color:var(--text2)}
+        .switch-row a{color:var(--blue);cursor:pointer;font-weight:500; text-decoration: none;}
+
+        .toast-wrap{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+        .toast{
+            background:var(--ink2);border:1px solid var(--line2);
+            border-radius:10px;padding:11px 16px;
+            font-size:.84rem;display:flex;align-items:center;gap:8px;
+            box-shadow:0 8px 28px rgba(0,0,0,0.5);
+            animation:slideInRight .3s ease;
+            pointer-events:none;min-width:240px;
+        }
+        .toast.success{border-left:3px solid var(--teal)}
+        .toast.error{border-left:3px solid var(--red)}
+        .toast.info{border-left:3px solid var(--blue)}
+        @keyframes slideInRight{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+
+        @media(max-width:1000px){
+            .auth-left{display:none}
+            .auth-right{width:100%;padding:48px 28px}
+        }
+        @media(max-width:700px){
+            .auth-right{padding:40px 20px}
+        }
+    </style>
+</head>
+<body>
+
+<div class="page" id="signup">
+    <div class="auth-left">
+        <div class="auth-left-bg"></div>
+        <div class="auth-grid-lines"></div>
+        <div class="auth-left-content">
+            <div class="auth-brand">
+                <div class="auth-brand-icon">🎓</div>
+                <div>
+                    <div class="auth-brand-name">EduCore</div>
+                    <div class="auth-brand-sub">School Management</div>
+                </div>
+            </div>
+            <div class="auth-tagline">
+                Build a smarter<br><span class="hl">school, together.</span>
+            </div>
+            <p class="auth-desc">Join hundreds of schools already on EduCore. Set up takes under 5 minutes — no card, no commitment.</p>
+            <div class="auth-features">
+                <div class="auth-feat">
+                    <div class="auth-feat-icon" style="background:rgba(74,140,255,.08);color:var(--blue)">🚀</div>
+                    <div class="auth-feat-text">
+                        <div class="t">Instant Setup</div>
+                        <div class="s">Your school dashboard ready in minutes</div>
+                    </div>
+                </div>
+                <div class="auth-feat">
+                    <div class="auth-feat-icon" style="background:rgba(0,212,170,.08);color:var(--teal)">🆓</div>
+                    <div class="auth-feat-text">
+                        <div class="t">Free Forever Plan</div>
+                        <div class="s">Core features always free, no credit card needed</div>
+                    </div>
+                </div>
+                <div class="auth-feat">
+                    <div class="auth-feat-icon" style="background:rgba(245,166,35,.08);color:var(--amber)">🇮🇳</div>
+                    <div class="auth-feat-text">
+                        <div class="t">Made for India</div>
+                        <div class="s">CBSE, ICSE, and State Board friendly</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="auth-trust">
+            <div class="trust-item"><span class="trust-icon">✅</span> Free to start</div>
+            <div class="trust-item"><span class="trust-icon">🔐</span> Data stays in India</div>
+        </div>
+    </div>
+
+    <div class="auth-right" style="padding-top:40px;padding-bottom:40px">
+        <div class="auth-form-wrap">
+            <div style="margin-bottom:24px">
+                <a href="/home" class="link-sm" style="display:inline-flex;align-items:center;gap:5px;font-size:.8rem;color:var(--text3)">← Back to home</a>
+            </div>
+
+            <div class="auth-form-title">Create account ✨</div>
+            <p class="auth-form-sub">Join EduCore — takes less than 2 minutes</p>
+
+            <div style="margin-bottom:16px">
+                <label>I am a…</label>
+                <div class="role-select-row">
+                    <div class="rs-chip sel" onclick="pickRole(this)"><span class="rs-icon">🛡️</span><span class="rs-lbl">Admin</span></div>
+                    <div class="rs-chip" onclick="pickRole(this)"><span class="rs-icon">🧑‍🏫</span><span class="rs-lbl">Teacher</span></div>
+                    <div class="rs-chip" onclick="pickRole(this)"><span class="rs-icon">👨‍🎓</span><span class="rs-lbl">Student</span></div>
+                </div>
+            </div>
+
+            <div class="soc-row">
+                <div class="soc-btn" onclick="socialAuth('Google')">
+                    <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                    Sign up with Google
+                </div>
+            </div>
+            <div class="or-row"><div class="or-line"></div><span class="or-text">or with email</span><div class="or-line"></div></div>
+
+            <div class="field-2">
+                <div>
+                    <label>First name</label>
+                    <div class="inp-wrap"><input type="text" id="su-fn" placeholder="Arjun"/><span class="inp-ico">👤</span></div>
+                    <div class="err-msg" id="su-fn-e">Required.</div>
+                </div>
+                <div>
+                    <label>Last name</label>
+                    <div class="inp-wrap"><input type="text" id="su-ln" placeholder="Sharma"/><span class="inp-ico">👤</span></div>
+                    <div class="err-msg" id="su-ln-e">Required.</div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>School / Institution name</label>
+                <div class="inp-wrap"><input type="text" id="su-sch" placeholder="Delhi Public School – Nashik"/><span class="inp-ico">🏫</span></div>
+                <div class="err-msg" id="su-sch-e">Required.</div>
+            </div>
+
+            <div class="field">
+                <label>Email address</label>
+                <div class="inp-wrap"><input type="email" id="su-em" placeholder="you@school.edu.in"/><span class="inp-ico">✉️</span></div>
+                <div class="err-msg" id="su-em-e">Enter a valid email.</div>
+            </div>
+
+            <div class="field">
+                <label>Password</label>
+                <div class="inp-wrap">
+                    <input type="password" id="su-pw" placeholder="Create a strong password" oninput="checkStr(this.value)"/>
+                    <span class="inp-ico" onclick="togglePw('su-pw',this)">👁</span>
+                </div>
+                <div class="pw-str" id="pwStr">
+                    <div class="pw-bars">
+                        <div class="pw-seg" id="s0"></div><div class="pw-seg" id="s1"></div>
+                        <div class="pw-seg" id="s2"></div><div class="pw-seg" id="s3"></div>
+                    </div>
+                    <div class="pw-hint" id="pwHint">Weak</div>
+                </div>
+                <div class="err-msg" id="su-pw-e">Minimum 8 characters.</div>
+            </div>
+
+            <div class="field">
+                <label>Confirm password</label>
+                <div class="inp-wrap"><input type="password" id="su-pw2" placeholder="Repeat password"/><span class="inp-ico" onclick="togglePw('su-pw2',this)">👁</span></div>
+                <div class="err-msg" id="su-pw2-e">Passwords don't match.</div>
+            </div>
+
+            <div style="margin-bottom:18px">
+                <label class="chk-label" style="align-items:flex-start">
+                    <input type="checkbox" id="su-terms">
+                    <span class="chk-box" style="margin-top:1px"></span>
+                    <span style="line-height:1.5">I agree to the <span class="link-sm">Terms of Service</span> and <span class="link-sm">Privacy Policy</span></span>
+                </label>
+                <div class="err-msg" id="su-terms-e">You must accept the terms.</div>
+            </div>
+
+            <button class="btn-submit" id="su-btn" onclick="doSignUp()">
+                <span class="spin"></span>
+                <span class="blbl">Create Account →</span>
+            </button>
+
+            <div class="switch-row">Already have an account? <a href="/login">Sign in</a></div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function showErr(id, msg) {
+        const el = document.getElementById(id); if(!el) return;
+        if(msg) el.textContent = msg;
+        el.classList.add('show');
+        const prev = el.previousElementSibling?.querySelector('input');
+        if(prev) prev.classList.add('err');
+    }
+    function hideErr(id) {
+        const el = document.getElementById(id); if(!el) return;
+        el.classList.remove('show');
+        const prev = el.previousElementSibling?.querySelector('input');
+        if(prev) prev.classList.remove('err');
+    }
+    function clearAllErrors() {
+        document.querySelectorAll('.err-msg').forEach(e=>e.classList.remove('show'));
+        document.querySelectorAll('input').forEach(i=>i.classList.remove('err'));
+    }
+
+    function togglePw(id, ico) {
+        const inp = document.getElementById(id);
+        inp.type = inp.type==='password' ? 'text' : 'password';
+        ico.textContent = inp.type==='password' ? '👁' : '🙈';
+    }
+
+    function pickRole(el) {
+        document.querySelectorAll('.rs-chip').forEach(c=>c.classList.remove('sel'));
+        el.classList.add('sel');
+    }
+
+    function checkStr(val) {
+        const wrap = document.getElementById('pwStr');
+        wrap.classList.toggle('show', val.length>0);
+        let sc=0;
+        if(val.length>=8) sc++;
+        if(/[A-Z]/.test(val)) sc++;
+        if(/[0-9]/.test(val)) sc++;
+        if(/[^A-Za-z0-9]/.test(val)) sc++;
+        const clrs=['#ff4d4f','#f5a623','#4a8cff','#00d4aa'];
+        const lbls=['Weak','Fair','Good','Strong'];
+        for(let i=0;i<4;i++){
+            const b=document.getElementById('s'+i);
+            b.style.background=i<sc?clrs[Math.max(0,sc-1)]:'var(--line)';
+        }
+        const hint=document.getElementById('pwHint');
+        hint.textContent=lbls[Math.max(0,sc-1)];
+        hint.style.color=clrs[Math.max(0,sc-1)];
+    }
+
+    function setLoading(btnId, on) {
+        const btn=document.getElementById(btnId);
+        btn.classList.toggle('loading',on);
+        btn.disabled=on;
+    }
+
+    function doSignUp() {
+        clearAllErrors();
+        const fn    = document.getElementById('su-fn').value.trim();
+        const ln    = document.getElementById('su-ln').value.trim();
+        const sch   = document.getElementById('su-sch').value.trim();
+        const em    = document.getElementById('su-em').value.trim();
+        const pw    = document.getElementById('su-pw').value;
+        const pw2   = document.getElementById('su-pw2').value;
+        const terms = document.getElementById('su-terms').checked;
+        let ok=true;
+        if(!fn)              { showErr('su-fn-e');    ok=false; }
+        if(!ln)              { showErr('su-ln-e');    ok=false; }
+        if(!sch)             { showErr('su-sch-e');   ok=false; }
+        if(!emailRe.test(em)){ showErr('su-em-e');    ok=false; }
+        if(pw.length<8)      { showErr('su-pw-e');    ok=false; }
+        if(pw!==pw2)         { showErr('su-pw2-e');   ok=false; }
+        if(!terms)           { showErr('su-terms-e'); ok=false; }
+        if(!ok) return;
+        setLoading('su-btn',true);
+        setTimeout(()=>{
+            setLoading('su-btn',false);
+            toast('Account created! Setting up your dashboard…','success');
+            setTimeout(()=>window.location.href='/dashboard',1600);
+        },2000);
+    }
+
+    function socialAuth(provider) {
+        toast(`Connecting to ${provider}…`,'info');
+    }
+
+    function toast(msg, type='info') {
+        const icons={success:'✅',error:'❌',info:'ℹ️'};
+        const wrap=document.getElementById('toastWrap');
+        const t=document.createElement('div');
+        t.className=`toast ${type}`;
+        t.innerHTML=`<span>${icons[type]}</span><span>${msg}</span>`;
+        wrap.appendChild(t);
+        setTimeout(()=>t.remove(),3800);
+    }
+
+    document.addEventListener('keydown',e=>{
+        if(e.key==='Enter') doSignUp();
+    });
+</script>
+</body>
+</html>

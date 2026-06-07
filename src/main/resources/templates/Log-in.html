@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — EduCore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/login.css}">
+</head>
+<body>
+
+<div class="page" id="signin">
+    <div class="auth-left">
+        <div class="auth-left-bg"></div>
+        <div class="auth-grid-lines"></div>
+        <div class="auth-left-content">
+            <div class="auth-brand">
+                <div class="auth-brand-icon">🎓</div>
+                <div>
+                    <div class="auth-brand-name">EduCore</div>
+                    <div class="auth-brand-sub">School Management</div>
+                </div>
+            </div>
+            <div class="auth-tagline">
+                Your school,<br><span class="hl">at your fingertips.</span>
+            </div>
+            <p class="auth-desc">Log in to access your personalised dashboard — attendance, results, fees, and more, all in real time.</p>
+            <div class="auth-features">
+                <div class="auth-feat">
+                    <div class="auth-feat-icon" style="background:rgba(74,140,255,.08);color:var(--blue)">📊</div>
+                    <div class="auth-feat-text">
+                        <div class="t">Live Analytics</div>
+                        <div class="s">Real-time dashboards updated every second</div>
+                    </div>
+                </div>
+                <div class="auth-feat">
+                    <div class="auth-feat-icon" style="background:rgba(0,212,170,.08);color:var(--teal)">🔒</div>
+                    <div class="auth-feat-text">
+                        <div class="t">Secure & Private</div>
+                        <div class="s">Role-based access control, encrypted data</div>
+                    </div>
+                </div>
+                <div class="auth-feat">
+                    <div class="auth-feat-icon" style="background:rgba(124,92,252,.08);color:var(--violet)">📱</div>
+                    <div class="auth-feat-text">
+                        <div class="t">Works Everywhere</div>
+                        <div class="s">Desktop, tablet, and mobile-ready interface</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="auth-trust">
+            <div class="trust-item"><span class="trust-icon">✅</span> CBSE / ICSE / State Board</div>
+            <div class="trust-item"><span class="trust-icon">🔐</span> End-to-end encrypted</div>
+        </div>
+    </div>
+
+    <div class="auth-right">
+        <div class="auth-form-wrap">
+            <div style="margin-bottom:32px">
+                <a href="/home" class="link-sm" style="display:inline-flex;align-items:center;gap:5px;font-size:.8rem;color:var(--text3)">← Back to home</a>
+            </div>
+
+            <div class="auth-form-title">Welcome back 👋</div>
+            <p class="auth-form-sub">Sign in to your EduCore account</p>
+
+            <div class="soc-row">
+                <div class="soc-btn" onclick="socialAuth('Google')">
+                    <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                    Google
+                </div>
+                <div class="soc-btn" onclick="socialAuth('Microsoft')">
+                    <svg viewBox="0 0 24 24"><path fill="#f25022" d="M1 1h10v10H1z"/><path fill="#00a4ef" d="M13 1h10v10H13z"/><path fill="#7fba00" d="M1 13h10v10H1z"/><path fill="#ffb900" d="M13 13h10v10H13z"/></svg>
+                    Microsoft
+                </div>
+            </div>
+            <div class="or-row"><div class="or-line"></div><span class="or-text">or with email</span><div class="or-line"></div></div>
+
+            <form th:action="@{/login}" method="post">
+            <div class="field">
+                <label>Email address</label>
+                <div class="inp-wrap">
+                    <input name="username" type="email" id="si-email" placeholder="admin@school.edu.in" />
+                    <span class="inp-ico">✉️</span>
+                </div>
+                <div class="err-msg" id="si-email-e">Please enter a valid email.</div>
+            </div>
+
+            <div class="field">
+                <label>Password</label>
+                <div class="inp-wrap">
+                    <input name="password" type="password" id="si-pw" placeholder="Your password" />
+                    <span class="inp-ico" onclick="togglePw('si-pw',this)">👁</span>
+                </div>
+                <div class="err-msg" id="si-pw-e">Password must be at least 6 characters.</div>
+            </div>
+
+            <div class="rem-row">
+                <label class="chk-label">
+                    <input type="checkbox" checked>
+                    <span class="chk-box"></span>
+                    Remember me for 30 days
+                </label>
+                <span class="link-sm" onclick="document.getElementById('forgotPw').classList.add('open')">Forgot password?</span>
+            </div>
+
+            <button type="submit" class="btn-submit" id="si-btn">
+                <span class="spin"></span>
+                <span class="blbl">Sign In →</span>
+            </button>
+                <div th:text="${errorMessage}" class="errorMsg"></div>
+
+            <div class="switch-row">New here? <a href="/signup">Create an account</a></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="forgotPw">
+    <div class="fp-modal">
+        <span class="fp-close" onclick="document.getElementById('forgotPw').classList.remove('open')">✕</span>
+        <div class="fp-title">Reset password 🔑</div>
+        <p class="fp-sub">Enter your email and we'll send a reset link right away.</p>
+        <div class="field">
+            <label>Email address</label>
+            <div class="inp-wrap"><input type="email" id="fp-em" placeholder="admin@school.edu.in"/><span class="inp-ico">✉️</span></div>
+            <div class="err-msg" id="fp-em-e">Enter a valid email.</div>
+        </div>
+        <button class="btn-submit" onclick="doForgot()" style="margin-bottom:0">
+            <span class="blbl">Send Reset Link →</span>
+        </button>
+    </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function showErr(id, msg) {
+        const el = document.getElementById(id); if(!el) return;
+        if(msg) el.textContent = msg;
+        el.classList.add('show');
+        const prev = el.previousElementSibling?.querySelector('input');
+        if(prev) prev.classList.add('err');
+    }
+    function hideErr(id) {
+        const el = document.getElementById(id); if(!el) return;
+        el.classList.remove('show');
+        const prev = el.previousElementSibling?.querySelector('input');
+        if(prev) prev.classList.remove('err');
+    }
+    function clearAllErrors() {
+        document.querySelectorAll('.err-msg').forEach(e=>e.classList.remove('show'));
+        document.querySelectorAll('input').forEach(i=>i.classList.remove('err'));
+    }
+
+    function togglePw(id, ico) {
+        const inp = document.getElementById(id);
+        inp.type = inp.type==='password' ? 'text' : 'password';
+        ico.textContent = inp.type==='password' ? '👁' : '🙈';
+    }
+
+    function setLoading(btnId, on) {
+        const btn=document.getElementById(btnId);
+        btn.classList.toggle('loading',on);
+        btn.disabled=on;
+    }
+
+    function doSignIn() {
+        clearAllErrors();
+        const email = document.getElementById('si-email').value.trim();
+        const pw    = document.getElementById('si-pw').value;
+        let ok=true;
+        if(!emailRe.test(email)){ showErr('si-email-e'); ok=false; }
+        if(pw.length<6){ showErr('si-pw-e'); ok=false; }
+        if(!ok) return;
+        setLoading('si-btn',true);
+        setTimeout(()=>{
+            setLoading('si-btn',false);
+            toast('Welcome back! Loading your dashboard…','success');
+            setTimeout(()=>window.location.href='/dashboard',1400);
+        },1800);
+    }
+
+    function doForgot() {
+        const em = document.getElementById('fp-em').value.trim();
+        document.getElementById('fp-em-e').classList.remove('show');
+        if(!emailRe.test(em)){ document.getElementById('fp-em-e').classList.add('show'); return; }
+        document.getElementById('forgotPw').classList.remove('open');
+        toast('Reset link sent! Check your inbox.','success');
+    }
+
+    function socialAuth(provider) {
+        toast(`Connecting to ${provider}…`,'info');
+    }
+
+    function toast(msg, type='info') {
+        const icons={success:'✅',error:'❌',info:'ℹ️'};
+        const wrap=document.getElementById('toastWrap');
+        const t=document.createElement('div');
+        t.className=`toast ${type}`;
+        t.innerHTML=`<span>${icons[type]}</span><span>${msg}</span>`;
+        wrap.appendChild(t);
+        setTimeout(()=>t.remove(),3800);
+    }
+
+    document.addEventListener('keydown',e=>{
+        if(e.key==='Enter') doSignIn();
+    });
+
+    document.getElementById('forgotPw').addEventListener('click',function(e){
+        if(e.target===this) this.classList.remove('open');
+    });
+</script>
+</body>
+</html>

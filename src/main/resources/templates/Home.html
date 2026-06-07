@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduCore — School Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+        :root{
+            --ink:#08090d;
+            --ink2:#0d0f16;
+            --ink3:#131620;
+            --glass:rgba(255,255,255,0.03);
+            --glass2:rgba(255,255,255,0.06);
+            --line:rgba(255,255,255,0.07);
+            --line2:rgba(255,255,255,0.12);
+            --text:#f0f1f5;
+            --text2:#8e94ad;
+            --text3:#4a5070;
+            --blue:#4a8cff;
+            --blue2:#2563eb;
+            --violet:#7c5cfc;
+            --teal:#00d4aa;
+            --amber:#f5a623;
+            --red:#ff4d4f;
+            --r:12px;
+            --r-sm:8px;
+        }
+
+        html{scroll-behavior:smooth;font-size:16px}
+        body{
+            font-family:'Instrument Sans',sans-serif;
+            background:var(--ink);
+            color:var(--text);
+            min-height:100vh;
+            overflow-x:hidden;
+        }
+
+        /* ─── NOISE OVERLAY ─── */
+        body::before{
+            content:'';
+            position:fixed;inset:0;z-index:0;pointer-events:none;
+            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+            opacity:.4;
+        }
+
+        /* ─── PAGE SYSTEM ─── */
+        .page{display:flex;flex-direction:column;min-height:100vh}
+
+        /* ════════════════════════════════════════
+           HOME PAGE
+        ════════════════════════════════════════ */
+        #home{position:relative;overflow:hidden}
+
+        /* NAV */
+        nav{
+            position:fixed;top:0;left:0;right:0;z-index:100;
+            padding:0 48px;
+            display:flex;align-items:center;gap:32px;height:68px;
+            border-bottom:1px solid var(--line);
+            background:rgba(8,9,13,0.8);
+            backdrop-filter:blur(18px);
+        }
+        .nav-logo{display:flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0; cursor: pointer;}
+        .nav-logo-icon{
+            width:38px;height:38px;border-radius:10px;
+            background:linear-gradient(135deg,var(--blue),var(--violet));
+            display:flex;align-items:center;justify-content:center;font-size:18px;
+            box-shadow:0 4px 20px rgba(74,140,255,0.3);
+        }
+        .nav-logo-text{font-family:'Clash Display',sans-serif;font-size:1.25rem;font-weight:700;letter-spacing:-.3px;color:var(--text)}
+        .nav-links{display:flex;align-items:center;gap:4px;margin-left:24px}
+        .nav-link{
+            padding:6px 14px;border-radius:6px;
+            font-size:.875rem;font-weight:500;color:var(--text2);
+            cursor:pointer;transition:all .15s;
+            text-decoration:none;
+        }
+        .nav-link:hover{color:var(--text);background:var(--glass2)}
+        .nav-cta{margin-left:auto;display:flex;align-items:center;gap:10px}
+        .btn-ghost-nav{
+            padding:7px 18px;border-radius:var(--r-sm);
+            border:1px solid var(--line2);background:transparent;
+            font-family:'Instrument Sans',sans-serif;font-size:.875rem;font-weight:500;
+            color:var(--text2);cursor:pointer;transition:all .18s;
+            text-decoration: none;
+        }
+        .btn-ghost-nav:hover{color:var(--text);border-color:var(--text3)}
+        .btn-primary-nav{
+            padding:8px 20px;border-radius:var(--r-sm);
+            background:var(--blue);border:none;
+            font-family:'Instrument Sans',sans-serif;font-size:.875rem;font-weight:600;
+            color:#fff;cursor:pointer;transition:all .18s;
+            box-shadow:0 4px 16px rgba(74,140,255,0.25);
+            text-decoration: none;
+        }
+        .btn-primary-nav:hover{background:#3a7cf0;transform:translateY(-1px);box-shadow:0 6px 20px rgba(74,140,255,0.35)}
+
+        /* HERO */
+        .hero{
+            flex:1;display:flex;align-items:center;justify-content:center;
+            padding:140px 48px 100px;
+            position:relative;
+            text-align:center;
+        }
+        /* background glow blobs */
+        .hero-blob{
+            position:absolute;pointer-events:none;border-radius:50%;filter:blur(80px);
+        }
+        .blob1{width:600px;height:600px;top:-100px;left:-150px;background:radial-gradient(circle,rgba(74,140,255,0.08),transparent 70%)}
+        .blob2{width:500px;height:500px;bottom:-100px;right:-100px;background:radial-gradient(circle,rgba(124,92,252,0.07),transparent 70%)}
+        .blob3{width:400px;height:400px;top:30%;left:40%;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,170,0.05),transparent 70%)}
+
+        /* grid lines */
+        .hero-grid{
+            position:absolute;inset:0;pointer-events:none;z-index:0;
+            background-image:
+                    linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+                    linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+            background-size:60px 60px;
+            mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,black,transparent);
+        }
+
+        .hero-inner{position:relative;z-index:1;max-width:820px}
+        .hero-eyebrow{
+            display:inline-flex;align-items:center;gap:8px;
+            padding:5px 14px 5px 8px;border-radius:50px;
+            border:1px solid var(--line2);background:var(--glass2);
+            font-family:'JetBrains Mono',monospace;font-size:.72rem;
+            color:var(--teal);margin-bottom:28px;
+            animation:fadeDown .6s ease both;
+        }
+        .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+        .hero-h1{
+            font-family:'Clash Display',sans-serif;
+            font-size:clamp(2.8rem,6vw,5rem);
+            font-weight:700;line-height:1.05;letter-spacing:-.03em;
+            animation:fadeUp .7s .1s ease both;
+        }
+        .hero-h1 .line2{display:block;color:transparent;
+            background:linear-gradient(135deg,var(--blue) 0%,var(--violet) 50%,var(--teal) 100%);
+            -webkit-background-clip:text;background-clip:text;}
+        .hero-sub{
+            font-size:1.1rem;color:var(--text2);line-height:1.7;
+            max-width:520px;margin:22px auto 0;
+            animation:fadeUp .7s .2s ease both;
+        }
+        .hero-actions{
+            display:flex;align-items:center;justify-content:center;gap:12px;
+            margin-top:36px;flex-wrap:wrap;
+            animation:fadeUp .7s .3s ease both;
+        }
+        .btn-hero{
+            display:inline-flex;align-items:center;gap:8px;
+            padding:13px 28px;border-radius:var(--r-sm);
+            font-family:'Instrument Sans',sans-serif;font-size:.95rem;font-weight:600;
+            cursor:pointer;border:none;transition:all .2s;
+            text-decoration: none;
+        }
+        .btn-hero-primary{
+            background:var(--blue);color:#fff;
+            box-shadow:0 6px 24px rgba(74,140,255,0.3);
+        }
+        .btn-hero-primary:hover{background:#3a7cf0;transform:translateY(-2px);box-shadow:0 10px 32px rgba(74,140,255,0.4)}
+        .btn-hero-secondary{
+            background:var(--glass2);color:var(--text);
+            border:1px solid var(--line2);
+        }
+        .btn-hero-secondary:hover{background:rgba(255,255,255,0.08);transform:translateY(-2px)}
+        .hero-note{
+            font-size:.78rem;color:var(--text3);margin-top:14px;
+            animation:fadeUp .7s .4s ease both;
+        }
+        .hero-note span{color:var(--teal)}
+
+        /* STATS BAR */
+        .stats-bar{
+            display:flex;align-items:center;justify-content:center;
+            gap:0;padding:28px 48px;
+            border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+            background:var(--glass);
+            animation:fadeUp .7s .5s ease both;
+            flex-wrap:wrap;
+        }
+        .stats-item{
+            display:flex;flex-direction:column;align-items:center;
+            padding:12px 48px;position:relative;
+        }
+        .stats-item:not(:last-child)::after{
+            content:'';position:absolute;right:0;top:20%;bottom:20%;
+            width:1px;background:var(--line);
+        }
+        .stats-val{font-family:'Clash Display',sans-serif;font-size:2rem;font-weight:700;color:var(--text)}
+        .stats-lbl{font-size:.75rem;color:var(--text3);margin-top:3px;letter-spacing:.04em;text-transform:uppercase}
+
+        /* FEATURES */
+        .features{padding:96px 48px;max-width:1200px;margin:0 auto}
+        .section-tag{
+            display:inline-flex;align-items:center;gap:6px;
+            font-family:'JetBrains Mono',monospace;font-size:.7rem;
+            color:var(--blue);border:1px solid rgba(74,140,255,0.2);
+            background:rgba(74,140,255,0.06);
+            padding:4px 12px;border-radius:20px;margin-bottom:16px;
+        }
+        .section-h2{
+            font-family:'Clash Display',sans-serif;
+            font-size:clamp(1.8rem,3vw,2.8rem);font-weight:700;
+            letter-spacing:-.03em;line-height:1.15;
+            margin-bottom:12px;
+        }
+        .section-sub{font-size:.95rem;color:var(--text2);line-height:1.65;max-width:440px;margin-bottom:56px}
+
+        .feat-grid{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:1px;background:var(--line);
+            border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+        }
+        .feat-card{
+            background:var(--ink2);padding:32px 28px;
+            transition:background .2s;cursor:default;
+        }
+        .feat-card:hover{background:var(--ink3)}
+        .feat-icon{
+            width:46px;height:46px;border-radius:10px;
+            display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+            margin-bottom:18px;
+        }
+        .feat-title{font-family:'Clash Display',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:8px}
+        .feat-desc{font-size:.84rem;color:var(--text2);line-height:1.65}
+
+        /* TESTIMONIAL / PREVIEW */
+        .preview-section{
+            padding:80px 48px;
+            background:linear-gradient(180deg,transparent,rgba(74,140,255,0.03) 50%,transparent);
+            border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+        }
+        .preview-inner{max-width:1000px;margin:0 auto;text-align:center}
+        .dashboard-preview{
+            margin-top:48px;
+            border-radius:16px;
+            border:1px solid var(--line2);
+            background:var(--ink3);
+            overflow:hidden;
+            box-shadow:0 40px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.05);
+            position:relative;
+        }
+        .preview-topbar{
+            display:flex;align-items:center;gap:8px;
+            padding:14px 20px;border-bottom:1px solid var(--line);
+            background:var(--ink2);
+        }
+        .preview-dot{width:12px;height:12px;border-radius:50%}
+        .preview-url{
+            flex:1;background:var(--glass);border-radius:6px;
+            padding:5px 12px;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text3);
+            margin:0 12px;
+        }
+        .preview-body{
+            display:grid;grid-template-columns:200px 1fr;height:320px;
+        }
+        .preview-sidebar{
+            border-right:1px solid var(--line);
+            padding:16px 12px;display:flex;flex-direction:column;gap:4px;background:var(--ink2);
+        }
+        .prev-nav-item{
+            height:30px;border-radius:6px;display:flex;align-items:center;gap:8px;
+            padding:0 10px;font-size:.72rem;color:var(--text3);
+        }
+        .prev-nav-item.a{background:rgba(74,140,255,0.1);color:var(--blue)}
+        .preview-main{padding:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+        .prev-stat{
+            background:var(--ink2);border:1px solid var(--line);border-radius:8px;
+            padding:14px;
+        }
+        .prev-stat-val{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700}
+        .prev-stat-lbl{font-size:.62rem;color:var(--text3);margin-top:2px}
+        .prev-chart{
+            grid-column:span 3;background:var(--ink2);border:1px solid var(--line);border-radius:8px;
+            padding:14px;display:flex;align-items:flex-end;gap:6px;height:80px;
+        }
+        .prev-bar{border-radius:4px 4px 0 0;flex:1}
+
+        /* ROLES SECTION */
+        .roles-section{padding:96px 48px;max-width:1100px;margin:0 auto}
+        .roles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+        .role-tile{
+            border:1px solid var(--line);border-radius:var(--r);
+            padding:28px;position:relative;overflow:hidden;
+            cursor:pointer;transition:all .25s;background:var(--ink2);
+        }
+        .role-tile::before{
+            content:'';position:absolute;inset:0;opacity:0;transition:opacity .25s;
+        }
+        .role-tile:hover{border-color:var(--line2);transform:translateY(-4px)}
+        .role-tile.admin::before{background:radial-gradient(circle at top right,rgba(74,140,255,0.06),transparent 70%)}
+        .role-tile.teacher::before{background:radial-gradient(circle at top right,rgba(124,92,252,0.06),transparent 70%)}
+        .role-tile.student::before{background:radial-gradient(circle at top right,rgba(0,212,170,0.06),transparent 70%)}
+        .role-tile:hover::before{opacity:1}
+        .role-num{
+            font-family:'JetBrains Mono',monospace;font-size:.65rem;
+            color:var(--text3);margin-bottom:20px;
+        }
+        .role-icon-wrap{font-size:2rem;margin-bottom:16px}
+        .role-title{font-family:'Clash Display',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:8px}
+        .role-desc{font-size:.84rem;color:var(--text2);line-height:1.65;margin-bottom:20px}
+        .role-perms{display:flex;flex-direction:column;gap:6px}
+        .role-perm{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--text2)}
+        .role-perm::before{content:'✓';color:var(--teal);font-weight:700;font-size:.75rem}
+        .role-arrow{
+            position:absolute;bottom:24px;right:24px;
+            width:32px;height:32px;border-radius:8px;
+            background:var(--glass2);border:1px solid var(--line2);
+            display:flex;align-items:center;justify-content:center;font-size:.9rem;
+            transition:all .2s;
+        }
+        .role-tile:hover .role-arrow{background:var(--blue);border-color:var(--blue);transform:translate(2px,-2px)}
+
+        /* CTA SECTION */
+        .cta-section{
+            padding:80px 48px;margin:0 48px 80px;
+            border:1px solid var(--line2);border-radius:20px;
+            background:linear-gradient(135deg,rgba(74,140,255,0.06),rgba(124,92,252,0.06));
+            text-align:center;position:relative;overflow:hidden;
+        }
+        .cta-section::before{
+            content:'';position:absolute;inset:0;
+            background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(74,140,255,0.08),transparent);
+        }
+        .cta-inner{position:relative;z-index:1}
+        .cta-section h2{
+            font-family:'Clash Display',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);
+            font-weight:700;letter-spacing:-.03em;margin-bottom:14px;
+        }
+        .cta-section p{font-size:.95rem;color:var(--text2);margin-bottom:32px;max-width:460px;margin-left:auto;margin-right:auto}
+
+        /* FOOTER */
+        footer{
+            border-top:1px solid var(--line);padding:32px 48px;
+            display:flex;align-items:center;justify-content:space-between;
+            flex-wrap:wrap;gap:16px;
+        }
+        .footer-left{display:flex;align-items:center;gap:10px}
+        .footer-text{font-size:.8rem;color:var(--text3)}
+        .footer-links{display:flex;gap:20px}
+        .footer-link{font-size:.8rem;color:var(--text3);cursor:pointer;transition:color .15s}
+        .footer-link:hover{color:var(--text2)}
+
+        /* TOAST */
+        .toast-wrap{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+        .toast{
+            background:var(--ink2);border:1px solid var(--line2);
+            border-radius:10px;padding:11px 16px;
+            font-size:.84rem;display:flex;align-items:center;gap:8px;
+            box-shadow:0 8px 28px rgba(0,0,0,0.5);
+            animation:slideInRight .3s ease;
+            pointer-events:none;min-width:240px;
+        }
+        .toast.success{border-left:3px solid var(--teal)}
+        .toast.error{border-left:3px solid var(--red)}
+        .toast.info{border-left:3px solid var(--blue)}
+        @keyframes slideInRight{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+
+        /* ANIMATIONS */
+        @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+        @keyframes fadeDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+
+        /* scroll-reveal */
+        .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+        .reveal.in{opacity:1;transform:none}
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:1000px){
+            .feat-grid{grid-template-columns:1fr 1fr}
+            .roles-grid{grid-template-columns:1fr}
+            .preview-body{grid-template-columns:1fr}
+            .preview-sidebar{display:none}
+        }
+        @media(max-width:700px){
+            nav{padding:0 20px}
+            .nav-links{display:none}
+            .hero{padding:120px 20px 80px}
+            .stats-bar{flex-wrap:wrap}
+            .stats-item{padding:10px 24px}
+            .features,.roles-section{padding:64px 20px}
+            .feat-grid{grid-template-columns:1fr}
+            .cta-section{margin:0 16px 64px;padding:56px 24px}
+            footer{padding:24px 20px}
+        }
+    </style>
+</head>
+<body>
+
+<!-- ════════════ HOME PAGE ════════════ -->
+<div class="page" id="home">
+
+    <!-- NAV -->
+    <nav>
+        <a class="nav-logo" href="/home">
+            <div class="nav-logo-icon">🎓</div>
+            <div>
+                <div class="nav-logo-text">EduCore</div>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a class="nav-link" href="#features">Features</a>
+            <a class="nav-link" href="#roles">Who it's for</a>
+            <a class="nav-link" href="#preview">Preview</a>
+        </div>
+        <div class="nav-cta">
+            <a href="/login" class="btn-ghost-nav">Sign In</a>
+            <a href="/dashboard" class="btn-primary-nav">Get Started →</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="heroSection">
+        <div class="hero-grid"></div>
+        <div class="blob1 hero-blob"></div>
+        <div class="blob2 hero-blob"></div>
+        <div class="blob3 hero-blob"></div>
+
+        <div class="hero-inner">
+            <div class="hero-eyebrow">
+                <span class="dot"></span>
+                Now live — Academic Year 2025–26
+            </div>
+            <h1 class="hero-h1">
+                The school OS<br>
+                <span class="line2">built for the modern era</span>
+            </h1>
+            <p class="hero-sub">
+                Manage students, teachers, fees, attendance, and results — all from one beautifully unified platform. Built for Indian schools.
+            </p>
+            <div class="hero-actions">
+                <a href="/signup" class="btn-hero btn-hero-primary">
+                    Start for free →
+                </a>
+                <button class="btn-hero btn-hero-secondary" onclick="document.getElementById('preview').scrollIntoView({behavior:'smooth'})">
+                    See it in action
+                </button>
+            </div>
+            <p class="hero-note">✦ Free to start &nbsp;·&nbsp; <span>No credit card required</span> &nbsp;·&nbsp; Setup in 5 minutes</p>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-bar reveal">
+        <div class="stats-item"><div class="stats-val" data-count="1200">0</div><div class="stats-lbl">Students Managed</div></div>
+        <div class="stats-item"><div class="stats-val" data-count="86">0</div><div class="stats-lbl">Faculty Members</div></div>
+        <div class="stats-item"><div class="stats-val">94%</div><div class="stats-lbl">Avg Attendance</div></div>
+        <div class="stats-item"><div class="stats-val">₹4.8L</div><div class="stats-lbl">Fees Tracked / mo</div></div>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+        <div class="reveal">
+            <div class="section-tag">✦ Features</div>
+            <h2 class="section-h2">Everything your school<br>needs to run smoothly</h2>
+            <p class="section-sub">From admission to alumni — every workflow is covered, every person is connected.</p>
+        </div>
+
+        <div class="feat-grid reveal">
+            <div class="feat-card">
+                <div class="feat-icon" style="background:rgba(74,140,255,.1);color:var(--blue)">👥</div>
+                <div class="feat-title">Student Management</div>
+                <div class="feat-desc">Complete profiles, admission records, progress tracking, and parent communication — all in one place.</div>
+            </div>
+            <div class="feat-card">
+                <div class="feat-icon" style="background:rgba(124,92,252,.1);color:var(--violet)">🧑‍🏫</div>
+                <div class="feat-title">Teacher & Staff</div>
+                <div class="feat-desc">Manage faculty profiles, subject assignments, schedules, and performance reviews effortlessly.</div>
+            </div>
+            <div class="feat-card">
+                <div class="feat-icon" style="background:rgba(0,212,170,.1);color:var(--teal)">✅</div>
+                <div class="feat-title">Attendance Tracking</div>
+                <div class="feat-desc">Mark daily attendance with one click. Real-time dashboards, alerts, and monthly trend analysis.</div>
+            </div>
+            <div class="feat-card">
+                <div class="feat-icon" style="background:rgba(245,166,35,.1);color:var(--amber)">💳</div>
+                <div class="feat-title">Fee Management</div>
+                <div class="feat-desc">Automated reminders, payment receipts, partial payment tracking, and overdue alerts.</div>
+            </div>
+            <div class="feat-card">
+                <div class="feat-icon" style="background:rgba(74,140,255,.1);color:var(--blue)">📝</div>
+                <div class="feat-title">Exams & Results</div>
+                <div class="feat-desc">Schedule exams, enter marks, generate report cards, and track grade distributions instantly.</div>
+            </div>
+            <div class="feat-card">
+                <div class="feat-icon" style="background:rgba(124,92,252,.1);color:var(--violet)">🗓</div>
+                <div class="feat-title">Timetable & Events</div>
+                <div class="feat-desc">Visual weekly schedules, class-wise timetables, PTM scheduling, and school event management.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREVIEW -->
+    <section class="preview-section" id="preview">
+        <div class="preview-inner">
+            <div class="reveal">
+                <div class="section-tag">✦ Dashboard Preview</div>
+                <h2 class="section-h2">See it before you try it</h2>
+                <p class="section-sub" style="margin:10px auto 0;max-width:400px">A real glimpse of what your EduCore dashboard looks like every morning.</p>
+            </div>
+            <div class="dashboard-preview reveal" style="transition-delay:.1s">
+                <div class="preview-topbar">
+                    <div class="preview-dot" style="background:#ff5f57"></div>
+                    <div class="preview-dot" style="background:#febc2e"></div>
+                    <div class="preview-dot" style="background:#28c840"></div>
+                    <div class="preview-url">app.educore.in/dashboard</div>
+                </div>
+                <div class="preview-body">
+                    <div class="preview-sidebar">
+                        <div class="prev-nav-item a">⊞ Dashboard</div>
+                        <div class="prev-nav-item">👥 Students</div>
+                        <div class="prev-nav-item">🧑‍🏫 Teachers</div>
+                        <div class="prev-nav-item">✅ Attendance</div>
+                        <div class="prev-nav-item">💳 Fees</div>
+                        <div class="prev-nav-item">📝 Exams</div>
+                    </div>
+                    <div class="preview-main" id="previewMain">
+                        <div class="prev-stat"><div class="prev-stat-val" style="color:var(--blue)">1,247</div><div class="prev-stat-lbl">Students</div></div>
+                        <div class="prev-stat"><div class="prev-stat-val" style="color:var(--violet)">94.3%</div><div class="prev-stat-lbl">Attendance</div></div>
+                        <div class="prev-stat"><div class="prev-stat-val" style="color:var(--teal)">₹4.8L</div><div class="prev-stat-lbl">Collected</div></div>
+                        <div class="prev-chart" id="previewChart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROLES -->
+    <section class="roles-section" id="roles">
+        <div class="reveal">
+            <div class="section-tag">✦ Made for everyone</div>
+            <h2 class="section-h2">One platform, every role</h2>
+            <p class="section-sub">EduCore adapts to whoever is signing in — each role gets exactly what they need.</p>
+        </div>
+        <div class="roles-grid">
+            <div class="role-tile admin reveal" onclick="window.location.href='/signup'">
+                <div class="role-num">01</div>
+                <div class="role-icon-wrap">🛡️</div>
+                <div class="role-title">Administrator</div>
+                <div class="role-desc">Full control over the school. Manage staff, finances, admissions, and all system settings.</div>
+                <div class="role-perms">
+                    <div class="role-perm">Full student &amp; staff management</div>
+                    <div class="role-perm">Fee collection &amp; reports</div>
+                    <div class="role-perm">System configuration</div>
+                </div>
+                <div class="role-arrow">→</div>
+            </div>
+            <div class="role-tile teacher reveal" style="transition-delay:.1s" onclick="window.location.href='/signup'">
+                <div class="role-num">02</div>
+                <div class="role-icon-wrap">🧑‍🏫</div>
+                <div class="role-title">Teacher</div>
+                <div class="role-desc">Mark attendance, upload marks, manage class schedule, and communicate with parents.</div>
+                <div class="role-perms">
+                    <div class="role-perm">Class attendance management</div>
+                    <div class="role-perm">Exam marks &amp; report cards</div>
+                    <div class="role-perm">Notice board access</div>
+                </div>
+                <div class="role-arrow">→</div>
+            </div>
+            <div class="role-tile student reveal" style="transition-delay:.2s" onclick="window.location.href='/signup'">
+                <div class="role-num">03</div>
+                <div class="role-icon-wrap">👨‍🎓</div>
+                <div class="role-title">Student</div>
+                <div class="role-desc">View results, check timetable, track fee status, and stay updated with school notices.</div>
+                <div class="role-perms">
+                    <div class="role-perm">View results &amp; attendance</div>
+                    <div class="role-perm">Timetable &amp; schedule</div>
+                    <div class="role-perm">Fee status &amp; receipts</div>
+                </div>
+                <div class="role-arrow">→</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-section reveal">
+        <div class="cta-inner">
+            <h2>Ready to modernise<br>your school?</h2>
+            <p>Join hundreds of schools already running on EduCore. Set up your account in minutes — completely free.</p>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+                <a href="/signup" class="btn-hero btn-hero-primary">Create free account →</a>
+                <a href="/login" class="btn-hero btn-hero-secondary">I already have an account</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-left">
+            <div class="nav-logo-icon" style="width:30px;height:30px;border-radius:8px;font-size:14px">🎓</div>
+            <span class="footer-text">© 2026 EduCore. All rights reserved.</span>
+        </div>
+        <div class="footer-links">
+            <span class="footer-link">Privacy Policy</span>
+            <span class="footer-link">Terms of Service</span>
+            <span class="footer-link">Contact Us</span>
+            <span class="footer-link">Help Centre</span>
+        </div>
+    </footer>
+</div>
+
+<!-- TOAST -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+    // ── SCROLL REVEAL ────────────────────────────────────────────────────
+    function runReveal() {
+        const obs = new IntersectionObserver(entries=>{
+            entries.forEach(e=>{ if(e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }});
+        },{threshold:.12});
+        document.querySelectorAll('#home .reveal').forEach(el=>{
+            el.classList.remove('in');
+            obs.observe(el);
+        });
+    }
+    window.addEventListener('load', runReveal);
+
+    // ── PREVIEW CHART ────────────────────────────────────────────────────
+    (function buildPreviewChart(){
+        const c = document.getElementById('previewChart'); if(!c) return;
+        const vals = [82,91,88,95,79,93,97];
+        const max  = Math.max(...vals);
+        const colors=['#4a8cff55','#7c5cfc55','#4a8cff55','#00d4aa55','#4a8cff55','#7c5cfc55','#00d4aa55'];
+        c.innerHTML = vals.map((v,i)=>`<div style="flex:1;height:${Math.round(v/max*100)}%;border-radius:4px 4px 0 0;background:${colors[i]};transition:height .5s ${i*.06}s"></div>`).join('');
+    })();
+
+    // ── COUNT-UP ANIMATION ───────────────────────────────────────────────
+    (function countUp(){
+        document.querySelectorAll('[data-count]').forEach(el=>{
+            const target = parseInt(el.getAttribute('data-count'));
+            let cur = 0; const step = Math.ceil(target/50);
+            const iv = setInterval(()=>{
+                cur = Math.min(cur+step, target);
+                el.textContent = cur.toLocaleString() + (el.getAttribute('data-count')==='1200' ? '+' : '');
+                if(cur>=target) clearInterval(iv);
+            },30);
+        });
+    })();
+
+    // ── TOAST ────────────────────────────────────────────────────────────
+    function toast(msg, type='info') {
+        const icons={success:'✅',error:'❌',info:'ℹ️'};
+        const wrap=document.getElementById('toastWrap');
+        const t=document.createElement('div');
+        t.className=`toast ${type}`;
+        t.innerHTML=`<span>${icons[type]}</span><span>${msg}</span>`;
+        wrap.appendChild(t);
+        setTimeout(()=>t.remove(),3800);
+    }
+</script>
+</body>
+</html>

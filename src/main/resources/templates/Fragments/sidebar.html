@@ -11,7 +11,7 @@
 
     <div class="sidebar-section">
         <div class="sidebar-label">Overview</div>
-        <a th:href="@{/}" class="nav-item" th:classappend="${currentPage == 'dashboard' ? 'active' : ''}">
+        <a th:href="@{/dashboard}" class="nav-item" th:classappend="${currentPage == 'dashboard' ? 'active' : ''}">
             <span class="nav-icon">⊞</span> Dashboard
         </a>
     </div>
@@ -53,6 +53,9 @@
         </a>
         <a th:href="@{/settings}" class="nav-item" th:classappend="${currentPage == 'settings' ? 'active' : ''}">
             <span class="nav-icon">⚙️</span> Settings
+        </a>
+        <a th:href="@{/logout}" class="nav-item" th:classappend="${currentPage == 'settings' ? 'active' : ''}">
+            <span class="nav-icon">➜]</span> Log-Out
         </a>
     </div>
 
