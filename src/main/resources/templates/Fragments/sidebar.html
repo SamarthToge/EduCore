@@ -54,7 +54,10 @@
         <a th:href="@{/settings}" class="nav-item" th:classappend="${currentPage == 'settings' ? 'active' : ''}">
             <span class="nav-icon">⚙️</span> Settings
         </a>
-        <a th:href="@{/logout}" class="nav-item" th:classappend="${currentPage == 'settings' ? 'active' : ''}">
+        <form th:action="@{/logout}" method="post" id="logoutForm" style="display: none;"></form>
+        <a href="javascript:void(0)"
+              onclick="document.getElementById('logoutForm').submit();"
+             class="nav-item">
             <span class="nav-icon">➜]</span> Log-Out
         </a>
     </div>
