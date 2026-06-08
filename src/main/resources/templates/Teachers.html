@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{Fragments/Head :: head}"></head>
 <body>
     <nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
@@ -14,7 +14,7 @@
                     <p>86 faculty members across all departments</p>
                 </div>
                 <div class="page-header-actions">
-                    <button class="btn btn-primary" onclick="openModal('addTeacherModal')">+ Add Teacher</button>
+                    <button sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL')" class="btn btn-primary" onclick="openModal('addTeacherModal')">+ Add Teacher</button>
                 </div>
             </div>
             <div class="grid-auto" id="teacherCards"></div>

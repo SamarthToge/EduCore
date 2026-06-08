@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{Fragments/Head :: head}"></head>
 <body>
     <nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
@@ -11,8 +11,8 @@
             <div class="page-header">
                 <div class="page-header-left"><h1>Attendance</h1><p>Mark and track daily attendance</p></div>
                 <div class="page-header-actions">
-                    <select style="width:150px;"><option>Grade 10 – A</option><option>Grade 9 – B</option></select>
-                    <button class="btn btn-primary" onclick="showToast('Attendance saved!','success')">💾 Save Attendance</button>
+                    <select sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER')" style="width:150px;"><option>Grade 10 – A</option><option>Grade 9 – B</option></select>
+                    <button sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER')" class="btn btn-primary" onclick="showToast('Attendance saved!','success')">💾 Save Attendance</button>
                 </div>
             </div>
             <div class="grid-2 mb-20">

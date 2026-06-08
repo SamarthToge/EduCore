@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{Fragments/Head :: head}"></head>
 <body>
     <nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
@@ -15,7 +15,7 @@
                 </div>
                 <div class="page-header-actions">
                     <button class="btn btn-ghost">⬇ Export</button>
-                    <button class="btn btn-primary" onclick="openModal('addStudentModal')">+ Add Student</button>
+                    <button sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER')" class="btn btn-primary" onclick="openModal('addStudentModal')">+ Add Student</button>
                 </div>
             </div>
             <div class="tabs">

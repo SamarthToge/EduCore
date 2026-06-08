@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{Fragments/Head :: head}"></head>
 <body>
     <nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
@@ -11,7 +11,7 @@
             <div class="page-header">
                 <div class="page-header-left"><h1>Notices & Announcements</h1><p>Stay updated with school news</p></div>
                 <div class="page-header-actions">
-                    <button class="btn btn-primary" onclick="openModal('addNoticeModal')">+ Post Notice</button>
+                    <button sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER', 'LIBRARIAN', 'ACCOUNTANT')" class="btn btn-primary" onclick="openModal('addNoticeModal')">+ Post Notice</button>
                 </div>
             </div>
             <div class="grid-2">

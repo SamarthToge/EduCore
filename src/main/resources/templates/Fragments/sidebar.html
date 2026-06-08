@@ -1,4 +1,4 @@
-<nav class="sidebar" id="sidebar" th:fragment="sidebar">
+<nav class="sidebar" id="sidebar" th:fragment="sidebar" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="sidebar-logo">
         <a th:href="@{/home}">
             <div class="logo-icon">🎓</div>
@@ -11,47 +11,47 @@
 
     <div class="sidebar-section">
         <div class="sidebar-label">Overview</div>
-        <a th:href="@{/dashboard}" class="nav-item" th:classappend="${currentPage == 'dashboard' ? 'active' : ''}">
+        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER', 'STUDENT', 'LIBRARIAN', 'ACCOUNTANT')" th:href="@{/dashboard}" class="nav-item" th:classappend="${currentPage == 'dashboard' ? 'active' : ''}">
             <span class="nav-icon">⊞</span> Dashboard
         </a>
     </div>
 
     <div class="sidebar-section">
         <div class="sidebar-label">Academics</div>
-        <a th:href="@{/students}" class="nav-item" th:classappend="${currentPage == 'students' ? 'active' : ''}">
+        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER')" th:href="@{/students}" class="nav-item" th:classappend="${currentPage == 'students' ? 'active' : ''}">
             <span class="nav-icon">👥</span> Students
             <span class="nav-badge">1,247</span>
         </a>
-        <a th:href="@{/teachers}" class="nav-item" th:classappend="${currentPage == 'teachers' ? 'active' : ''}">
+        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL')" th:href="@{/teachers}" class="nav-item" th:classappend="${currentPage == 'teachers' ? 'active' : ''}">
             <span class="nav-icon">🧑‍🏫</span> Teachers
         </a>
-        <a th:href="@{/classes}" class="nav-item" th:classappend="${currentPage == 'classes' ? 'active' : ''}">
+        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER')" th:href="@{/classes}" class="nav-item" th:classappend="${currentPage == 'classes' ? 'active' : ''}">
             <span class="nav-icon">📚</span> Classes
         </a>
-        <a th:href="@{/schedule}" class="nav-item" th:classappend="${currentPage == 'schedule' ? 'active' : ''}">
+        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER', 'STUDENT')" th:href="@{/schedule}" class="nav-item" th:classappend="${currentPage == 'schedule' ? 'active' : ''}">
             <span class="nav-icon">🗓</span> Schedule
         </a>
-        <a th:href="@{/exams}" class="nav-item" th:classappend="${currentPage == 'exams' ? 'active' : ''}">
+        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER', 'STUDENT')" th:href="@{/exams}" class="nav-item" th:classappend="${currentPage == 'exams' ? 'active' : ''}">
             <span class="nav-icon">📝</span> Exams & Grades
         </a>
-        <a th:href="@{/attendance}" class="nav-item" th:classappend="${currentPage == 'attendance' ? 'active' : ''}">
+        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER', 'STUDENT')" th:href="@{/attendance}" class="nav-item" th:classappend="${currentPage == 'attendance' ? 'active' : ''}">
             <span class="nav-icon">✅</span> Attendance
         </a>
     </div>
 
     <div class="sidebar-section">
         <div class="sidebar-label">Administration</div>
-        <a th:href="@{/fees}" class="nav-item" th:classappend="${currentPage == 'fees' ? 'active' : ''}">
+        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'ACCOUNTANT')" th:href="@{/fees}" class="nav-item" th:classappend="${currentPage == 'fees' ? 'active' : ''}">
             <span class="nav-icon">💳</span> Fee Management
             <span class="nav-badge danger">3</span>
         </a>
-        <a th:href="@{/library}" class="nav-item" th:classappend="${currentPage == 'library' ? 'active' : ''}">
+        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'LIBRARIAN', 'STUDENT')" th:href="@{/library}" class="nav-item" th:classappend="${currentPage == 'library' ? 'active' : ''}">
             <span class="nav-icon">📖</span> Library
         </a>
-        <a th:href="@{/notices}" class="nav-item" th:classappend="${currentPage == 'notices' ? 'active' : ''}">
+        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER', 'STUDENT', 'LIBRARIAN', 'ACCOUNTANT')" th:href="@{/notices}" class="nav-item" th:classappend="${currentPage == 'notices' ? 'active' : ''}">
             <span class="nav-icon">📢</span> Notices
         </a>
-        <a th:href="@{/settings}" class="nav-item" th:classappend="${currentPage == 'settings' ? 'active' : ''}">
+        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL')" th:href="@{/settings}" class="nav-item" th:classappend="${currentPage == 'settings' ? 'active' : ''}">
             <span class="nav-icon">⚙️</span> Settings
         </a>
         <form th:action="@{/logout}" method="post" id="logoutForm" style="display: none;"></form>
@@ -64,10 +64,10 @@
 
     <div class="sidebar-footer">
         <div class="user-card">
-            <div class="user-avatar">AK</div>
+            <div class="user-avatar" sec:authentication="name" th:text="${#strings.substring(#authentication.name, 0, 1).toUpperCase()}">U</div>
             <div>
-                <div class="user-name">Admin Kumar</div>
-                <div class="user-role">Super Admin</div>
+                <div class="user-name" sec:authentication="name">User Name</div>
+                <div class="user-role" sec:authentication="principal.authorities">Role</div>
             </div>
             <span style="margin-left:auto;color:var(--text3);font-size:0.8rem;">↗</span>
         </div>

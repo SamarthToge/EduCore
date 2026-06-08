@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{Fragments/Head :: head}"></head>
 <body>
     <nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
@@ -12,7 +12,7 @@
                 <div class="page-header-left"><h1>Fee Management</h1><p>Academic Year 2025–26</p></div>
                 <div class="page-header-actions">
                     <button class="btn btn-ghost">📄 Invoice</button>
-                    <button class="btn btn-primary" onclick="openModal('addFeeModal')">+ Record Payment</button>
+                    <button sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'ACCOUNTANT')" class="btn btn-primary" onclick="openModal('addFeeModal')">+ Record Payment</button>
                 </div>
             </div>
             <div class="fee-summary mb-20" id="feeSummary"></div>
