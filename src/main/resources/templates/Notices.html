@@ -24,7 +24,42 @@
         </section>
     </main>
 
-    <div th:replace="~{Fragments/Modals :: modals}"></div>
+    <div class="overlay" id="addNoticeModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Post New Notice</div>
+                <div class="modal-close" onclick="closeModal('addNoticeModal')">✕</div>
+            </div>
+            <div class="form-grid">
+                <div class="form-group full"><label>Title</label><input type="text" placeholder="Notice title…"/></div>
+                <div class="form-group"><label>Category</label><select>
+                    <option>Academic</option>
+                    <option>Event</option>
+                    <option>Holiday</option>
+                    <option>Exam</option>
+                    <option>General</option>
+                </select></div>
+                <div class="form-group"><label>Audience</label><select>
+                    <option>All</option>
+                    <option>Students</option>
+                    <option>Teachers</option>
+                    <option>Parents</option>
+                </select></div>
+                <div class="form-group full"><label>Description</label><textarea rows="3"
+                                                                                 placeholder="Notice details…"></textarea>
+                </div>
+                <div class="form-group"><label>Publish Date</label><input type="date"/></div>
+                <div class="form-group"><label>Expiry Date</label><input type="date"/></div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+                <button class="btn btn-ghost" onclick="closeModal('addNoticeModal')">Cancel</button>
+                <button class="btn btn-primary"
+                        onclick="closeModal('addNoticeModal');showToast('Notice posted!','success')">Post Notice
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div th:replace="~{Fragments/Scripts :: scripts}"></div>
 </body>
 </html>

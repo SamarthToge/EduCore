@@ -11,7 +11,7 @@
             <div class="page-header">
                 <div class="page-header-left"><h1>Classes</h1><p>38 classes, 6 grades</p></div>
                 <div class="page-header-actions">
-                    <button class="btn btn-primary">+ New Class</button>
+                    <button class="btn btn-primary" onclick="openModal('addClassModal')">+ New Class</button>
                 </div>
             </div>
             <div class="card">
@@ -25,7 +25,25 @@
         </section>
     </main>
 
-    <div th:replace="~{Fragments/Modals :: modals}"></div>
+    <div class="overlay" id="addClassModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Add New Class</div>
+                <div class="modal-close" onclick="closeModal('addClassModal')">✕</div>
+            </div>
+            <div class="form-grid">
+                <div class="form-group"><label>Grade / Standard</label><select><option>Grade 6</option><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option></select></div>
+                <div class="form-group"><label>Section</label><select><option>A</option><option>B</option><option>C</option><option>D</option></select></div>
+                <div class="form-group"><label>Class Teacher</label><input type="text" placeholder="Search teacher..." /></div>
+                <div class="form-group"><label>Room Number</label><input type="text" placeholder="101" /></div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+                <button class="btn btn-ghost" onclick="closeModal('addClassModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="closeModal('addClassModal');showToast('Class added successfully!','success')">Add Class</button>
+            </div>
+        </div>
+    </div>
+
     <div th:replace="~{Fragments/Scripts :: scripts}"></div>
 </body>
 </html>

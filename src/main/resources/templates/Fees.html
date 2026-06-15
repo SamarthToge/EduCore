@@ -28,7 +28,41 @@
         </section>
     </main>
 
-    <div th:replace="~{Fragments/Modals :: modals}"></div>
+    <div class="overlay" id="addFeeModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Record Fee Payment</div>
+                <div class="modal-close" onclick="closeModal('addFeeModal')">✕</div>
+            </div>
+            <div class="form-grid">
+                <div class="form-group full"><label>Student Name / ID</label><input type="text"
+                                                                                    placeholder="Search student…"/>
+                </div>
+                <div class="form-group"><label>Fee Type</label><select>
+                    <option>Tuition Fee</option>
+                    <option>Transport Fee</option>
+                    <option>Lab Fee</option>
+                    <option>Exam Fee</option>
+                </select></div>
+                <div class="form-group"><label>Amount (₹)</label><input type="number" placeholder="12,000"/></div>
+                <div class="form-group"><label>Payment Mode</label><select>
+                    <option>Cash</option>
+                    <option>UPI</option>
+                    <option>Bank Transfer</option>
+                    <option>Cheque</option>
+                </select></div>
+                <div class="form-group"><label>Payment Date</label><input type="date"/></div>
+                <div class="form-group"><label>Receipt No.</label><input type="text" placeholder="RC-2026-0041"/></div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+                <button class="btn btn-ghost" onclick="closeModal('addFeeModal')">Cancel</button>
+                <button class="btn btn-primary"
+                        onclick="closeModal('addFeeModal');showToast('Payment recorded!','success')">Record Payment
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div th:replace="~{Fragments/Scripts :: scripts}"></div>
 </body>
 </html>

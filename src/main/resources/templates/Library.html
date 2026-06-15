@@ -11,7 +11,7 @@
             <div class="page-header">
                 <div class="page-header-left"><h1>Library</h1><p>3,412 books, 284 issued</p></div>
                 <div class="page-header-actions">
-                    <button sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'LIBRARIAN')" class="btn btn-primary">+ Add Book</button>
+                    <button sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'LIBRARIAN')" class="btn btn-primary" onclick="openModal('addBookModal')">+ Add Book</button>
                 </div>
             </div>
             <div class="grid-4 mb-20">
@@ -32,7 +32,26 @@
         </section>
     </main>
 
-    <div th:replace="~{Fragments/Modals :: modals}"></div>
+    <div class="overlay" id="addBookModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Add New Book</div>
+                <div class="modal-close" onclick="closeModal('addBookModal')">✕</div>
+            </div>
+            <div class="form-grid">
+                <div class="form-group full"><label>Book Title</label><input type="text" placeholder="Wings of Fire" /></div>
+                <div class="form-group"><label>Author</label><input type="text" placeholder="A.P.J. Abdul Kalam" /></div>
+                <div class="form-group"><label>ISBN</label><input type="text" placeholder="978-81..." /></div>
+                <div class="form-group"><label>Category</label><select><option>Science</option><option>Literature</option><option>History</option><option>Reference</option></select></div>
+                <div class="form-group"><label>Quantity</label><input type="number" placeholder="1" /></div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+                <button class="btn btn-ghost" onclick="closeModal('addBookModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="closeModal('addBookModal');showToast('Book added to library!','success')">Add Book</button>
+            </div>
+        </div>
+    </div>
+
     <div th:replace="~{Fragments/Scripts :: scripts}"></div>
 </body>
 </html>

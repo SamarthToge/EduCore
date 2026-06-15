@@ -76,30 +76,28 @@
             </div>
             <div class="or-row"><div class="or-line"></div><span class="or-text">or with email</span><div class="or-line"></div></div>
 
-            <form th:action="@{/login}" method="post">
+            <form th:action="@{/login}" method="post" id="loginForm">
             <div class="field">
                 <label>Email address</label>
                 <div class="inp-wrap">
-                    <input name="username" type="email" id="si-email" placeholder="admin@school.edu.in" />
+                    <input name="username" type="email" id="si-email" placeholder="admin@school.edu.in" required />
                     <span class="inp-ico">✉️</span>
                 </div>
-                <div class="err-msg" id="si-email-e">Please enter a valid email.</div>
             </div>
 
             <div class="field">
                 <label>Password</label>
                 <div class="inp-wrap">
-                    <input name="password" type="password" id="si-pw" placeholder="Your password" />
+                    <input name="password" type="password" id="si-pw" placeholder="Your password" required />
                     <span class="inp-ico" onclick="togglePw('si-pw',this)">👁</span>
                 </div>
-                <div class="err-msg" id="si-pw-e">Password must be at least 6 characters.</div>
             </div>
 
             <div class="rem-row">
                 <label class="chk-label">
-                    <input type="checkbox" checked>
+                    <input type="checkbox" name="remember-me">
                     <span class="chk-box"></span>
-                    Remember me for 30 days
+                    Remember me
                 </label>
                 <span class="link-sm" onclick="document.getElementById('forgotPw').classList.add('open')">Forgot password?</span>
             </div>
@@ -108,7 +106,7 @@
                 <span class="spin"></span>
                 <span class="blbl">Sign In →</span>
             </button>
-                <div th:text="${errorMessage}" class="errorMsg"></div>
+                <div th:if="${errorMessage}" th:text="${errorMessage}" class="errorMsg" style="color: var(--danger); margin-top: 10px; font-size: 0.9rem; text-align: center;"></div>
 
             <div class="switch-row">New here? <a href="/signup">Create an account</a></div>
             </form>
@@ -124,7 +122,6 @@
         <div class="field">
             <label>Email address</label>
             <div class="inp-wrap"><input type="email" id="fp-em" placeholder="admin@school.edu.in"/><span class="inp-ico">✉️</span></div>
-            <div class="err-msg" id="fp-em-e">Enter a valid email.</div>
         </div>
         <button class="btn-submit" onclick="doForgot()" style="margin-bottom:0">
             <span class="blbl">Send Reset Link →</span>
@@ -135,58 +132,15 @@
 <div class="toast-wrap" id="toastWrap"></div>
 
 <script>
-    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    function showErr(id, msg) {
-        const el = document.getElementById(id); if(!el) return;
-        if(msg) el.textContent = msg;
-        el.classList.add('show');
-        const prev = el.previousElementSibling?.querySelector('input');
-        if(prev) prev.classList.add('err');
-    }
-    function hideErr(id) {
-        const el = document.getElementById(id); if(!el) return;
-        el.classList.remove('show');
-        const prev = el.previousElementSibling?.querySelector('input');
-        if(prev) prev.classList.remove('err');
-    }
-    function clearAllErrors() {
-        document.querySelectorAll('.err-msg').forEach(e=>e.classList.remove('show'));
-        document.querySelectorAll('input').forEach(i=>i.classList.remove('err'));
-    }
-
     function togglePw(id, ico) {
         const inp = document.getElementById(id);
         inp.type = inp.type==='password' ? 'text' : 'password';
         ico.textContent = inp.type==='password' ? '👁' : '🙈';
     }
 
-    function setLoading(btnId, on) {
-        const btn=document.getElementById(btnId);
-        btn.classList.toggle('loading',on);
-        btn.disabled=on;
-    }
-
-    function doSignIn() {
-        clearAllErrors();
-        const email = document.getElementById('si-email').value.trim();
-        const pw    = document.getElementById('si-pw').value;
-        let ok=true;
-        if(!emailRe.test(email)){ showErr('si-email-e'); ok=false; }
-        if(pw.length<6){ showErr('si-pw-e'); ok=false; }
-        if(!ok) return;
-        setLoading('si-btn',true);
-        setTimeout(()=>{
-            setLoading('si-btn',false);
-            toast('Welcome back! Loading your dashboard…','success');
-            setTimeout(()=>window.location.href='/dashboard',1400);
-        },1800);
-    }
-
     function doForgot() {
         const em = document.getElementById('fp-em').value.trim();
-        document.getElementById('fp-em-e').classList.remove('show');
-        if(!emailRe.test(em)){ document.getElementById('fp-em-e').classList.add('show'); return; }
+        if(!em.includes('@')){ toast('Please enter a valid email.','error'); return; }
         document.getElementById('forgotPw').classList.remove('open');
         toast('Reset link sent! Check your inbox.','success');
     }
@@ -205,12 +159,11 @@
         setTimeout(()=>t.remove(),3800);
     }
 
-    document.addEventListener('keydown',e=>{
-        if(e.key==='Enter') doSignIn();
-    });
-
-    document.getElementById('forgotPw').addEventListener('click',function(e){
-        if(e.target===this) this.classList.remove('open');
+    // Handle form submission loading state
+    document.getElementById('loginForm').addEventListener('submit', function() {
+        const btn = document.getElementById('si-btn');
+        btn.classList.add('loading');
+        btn.disabled = true;
     });
 </script>
 </body>

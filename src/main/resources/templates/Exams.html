@@ -12,7 +12,7 @@
                 <div class="page-header-left"><h1>Exams & Grades</h1><p>Mid-term 2026 Results</p></div>
                 <div class="page-header-actions">
                     <button class="btn btn-ghost">📄 Report Cards</button>
-                    <button class="btn btn-primary">+ Schedule Exam</button>
+                    <button class="btn btn-primary" onclick="openModal('scheduleExamModal')">+ Schedule Exam</button>
                 </div>
             </div>
             <div class="grid-2">
@@ -37,7 +37,26 @@
         </section>
     </main>
 
-    <div th:replace="~{Fragments/Modals :: modals}"></div>
+    <div class="overlay" id="scheduleExamModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Schedule New Exam</div>
+                <div class="modal-close" onclick="closeModal('scheduleExamModal')">✕</div>
+            </div>
+            <div class="form-grid">
+                <div class="form-group full"><label>Exam Title</label><input type="text" placeholder="Mid-Term Examination 2026" /></div>
+                <div class="form-group"><label>Subject</label><select><option>Mathematics</option><option>Science</option><option>English</option><option>Hindi</option><option>Social Studies</option></select></div>
+                <div class="form-group"><label>Grade</label><select><option>All Grades</option><option>Grade 10</option><option>Grade 9</option></select></div>
+                <div class="form-group"><label>Exam Date</label><input type="date" /></div>
+                <div class="form-group"><label>Total Marks</label><input type="number" placeholder="100" /></div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+                <button class="btn btn-ghost" onclick="closeModal('scheduleExamModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="closeModal('scheduleExamModal');showToast('Exam scheduled!','success')">Schedule Exam</button>
+            </div>
+        </div>
+    </div>
+
     <div th:replace="~{Fragments/Scripts :: scripts}"></div>
 </body>
 </html>
