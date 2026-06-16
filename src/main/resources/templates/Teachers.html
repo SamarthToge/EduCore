@@ -14,7 +14,14 @@
                     <p>86 faculty members across all departments</p>
                 </div>
                 <div class="page-header-actions">
-                    <button sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL')" class="btn btn-primary" onclick="openModal('addTeacherModal')">+ Add Teacher</button>
+                    <select style="width:130px;" onchange="window.location.href=this.value;">
+                        <option th:value="@{/teachers/All}">All</option>
+                        <option th:value="@{/teachers/Mathematics}">Mathematics</option>
+                        <option th:value="@{/teachers/Science}">Science</option>
+                        <option th:value="@{/teachers/English}">English</option>
+                        <option th:value="@{/teachers/History}">History</option>
+                        <option th:value="@{/teachers/Geography}">Geography</option>
+                    </select><button sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL')" class="btn btn-primary" onclick="openModal('addTeacherModal')">+ Add Teacher</button>
                 </div>
             </div>
             <div class="grid-auto" th:object="${Teacherlist}">

@@ -5,9 +5,7 @@ import com.schoolms.schoolms.Services.Studentservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +20,9 @@ public class StudentsController {
     }
 
     @RequestMapping(value="/students")
-    public String StudentsPage(Model model){
+    public String StudentsPage(Model model, @RequestParam(defaultValue = "All") String stand, @RequestParam(defaultValue = "All") String section){
         model.addAttribute("student", new Student());
-        model.addAttribute("studentlist",stdservice.getstdlist());
+        model.addAttribute("studentlist",stdservice.getstdlist(stand,section));
         return "Students";
     }
 

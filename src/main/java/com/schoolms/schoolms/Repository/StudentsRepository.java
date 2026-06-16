@@ -12,10 +12,8 @@ import java.time.LocalDate;
 
 @Repository
 public class StudentsRepository {
-
-    public List<Student> givestdlist(){
-        List<Student> students = new ArrayList<>();
-
+    List<Student> students = new ArrayList<>();
+    public StudentsRepository(){
         students.add(new Student(1, "Aarav", "Sharma", LocalDate.of(2010, 5, 12), Gender.Male,
                 "10", "A", "Rajesh Sharma", "9876543210", "Pune",
                 LocalDate.of(2023, 6, 15), "DAV School", 95, "A"));
@@ -95,6 +93,10 @@ public class StudentsRepository {
         students.add(new Student(20, "Vedant", "Thorat", LocalDate.of(2010, 2, 9), Gender.Male,
                 "10", "A", "Kiran Thorat", "9876543229", "Pune",
                 LocalDate.of(2023, 6, 15), "Wisdom High", 88, "B+"));
-        return students;
+
+    }
+
+    public List<Student> givestdlist(){
+         return students;
     }
 }

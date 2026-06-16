@@ -18,11 +18,11 @@
 
     <div class="sidebar-section">
         <div class="sidebar-label">Academics</div>
-        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER')" th:href="@{/students}" class="nav-item" th:classappend="${currentPage == 'students' ? 'active' : ''}">
+        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER')" th:href="@{/students(stand='All', section='All')}" class="nav-item" th:classappend="${currentPage == 'students' ? 'active' : ''}">
             <span class="nav-icon">👥</span> Students
             <span class="nav-badge">1,247</span>
         </a>
-        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL')" th:href="@{/teachers}" class="nav-item" th:classappend="${currentPage == 'teachers' ? 'active' : ''}">
+        <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL')" th:href="@{/teachers/All}" class="nav-item" th:classappend="${currentPage == 'teachers' ? 'active' : ''}">
             <span class="nav-icon">🧑‍🏫</span> Teachers
         </a>
         <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER')" th:href="@{/classes}" class="nav-item" th:classappend="${currentPage == 'classes' ? 'active' : ''}">

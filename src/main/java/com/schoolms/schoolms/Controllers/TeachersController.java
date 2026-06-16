@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,15 +20,20 @@ public class TeachersController {
     }
 
     @RequestMapping("/teachers")
-    public String dashboardPage(Model model){
+    public String defaultTeachersPage() {
+        return "redirect:/teachers/All";
+    }
+
+    @RequestMapping("/teachers/{display}")
+    public String dashboardPage(Model model, @PathVariable String display){
         model.addAttribute("Teacher",new Teachers());
-        model.addAttribute("Teacherlist",teacherservice.getteacherlist());
+        model.addAttribute("Teacherlist",teacherservice.getteacherlist(display));
         return "Teachers";
     }
 
     @PostMapping("/saveTeacher")
     public String saveTeacher(@ModelAttribute ("Teacher") Teachers teacher, Model model){
         teacherservice.issave(teacher);
-        return "redirect:/teachers";
+        return "redirect:/teachers/All";
     }
 }

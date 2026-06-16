@@ -21,7 +21,14 @@ public class Studentservice {
         return true;
     }
 
-    public List<Student> getstdlist(){
-        return stdrepository.givestdlist();
+    public List<Student> getstdlist(String stand, String section) {
+
+        return stdrepository.givestdlist()
+                .stream()
+                .filter(s -> "All".equals(stand) ||
+                        s.getStantard().equalsIgnoreCase(stand))
+                .filter(s -> "All".equals(section) ||
+                        s.getSection().equalsIgnoreCase(section))
+                .toList();
     }
 }

@@ -30,8 +30,25 @@
                         <span>🔍</span>
                         <input type="text" placeholder="Search by name or ID…" style="border:none;background:transparent;padding:0;"/>
                     </div>
-                    <select style="width:130px;"><option>All Classes</option><option>Grade 6</option><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option></select>
-                    <select style="width:130px;"><option>All Sections</option><option>Section A</option><option>Section B</option><option>Section C</option></select>
+                    <form th:action="@{/students}" method="get">
+                        <select name="stand" style="width:130px;">
+                            <option value="All">All Classes</option>
+                            <option value="6">Grade 6</option>
+                            <option value="7">Grade 7</option>
+                            <option value="8">Grade 8</option>
+                            <option value="9">Grade 9</option>
+                            <option value="10">Grade 10</option>
+                        </select>
+
+                        <select name="section" style="width:130px;">
+                            <option value="All">All Sections</option>
+                            <option value="A">Section A</option>
+                            <option value="B">Section B</option>
+                            <option value="C">Section C</option>
+                        </select>
+
+                        <button type="submit">Filter</button>
+                    </form>
                 </div>
 
                 <div class="grid-auto" th:object="${studentlist}">

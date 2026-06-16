@@ -10,8 +10,8 @@ import java.util.List;
 public class TeacherRepository {
 
     List<Teachers> teachers= new ArrayList<>();
-    public List<Teachers> giveteacherlist(){
 
+    public TeacherRepository() {
         teachers.add(new Teachers(1, "Amit", "Sharma", "Mathematics", 10,
                 "M.Sc Mathematics", "9876543210", "amit.sharma@school.com"));
 
@@ -71,7 +71,13 @@ public class TeacherRepository {
 
         teachers.add(new Teachers(20, "Rekha", "Shinde", "English", 12,
                 "M.A English", "9876543229", "rekha.shinde@school.com"));
+    }
 
+    public List<Teachers> giveteacherlist(){
         return teachers;
+    }
+
+    public void addTeacher(Teachers teacher) {
+        teachers.add(teacher);
     }
 }
