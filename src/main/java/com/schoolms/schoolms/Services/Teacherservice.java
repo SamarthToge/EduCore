@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 @Service
 @Slf4j
@@ -18,33 +19,45 @@ public class Teacherservice {
     }
     public boolean issave(Teachers teachers){
         log.info(teachers.toString());
-        teacherRepository.addTeacher(teachers);
+        teacherRepository.save(teachers);
         return true;
     }
 
+    public void updateStatus(int id, String status) {
+        Teachers teacher = teacherRepository.findById(id)
+                .orElseThrow();
+        teacher.setStatus(status);
+
+        teacherRepository.save(teacher);
+    }
+
     public List<Teachers> getteacherlist(String display){
+        Iterable<Teachers> teachers=teacherRepository.findAll();
+        List<Teachers> list = StreamSupport
+                .stream(teacherRepository.findAll().spliterator(), false)
+                .toList();
         if(display.equals("Science")){
-            return teacherRepository.giveteacherlist().stream()
+            return list.stream()
                     .filter(t->"Science".equals(t.getSubject()))
                     .toList();
         } else if(display.equals("Mathematics")){
-            return teacherRepository.giveteacherlist().stream()
+            return list.stream()
                     .filter(t->"Mathematics".equals(t.getSubject()))
                     .toList();
         } else if(display.equals("English")){
-            return teacherRepository.giveteacherlist().stream()
+            return list.stream()
                     .filter(t->"English".equals(t.getSubject()))
                     .toList();
         } else if(display.equals("History")){
-            return teacherRepository.giveteacherlist().stream()
+            return list.stream()
                     .filter(t->"History".equals(t.getSubject()))
                     .toList();
         } else if(display.equals("Geography")){
-            return teacherRepository.giveteacherlist().stream()
+            return list.stream()
                     .filter(t->"Geography".equals(t.getSubject()))
                     .toList();
         }
 
-        return teacherRepository.giveteacherlist();
+        return list;
     }
 }

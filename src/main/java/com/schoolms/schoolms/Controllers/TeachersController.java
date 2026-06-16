@@ -36,4 +36,10 @@ public class TeachersController {
         teacherservice.issave(teacher);
         return "redirect:/teachers/All";
     }
+
+    @PostMapping("/updateTeacherStatus/{id}/{status}")
+    public String updateTeacherStatus(@PathVariable int id, @PathVariable String status) {
+        teacherservice.updateStatus(id, status);
+        return "redirect:/teachers/All";
+    }
 }

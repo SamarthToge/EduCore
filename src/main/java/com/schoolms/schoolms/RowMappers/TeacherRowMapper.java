@@ -19,6 +19,7 @@ public class TeacherRowMapper implements RowMapper<Teachers> {
         teachers.setQualification(rs.getString("qualification"));
         teachers.setConNo(rs.getString("con_no"));
         teachers.setEmail(rs.getString("email"));
+        teachers.setStatus(rs.getString("status"));
         return teachers;
     }
 }
