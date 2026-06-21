@@ -1,5 +1,6 @@
 package com.schoolms.schoolms.Models;
 
+import com.schoolms.schoolms.Annotations.isEmailValid;
 import jakarta.persistence.*;
 import lombok.Data;
 
