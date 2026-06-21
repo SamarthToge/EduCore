@@ -51,6 +51,9 @@
         <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER', 'STUDENT', 'LIBRARIAN', 'ACCOUNTANT')" th:href="@{/notices}" class="nav-item" th:classappend="${currentPage == 'notices' ? 'active' : ''}">
             <span class="nav-icon">📢</span> Notices
         </a>
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{add-user}" class="nav-item" th:classappend="${currentPage == 'add-user' ? 'active' : ''}">
+            <span class="nav-icon">👤</span> Add User
+        </a>
         <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL')" th:href="@{/settings}" class="nav-item" th:classappend="${currentPage == 'settings' ? 'active' : ''}">
             <span class="nav-icon">⚙️</span> Settings
         </a>
@@ -63,13 +66,13 @@
     </div>
 
     <div class="sidebar-footer">
-        <div class="user-card">
+        <a th:href="@{/profile}" class="user-card" th:classappend="${currentPage == 'profile' ? 'active' : ''}" style="text-decoration:none;">
             <div class="user-avatar" sec:authentication="name" th:text="${#strings.substring(#authentication.name, 0, 1).toUpperCase()}">U</div>
             <div>
                 <div class="user-name" sec:authentication="name">User Name</div>
                 <div class="user-role" sec:authentication="principal.authorities">Role</div>
             </div>
-            <span style="margin-left:auto;color:var(--text3);font-size:0.8rem;">↗</span>
-        </div>
+            <span style="margin-left:auto;color:var(--text3);font-size:0.8rem;">👤</span>
+        </a>
     </div>
 </nav>

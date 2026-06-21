@@ -1,4 +1,4 @@
-<section class="page active" id="page-dashboard" th:fragment="content">
+<section class="page active" id="page-dashboard" th:fragment="content" xmlns:sec="http://www.w3.org/1999/xhtml">
     <div class="page-header">
         <div class="page-header-left">
             <h1>Good Morning, Admin 👋</h1>
@@ -6,12 +6,12 @@
         </div>
         <div class="page-header-actions">
             <button class="btn btn-ghost">📊 Reports</button>
-            <button class="btn btn-primary" onclick="window.location.href='/students'">+ Add Student</button>
+           <button class="btn btn-primary" sec:authorize="hasRole('ADMIN')" ><a th:href="@{/add-user}"> + Add User</a></button>
         </div>
     </div>
 
     <!-- STAT CARDS -->
-    <div class="grid-4 mb-20">
+    <div class="grid-4 mb-20" <div sec:authorize="hasAnyRole('ADMIN','PRINCIPAL')">
         <div class="stat-card blue">
             <div class="stat-icon blue">👥</div>
             <div class="stat-value">1,247</div>

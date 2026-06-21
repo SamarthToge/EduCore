@@ -108,7 +108,7 @@
             </button>
                 <div th:if="${errorMessage}" th:text="${errorMessage}" class="errorMsg" style="color: var(--danger); margin-top: 10px; font-size: 0.9rem; text-align: center;"></div>
 
-            <div class="switch-row">New here? <a href="/signup">Create an account</a></div>
+            <div class="switch-row">New here? <a th:href="@{public/signup}">Create an account</a></div>
             </form>
         </div>
     </div>

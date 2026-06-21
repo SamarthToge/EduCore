@@ -1,24 +1,4 @@
 // ── DATA ──────────────────────────────────────────────────────────────
-const students = [
-    { name:'Arjun Sharma',    id:'STU-1021', class:'10A', att:'96%', grade:'A+', color:'#4f8ef7' },
-    { name:'Priya Patel',     id:'STU-1022', class:'10B', att:'91%', grade:'A',  color:'#7c3aed' },
-    { name:'Rohan Mehta',     id:'STU-1023', class:'9A',  att:'88%', grade:'B+', color:'#06d6a0' },
-    { name:'Sneha Desai',     id:'STU-1024', class:'8C',  att:'99%', grade:'A+', color:'#f59e0b' },
-    { name:'Kiran Nair',      id:'STU-1025', class:'7B',  att:'79%', grade:'B',  color:'#ef4444' },
-    { name:'Anjali Verma',    id:'STU-1026', class:'10A', att:'93%', grade:'A',  color:'#4f8ef7' },
-    { name:'Dev Joshi',       id:'STU-1027', class:'9B',  att:'85%', grade:'B+', color:'#7c3aed' },
-    { name:'Meera Rao',       id:'STU-1028', class:'6A',  att:'97%', grade:'A+', color:'#06d6a0' },
-];
-const teachers = [
-    { name:'Dr. Anita Singh',   subject:'Mathematics',    exp:'12 yrs', color:'#4f8ef7', init:'AS' },
-    { name:'Mr. Rahul Gupta',   subject:'Science',        exp:'8 yrs',  color:'#7c3aed', init:'RG' },
-    { name:'Ms. Kavita Joshi',  subject:'English',        exp:'15 yrs', color:'#06d6a0', init:'KJ' },
-    { name:'Mr. Anil Kumar',    subject:'Hindi',          exp:'10 yrs', color:'#f59e0b', init:'AK' },
-    { name:'Ms. Deepa Iyer',    subject:'Social Studies', exp:'6 yrs',  color:'#ef4444', init:'DI' },
-    { name:'Mr. Suresh Patil',  subject:'Computer Sci.',  exp:'9 yrs',  color:'#4f8ef7', init:'SP' },
-    { name:'Ms. Ritu Malhotra', subject:'Physical Ed.',   exp:'7 yrs',  color:'#7c3aed', init:'RM' },
-    { name:'Mr. Vivek Sharma',  subject:'Art & Craft',    exp:'11 yrs', color:'#06d6a0', init:'VS' },
-];
 const classes = [
     { cls:'Grade 6', sec:'A', teacher:'Ms. Priya Das',    students:42, room:'101', avg:'82%' },
     { cls:'Grade 7', sec:'B', teacher:'Mr. Suresh Naik',  students:38, room:'205', avg:'78%' },
@@ -457,6 +437,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'page-library': { title: 'Library', build: buildLibrary },
         'page-notices': { title: 'Notices', build: buildNotices },
         'page-settings': { title: 'Settings', build: buildSettings },
+        'page-add-user': { title: 'Add User', build: null },
+        'page-profile':  { title: 'My Profile', build: null },
     };
 
     for (const [id, config] of Object.entries(pages)) {

@@ -350,6 +350,10 @@
         .footer-link{font-size:.8rem;color:var(--text3);cursor:pointer;transition:color .15s}
         .footer-link:hover{color:var(--text2)}
 
+        a{
+            text-decoration: none;
+
+        }
         /* TOAST */
         .toast-wrap{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
         .toast{
@@ -437,7 +441,7 @@
                 Manage students, teachers, fees, attendance, and results — all from one beautifully unified platform. Built for Indian schools.
             </p>
             <div class="hero-actions">
-                <a href="/signup" class="btn-hero btn-hero-primary">
+                <a th:href="@{/public/signup}" class="btn-hero btn-hero-primary">
                     Start for free →
                 </a>
                 <button class="btn-hero btn-hero-secondary" onclick="document.getElementById('preview').scrollIntoView({behavior:'smooth'})">
@@ -541,7 +545,8 @@
             <p class="section-sub">EduCore adapts to whoever is signing in — each role gets exactly what they need.</p>
         </div>
         <div class="roles-grid">
-            <div class="role-tile admin reveal" onclick="window.location.href='/signup'">
+            <a th:href="@{/public/signup}">
+            <div class="role-tile admin reveal">
                 <div class="role-num">01</div>
                 <div class="role-icon-wrap">🛡️</div>
                 <div class="role-title">Administrator</div>
@@ -553,7 +558,9 @@
                 </div>
                 <div class="role-arrow">→</div>
             </div>
-            <div class="role-tile teacher reveal" style="transition-delay:.1s" onclick="window.location.href='/signup'">
+            </a>
+            <a th:href="@{/public/signup}">
+            <div class="role-tile teacher reveal" style="transition-delay:.1s">
                 <div class="role-num">02</div>
                 <div class="role-icon-wrap">🧑‍🏫</div>
                 <div class="role-title">Teacher</div>
@@ -565,7 +572,9 @@
                 </div>
                 <div class="role-arrow">→</div>
             </div>
-            <div class="role-tile student reveal" style="transition-delay:.2s" onclick="window.location.href='/signup'">
+            </a>
+            <a th:href="@{/public/signup}">
+            <div class="role-tile student reveal" style="transition-delay:.2s">
                 <div class="role-num">03</div>
                 <div class="role-icon-wrap">👨‍🎓</div>
                 <div class="role-title">Student</div>
@@ -577,6 +586,7 @@
                 </div>
                 <div class="role-arrow">→</div>
             </div>
+            </a>
         </div>
     </section>
 
@@ -586,7 +596,7 @@
             <h2>Ready to modernise<br>your school?</h2>
             <p>Join hundreds of schools already running on EduCore. Set up your account in minutes — completely free.</p>
             <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-                <a href="/signup" class="btn-hero btn-hero-primary">Create free account →</a>
+                <a th:href="@{/public/signup}" class="btn-hero btn-hero-primary">Create free account →</a>
                 <a href="/login" class="btn-hero btn-hero-secondary">I already have an account</a>
             </div>
         </div>

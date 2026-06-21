@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{Fragments/Head :: head}"></head>
+<body>
+<nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
+<header th:replace="~{Fragments/Header :: header}"></header>
+<div class="overlay-bg" id="overlayBg" onclick="toggleSidebar()"></div>
+
+<main class="main">
+    <section class="page active" id="page-profile">
+
+        <!-- ── PAGE HEADER ── -->
+        <div class="page-header">
+            <div class="page-header-left">
+                <h1>My Profile</h1>
+                <p>View and manage your personal information</p>
+            </div>
+            <div class="page-header-actions">
+                <button class="btn btn-ghost" onclick="toggleEdit()" id="editToggleBtn">✏️ Edit Profile</button>
+                <button class="btn btn-primary" id="saveBtn" style="display:none;" onclick="saveProfile()">💾 Save Changes</button>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════
+             STUDENT PROFILE
+        ════════════════════════════════════════ -->
+        <div sec:authorize="hasRole('STUDENT')" id="studentProfile">
+            <div style="display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:start;">
+
+                <!-- Avatar Card -->
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                    <div class="card" style="text-align:center;padding:28px 20px;">
+                        <div id="studentAvatar" style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;margin:0 auto 16px;color:#fff;"
+                             th:text="${#strings.substring(profile.fName,0,1)+#strings.substring(profile.lName,0,1)}" th:if="${profile != null}">S</div>
+                        <div class="user-name" style="font-size:1.05rem;font-weight:600;" th:text="${profile != null ? profile.fName + ' ' + profile.lName : 'Student Name'}">Student Name</div>
+                        <div style="margin-top:6px;"><span class="badge info">Student</span></div>
+                        <div style="font-size:0.78rem;color:var(--text3);margin-top:8px;" th:text="${profile != null ? 'Class ' + profile.stantard + ' – Sec ' + profile.section : ''}"></div>
+                        <div class="divider"></div>
+                        <div style="font-size:0.8rem;color:var(--text2);">
+                            <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Attendance</span><span style="color:var(--accent3);font-weight:600;" th:text="${profile != null ? profile.addentance + '%' : '—'}">—</span></div>
+                            <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Grade</span><span style="color:var(--accent);font-weight:600;" th:text="${profile != null ? profile.grade : '—'}">—</span></div>
+                        </div>
+                    </div>
+                    <!-- School Email -->
+                    <div class="card">
+                        <div class="card-title"><span class="dot"></span> School Email</div>
+                        <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                            <span style="font-size:1rem;">📧</span>
+                            <span style="font-size:0.85rem;color:var(--text2);word-break:break-all;" sec:authentication="name">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail Cards -->
+                <div style="display:flex;flex-direction:column;gap:16px;">
+
+                    <!-- Personal Info -->
+                    <div class="card">
+                        <div class="card-title"><span class="dot"></span> Personal Information</div>
+                        <div class="form-grid" style="margin-top:8px;">
+                            <div class="form-group">
+                                <label>Student ID</label>
+                                <input type="text" id="s_id" th:value="${profile != null ? profile.id : ''}" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label>Date of Birth</label>
+                                <input type="date" id="s_dob" th:value="${profile != null ? profile.dob : ''}" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <input type="text" id="s_fname" th:value="${profile != null ? profile.fName : ''}" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input type="text" id="s_lname" th:value="${profile != null ? profile.lName : ''}" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label>Gender</label>
+                                <input type="text" id="s_gender" th:value="${profile != null ? profile.gender : ''}" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label>Contact Number</label>
+                                <input type="tel" id="s_contno" th:value="${profile != null ? profile.contNo : ''}" disabled />
+                            </div>
+                            <div class="form-group full">
+                                <label>Address</label>
+                                <textarea id="s_address" rows="2" disabled th:text="${profile != null ? profile.address : ''}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Info -->
+                    <div class="card">
+                        <div class="card-title"><span class="dot" style="background:var(--accent2)"></span> Academic Information</div>
+                        <div class="form-grid" style="margin-top:8px;">
+                            <div class="form-group">
+                                <label>Class / Standard</label>
+                                <input type="text" id="s_std" th:value="${profile != null ? profile.stantard : ''}" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label>Section</label>
+                                <input type="text" id="s_sec" th:value="${profile != null ? profile.section : ''}" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label>Date of Admission</label>
+                                <input type="date" id="s_doa" th:value="${profile != null ? profile.doa : ''}" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label>Previous School</label>
+                                <input type="text" id="s_prev" th:value="${profile != null ? profile.prevSchool : ''}" disabled />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Guardian Info -->
+                    <div class="card">
+                        <div class="card-title"><span class="dot" style="background:var(--accent3)"></span> Guardian Information</div>
+                        <div class="form-grid" style="margin-top:8px;">
+                            <div class="form-group full">
+                                <label>Parent / Guardian Name</label>
+                                <input type="text" id="s_par" th:value="${profile != null ? profile.parName : ''}" disabled />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════
+             PRINCIPAL PROFILE
+        ════════════════════════════════════════ -->
+        <div sec:authorize="hasRole('PRINCIPAL')" id="principalProfile">
+            <div style="display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:start;">
+
+                <!-- Avatar Card -->
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                    <div class="card" style="text-align:center;padding:28px 20px;">
+                        <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;margin:0 auto 16px;color:#fff;"
+                             th:text="${profile != null ? #strings.substring(profile.fname,0,1)+#strings.substring(profile.lname,0,1) : 'P'}" th:if="${profile != null}">P</div>
+                        <div class="user-name" style="font-size:1.05rem;font-weight:600;" th:text="${profile != null ? profile.fname + ' ' + profile.lname : 'Principal Name'}">Principal Name</div>
+                        <div style="margin-top:6px;"><span class="badge purple">Principal</span></div>
+                        <div style="font-size:0.78rem;color:var(--text3);margin-top:8px;" th:text="${profile != null ? profile.qualification : ''}"></div>
+                        <div class="divider"></div>
+                        <div style="font-size:0.8rem;color:var(--text2);">
+                            <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Experience</span><span style="color:var(--accent2);font-weight:600;" th:text="${profile != null ? profile.experience + ' yrs' : '—'}">—</span></div>
+                            <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Subject</span><span style="color:var(--accent);font-weight:600;" th:text="${profile != null ? profile.subject : '—'}">—</span></div>
+                        </div>
+                    </div>
+                    <!-- School Email -->
+                    <div class="card">
+                        <div class="card-title"><span class="dot"></span> School Email</div>
+                        <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                            <span style="font-size:1rem;">📧</span>
+                            <span style="font-size:0.85rem;color:var(--text2);word-break:break-all;" sec:authentication="name">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail Card -->
+                <div class="card">
+                    <div class="card-title"><span class="dot"></span> Professional Information</div>
+                    <div class="form-grid" style="margin-top:8px;">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" th:value="${profile != null ? profile.id : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" id="p_fname" th:value="${profile != null ? profile.fname : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" id="p_lname" th:value="${profile != null ? profile.lname : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" id="p_subject" th:value="${profile != null ? profile.subject : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Experience (years)</label>
+                            <input type="number" id="p_exp" th:value="${profile != null ? profile.experience : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Qualification</label>
+                            <input type="text" id="p_qual" th:value="${profile != null ? profile.qualification : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Number</label>
+                            <input type="tel" id="p_conno" th:value="${profile != null ? profile.conNo : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Personal Email</label>
+                            <input type="email" id="p_email" th:value="${profile != null ? profile.email : ''}" disabled />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════
+             TEACHER PROFILE
+        ════════════════════════════════════════ -->
+        <div sec:authorize="hasRole('TEACHER')" id="teacherProfile">
+            <div style="display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:start;">
+
+                <!-- Avatar Card -->
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                    <div class="card" style="text-align:center;padding:28px 20px;">
+                        <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent3));display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;margin:0 auto 16px;color:#fff;"
+                             th:text="${profile != null ? #strings.substring(profile.fname,0,1)+#strings.substring(profile.lname,0,1) : 'T'}">T</div>
+                        <div class="user-name" style="font-size:1.05rem;font-weight:600;" th:text="${profile != null ? profile.fname + ' ' + profile.lname : 'Teacher Name'}">Teacher Name</div>
+                        <div style="margin-top:6px;"><span class="badge info">Teacher</span></div>
+                        <div style="font-size:0.78rem;color:var(--text3);margin-top:8px;" th:text="${profile != null ? profile.subject : ''}"></div>
+                        <div class="divider"></div>
+                        <div style="font-size:0.8rem;color:var(--text2);">
+                            <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Experience</span><span style="color:var(--accent3);font-weight:600;" th:text="${profile != null ? profile.experience + ' yrs' : '—'}">—</span></div>
+                        </div>
+                    </div>
+                    <!-- School Email -->
+                    <div class="card">
+                        <div class="card-title"><span class="dot"></span> School Email</div>
+                        <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                            <span style="font-size:1rem;">📧</span>
+                            <span style="font-size:0.85rem;color:var(--text2);word-break:break-all;" sec:authentication="name">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail Card -->
+                <div class="card">
+                    <div class="card-title"><span class="dot"></span> Professional Information</div>
+                    <div class="form-grid" style="margin-top:8px;">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" th:value="${profile != null ? profile.id : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" id="t_fname" th:value="${profile != null ? profile.fname : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" id="t_lname" th:value="${profile != null ? profile.lname : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" id="t_subject" th:value="${profile != null ? profile.subject : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Experience (years)</label>
+                            <input type="number" id="t_exp" th:value="${profile != null ? profile.experience : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Qualification</label>
+                            <input type="text" id="t_qual" th:value="${profile != null ? profile.qualification : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Number</label>
+                            <input type="tel" id="t_conno" th:value="${profile != null ? profile.conNo : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Personal Email</label>
+                            <input type="email" id="t_email" th:value="${profile != null ? profile.email : ''}" disabled />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════
+             LIBRARIAN PROFILE
+        ════════════════════════════════════════ -->
+        <div sec:authorize="hasRole('LIBRARIAN')" id="librarianProfile">
+            <div style="display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:start;">
+
+                <!-- Avatar Card -->
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                    <div class="card" style="text-align:center;padding:28px 20px;">
+                        <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--accent4),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;margin:0 auto 16px;color:#fff;"
+                             th:text="${profile != null ? #strings.substring(profile.fname,0,1)+#strings.substring(profile.lname,0,1) : 'L'}">L</div>
+                        <div class="user-name" style="font-size:1.05rem;font-weight:600;" th:text="${profile != null ? profile.fname + ' ' + profile.lname : 'Librarian Name'}">Librarian Name</div>
+                        <div style="margin-top:6px;"><span class="badge warning">Librarian</span></div>
+                        <div style="font-size:0.78rem;color:var(--text3);margin-top:8px;" th:text="${profile != null ? profile.qualification : ''}"></div>
+                        <div class="divider"></div>
+                        <div style="font-size:0.8rem;color:var(--text2);">
+                            <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Experience</span><span style="color:var(--accent4);font-weight:600;" th:text="${profile != null ? profile.experience + ' yrs' : '—'}">—</span></div>
+                        </div>
+                    </div>
+                    <!-- School Email -->
+                    <div class="card">
+                        <div class="card-title"><span class="dot"></span> School Email</div>
+                        <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                            <span style="font-size:1rem;">📧</span>
+                            <span style="font-size:0.85rem;color:var(--text2);word-break:break-all;" sec:authentication="name">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail Card -->
+                <div class="card">
+                    <div class="card-title"><span class="dot"></span> Professional Information</div>
+                    <div class="form-grid" style="margin-top:8px;">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" th:value="${profile != null ? profile.id : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" id="l_fname" th:value="${profile != null ? profile.fname : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" id="l_lname" th:value="${profile != null ? profile.lname : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Subject / Department</label>
+                            <input type="text" id="l_subject" th:value="${profile != null ? profile.subject : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Experience (years)</label>
+                            <input type="number" id="l_exp" th:value="${profile != null ? profile.experience : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Qualification</label>
+                            <input type="text" id="l_qual" th:value="${profile != null ? profile.qualification : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Number</label>
+                            <input type="tel" id="l_conno" th:value="${profile != null ? profile.conNo : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Personal Email</label>
+                            <input type="email" id="l_email" th:value="${profile != null ? profile.email : ''}" disabled />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════
+             ACCOUNTANT PROFILE
+        ════════════════════════════════════════ -->
+        <div sec:authorize="hasRole('ACCOUNTANT')" id="accountantProfile">
+            <div style="display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:start;">
+
+                <!-- Avatar Card -->
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                    <div class="card" style="text-align:center;padding:28px 20px;">
+                        <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--danger),var(--accent4));display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;margin:0 auto 16px;color:#fff;"
+                             th:text="${profile != null ? #strings.substring(profile.fname,0,1)+#strings.substring(profile.lname,0,1) : 'A'}">A</div>
+                        <div class="user-name" style="font-size:1.05rem;font-weight:600;" th:text="${profile != null ? profile.fname + ' ' + profile.lname : 'Accountant Name'}">Accountant Name</div>
+                        <div style="margin-top:6px;"><span class="badge danger">Accountant</span></div>
+                        <div style="font-size:0.78rem;color:var(--text3);margin-top:8px;" th:text="${profile != null ? profile.qualification : ''}"></div>
+                        <div class="divider"></div>
+                        <div style="font-size:0.8rem;color:var(--text2);">
+                            <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Experience</span><span style="color:var(--danger);font-weight:600;" th:text="${profile != null ? profile.experience + ' yrs' : '—'}">—</span></div>
+                        </div>
+                    </div>
+                    <!-- School Email -->
+                    <div class="card">
+                        <div class="card-title"><span class="dot"></span> School Email</div>
+                        <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+                            <span style="font-size:1rem;">📧</span>
+                            <span style="font-size:0.85rem;color:var(--text2);word-break:break-all;" sec:authentication="name">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail Card -->
+                <div class="card">
+                    <div class="card-title"><span class="dot"></span> Professional Information</div>
+                    <div class="form-grid" style="margin-top:8px;">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" th:value="${profile != null ? profile.id : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" id="a_fname" th:value="${profile != null ? profile.fname : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" id="a_lname" th:value="${profile != null ? profile.lname : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Subject / Department</label>
+                            <input type="text" id="a_subject" th:value="${profile != null ? profile.subject : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Experience (years)</label>
+                            <input type="number" id="a_exp" th:value="${profile != null ? profile.experience : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Qualification</label>
+                            <input type="text" id="a_qual" th:value="${profile != null ? profile.qualification : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Number</label>
+                            <input type="tel" id="a_conno" th:value="${profile != null ? profile.conNo : ''}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Personal Email</label>
+                            <input type="email" id="a_email" th:value="${profile != null ? profile.email : ''}" disabled />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════
+             ADMIN PROFILE (fallback)
+        ════════════════════════════════════════ -->
+        <div sec:authorize="hasRole('ADMIN')" id="adminProfile">
+            <div style="display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:start;">
+                <div class="card" style="text-align:center;padding:28px 20px;">
+                    <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 16px;">🛡️</div>
+                    <div class="user-name" style="font-size:1.05rem;font-weight:600;" sec:authentication="name">Admin</div>
+                    <div style="margin-top:6px;"><span class="badge success">Administrator</span></div>
+                    <div class="divider"></div>
+                    <div style="font-size:0.8rem;color:var(--text2);">Full system access</div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot"></span> Account Details</div>
+                    <div class="form-grid" style="margin-top:8px;">
+                        <div class="form-group full">
+                            <label>School Email / Username</label>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <span>📧</span>
+                                <input type="email" sec:authentication="name" disabled style="flex:1;" />
+                            </div>
+                        </div>
+                        <div class="form-group full">
+                            <label>Role</label>
+                            <input type="text" value="Administrator" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── NO PROFILE DATA BANNER ── -->
+        <div th:if="${profile == null}" id="noProfileBanner"
+             style="margin-top:20px;padding:20px 24px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:var(--radius);display:flex;align-items:center;gap:14px;">
+            <span style="font-size:1.4rem;">⚠️</span>
+            <div>
+                <div style="font-weight:600;font-size:0.9rem;color:var(--accent4);">Profile not yet filled</div>
+                <div style="font-size:0.82rem;color:var(--text2);margin-top:3px;">Your profile details haven't been added yet. Please contact the admin, or click <strong>Edit Profile</strong> to fill in your information.</div>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+<div th:replace="~{Fragments/Modals :: modals}"></div>
+<div th:replace="~{Fragments/Scripts :: scripts}"></div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<style>
+    /* ── PROFILE PAGE STYLES ── */
+    #page-profile input:disabled,
+    #page-profile select:disabled,
+    #page-profile textarea:disabled {
+        opacity: 0.75;
+        cursor: default;
+    }
+    #page-profile input:not(:disabled),
+    #page-profile select:not(:disabled),
+    #page-profile textarea:not(:disabled) {
+        border-color: var(--accent);
+        background: var(--surface2);
+    }
+    .user-card.active {
+        background: rgba(79,142,247,0.1);
+        color: var(--accent);
+    }
+    @media (max-width: 900px) {
+        #studentProfile > div,
+        #teacherProfile > div,
+        #principalProfile > div,
+        #librarianProfile > div,
+        #accountantProfile > div,
+        #adminProfile > div {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+
+<script>
+    let editMode = false;
+
+    function toggleEdit() {
+        editMode = !editMode;
+        const btn     = document.getElementById('editToggleBtn');
+        const saveBtn = document.getElementById('saveBtn');
+
+        // Enable / disable all profile inputs
+        const inputs = document.querySelectorAll(
+            '#page-profile input:not([type="hidden"]), #page-profile select, #page-profile textarea'
+        );
+        inputs.forEach(inp => {
+            // Keep the ID field always read-only
+            if (inp.id && inp.id.endsWith('_id')) return;
+            inp.disabled = !editMode;
+        });
+
+        if (editMode) {
+            btn.textContent     = '✕ Cancel';
+            btn.className       = 'btn btn-ghost';
+            saveBtn.style.display = 'inline-flex';
+            showToast('Edit mode enabled — make your changes and save', 'info');
+        } else {
+            btn.textContent     = '✏️ Edit Profile';
+            btn.className       = 'btn btn-ghost';
+            saveBtn.style.display = 'none';
+            // Re-disable all
+            inputs.forEach(inp => inp.disabled = true);
+        }
+    }
+
+    function saveProfile() {
+        // Frontend-only: show success and exit edit mode.
+        // Backend: wire this to a POST /profile/update endpoint.
+        showToast('Profile changes saved successfully!', 'success');
+        toggleEdit();
+    }
+</script>
+</body>
+</html>

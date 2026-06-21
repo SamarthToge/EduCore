@@ -47,6 +47,7 @@
 
         .page{display:flex;min-height:100vh}
 
+
         #signup{
             min-height:100vh;
             flex-direction:row;
@@ -307,35 +308,36 @@
             </div>
             <div class="or-row"><div class="or-line"></div><span class="or-text">or with email</span><div class="or-line"></div></div>
 
+            <form method="post" th:action="@{/public/createuser}" th:object="${newuser}">
             <div class="field-2">
                 <div>
                     <label>First name</label>
-                    <div class="inp-wrap"><input type="text" id="su-fn" placeholder="Arjun"/><span class="inp-ico">👤</span></div>
+                    <div class="inp-wrap"><input th:field="*{fname}" type="text" id="su-fn" placeholder="Arjun"/><span class="inp-ico">👤</span></div>
                     <div class="err-msg" id="su-fn-e">Required.</div>
                 </div>
                 <div>
                     <label>Last name</label>
-                    <div class="inp-wrap"><input type="text" id="su-ln" placeholder="Sharma"/><span class="inp-ico">👤</span></div>
+                    <div class="inp-wrap"><input th:field="*{lname}" type="text" id="su-ln" placeholder="Sharma"/><span class="inp-ico">👤</span></div>
                     <div class="err-msg" id="su-ln-e">Required.</div>
                 </div>
             </div>
 
             <div class="field">
                 <label>School / Institution name</label>
-                <div class="inp-wrap"><input type="text" id="su-sch" placeholder="Delhi Public School – Nashik"/><span class="inp-ico">🏫</span></div>
+                <div class="inp-wrap"><input th:field="*{schoolname}" type="text" id="su-sch" placeholder="Delhi Public School – Nashik"/><span class="inp-ico">🏫</span></div>
                 <div class="err-msg" id="su-sch-e">Required.</div>
             </div>
 
             <div class="field">
                 <label>Email address</label>
-                <div class="inp-wrap"><input type="email" id="su-em" placeholder="you@school.edu.in"/><span class="inp-ico">✉️</span></div>
+                <div class="inp-wrap"><input th:field="*{email}" type="email" id="su-em" placeholder="you@school.edu.in"/><span class="inp-ico">✉️</span></div>
                 <div class="err-msg" id="su-em-e">Enter a valid email.</div>
             </div>
 
             <div class="field">
                 <label>Password</label>
                 <div class="inp-wrap">
-                    <input type="password" id="su-pw" placeholder="Create a strong password" oninput="checkStr(this.value)"/>
+                    <input th:field="*{password}" type="password" id="su-pw" placeholder="Create a strong password" oninput="checkStr(this.value)"/>
                     <span class="inp-ico" onclick="togglePw('su-pw',this)">👁</span>
                 </div>
                 <div class="pw-str" id="pwStr">
@@ -350,7 +352,7 @@
 
             <div class="field">
                 <label>Confirm password</label>
-                <div class="inp-wrap"><input type="password" id="su-pw2" placeholder="Repeat password"/><span class="inp-ico" onclick="togglePw('su-pw2',this)">👁</span></div>
+                <div class="inp-wrap"><input th:field="*{cnfpassword}" type="password" id="su-pw2" placeholder="Repeat password"/><span class="inp-ico" onclick="togglePw('su-pw2',this)">👁</span></div>
                 <div class="err-msg" id="su-pw2-e">Passwords don't match.</div>
             </div>
 
@@ -363,12 +365,13 @@
                 <div class="err-msg" id="su-terms-e">You must accept the terms.</div>
             </div>
 
-            <button class="btn-submit" id="su-btn" onclick="doSignUp()">
+            <button class="btn-submit" id="su-btn" type="submit">
                 <span class="spin"></span>
                 <span class="blbl">Create Account →</span>
             </button>
 
             <div class="switch-row">Already have an account? <a href="/login">Sign in</a></div>
+            </form>
         </div>
     </div>
 </div>

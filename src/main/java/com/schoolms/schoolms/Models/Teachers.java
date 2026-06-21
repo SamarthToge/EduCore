@@ -24,4 +24,6 @@ public class Teachers extends BaseClass {
     private String qualification;
     private String conNo;
     private String email;
+    //school mail forgin key
+    private String schoolemail;
 }

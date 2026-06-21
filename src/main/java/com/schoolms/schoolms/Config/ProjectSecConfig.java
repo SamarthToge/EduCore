@@ -20,12 +20,13 @@ public class ProjectSecConfig {
 
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/signup", "/home", "/login.css", "/style.css", "/script.js", "/h2-console/**").permitAll()
+                        .requestMatchers("/", "/login", "/signup", "/home", "/login.css", "/style.css", "/script.js", "/h2-console/**","/public/**").permitAll()
                         .requestMatchers("/dashboard", "/notices").hasAnyRole("ADMIN", "PRINCIPAL", "TEACHER", "STUDENT", "LIBRARIAN", "ACCOUNTANT")
                         .requestMatchers("/schedule", "/exams", "/attendance").hasAnyRole("ADMIN", "PRINCIPAL", "TEACHER", "STUDENT")
                         .requestMatchers("/library").hasAnyRole("ADMIN", "PRINCIPAL", "LIBRARIAN", "STUDENT")
                         .requestMatchers("/students", "/classes").hasAnyRole("ADMIN", "PRINCIPAL", "TEACHER")
                         .requestMatchers("/fees").hasAnyRole("ADMIN", "PRINCIPAL", "ACCOUNTANT")
+                        .requestMatchers("/add-user").hasAnyRole("ADMIN")
                         .requestMatchers("/teachers", "/settings").hasAnyRole("ADMIN", "PRINCIPAL")
                         .anyRequest().authenticated()
                 )

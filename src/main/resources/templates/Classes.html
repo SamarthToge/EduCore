@@ -18,30 +18,46 @@
                 <div class="table-wrap">
                     <table>
                         <thead><tr><th>Class</th><th>Section</th><th>Class Teacher</th><th>Students</th><th>Room</th><th>Avg Grade</th><th>Actions</th></tr></thead>
-                        <tbody id="classTable"></tbody>
+                        <tbody >
+                        <tr th:each="c : ${classeslist}">
+                            <td th:text="${c.standard}"></td>
+                            <td><span class="badge info" th:text="'Sec :'+${c.section}"></span></td>
+                            <td th:text="${c.class_teacher}"></td>
+                            <td th:text="${c.students}"></td>
+                            <td><span style="color:var(--text3);font-size:0.82rem;" th:text="${c.room}"></span></td>
+                            <td><span style="color:var(--accent3);font-weight:600;" th:text="${c.avg_grade}"+'%'></span></td>
+                            <td style="display:flex;gap:6px;">
+                                <button class="btn-icon" title="View">👁</button>
+                                <button class="btn-icon" title="Edit">✏️</button>
+                            </td>
+                        </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
         </section>
     </main>
 
-    <div class="overlay" id="addClassModal">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title">Add New Class</div>
-                <div class="modal-close" onclick="closeModal('addClassModal')">✕</div>
+
+    <div class="overlay" id="addClassModal"  >
+        <form th:action="@{/saveClass}" method="post" th:object="${classes}">
+            <div class="modal">
+                <div class="modal-header">
+                    <div class="modal-title">Add New Class</div>
+                    <div class="modal-close" onclick="closeModal('addClassModal')">✕</div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group"><label>Grade / Standard</label><select th:field="*{standard}"><option value="6">Grade 6</option><option value="7">Grade 7</option><option value="8">Grade 8</option><option value="9">Grade 9</option><option value="10">Grade 10</option></select></div>
+                    <div class="form-group"><label>Section</label><select th:field="*{section}"><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select></div>
+                    <div class="form-group"><label>Class Teacher</label><input th:field="*{class_teacher}" type="text" placeholder="Search teacher..." /></div>
+                    <div class="form-group"><label>Room Number</label><input th:field="*{room}" type="text" placeholder="101" /></div>
+                </div>
+                <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+                    <button class="btn btn-ghost" onclick="closeModal('addClassModal')">Cancel</button>
+                    <button class="btn btn-primary" type="submit">Add Class</button>
+                </div>
             </div>
-            <div class="form-grid">
-                <div class="form-group"><label>Grade / Standard</label><select><option>Grade 6</option><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option></select></div>
-                <div class="form-group"><label>Section</label><select><option>A</option><option>B</option><option>C</option><option>D</option></select></div>
-                <div class="form-group"><label>Class Teacher</label><input type="text" placeholder="Search teacher..." /></div>
-                <div class="form-group"><label>Room Number</label><input type="text" placeholder="101" /></div>
-            </div>
-            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
-                <button class="btn btn-ghost" onclick="closeModal('addClassModal')">Cancel</button>
-                <button class="btn btn-primary" onclick="closeModal('addClassModal');showToast('Class added successfully!','success')">Add Class</button>
-            </div>
-        </div>
+        </form>
     </div>
 
     <div th:replace="~{Fragments/Scripts :: scripts}"></div>

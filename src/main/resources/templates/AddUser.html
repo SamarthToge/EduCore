@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{Fragments/Head :: head}"></head>
+<body>
+    <nav th:replace="~{Fragments/sidebar :: sidebar}"></nav>
+    <header th:replace="~{Fragments/Header :: header}"></header>
+    <div class="overlay-bg" id="overlayBg" onclick="toggleSidebar()"></div>
+
+    <main class="main">
+        <section class="page active" id="page-add-user">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-header-left">
+                    <h1>Add User</h1>
+                    <p>Create a new system user and assign them a role</p>
+                </div>
+                <div class="page-header-actions">
+                    <button class="btn btn-ghost" onclick="window.history.back()">← Back</button>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div style="display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;">
+
+                <!-- ── FORM CARD ── -->
+                <div class="card">
+                    <div class="card-title">
+                        <span class="dot"></span>
+                        User Details
+                    </div>
+
+                    <form id="addUserForm" method="post" th:object="${Reguser}" th:action="@{/save-user}"  onsubmit="return handleSubmit(event)">
+                        <!-- CSRF token for Spring Security -->
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                        <div class="form-grid" style="margin-top:8px;">
+
+                            <!-- Email -->
+                            <div class="form-group full">
+                                <label for="email">Email Address <span style="color:var(--danger)">*</span></label>
+                                <div style="position:relative;">
+                                    <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:0.95rem;pointer-events:none;">📧</span>
+                                    <input
+                                        th:field="*{schoolemail}"
+                                        id="email"
+                                        type="email"
+                                        placeholder="user@school.edu.in"
+                                        style="padding-left:38px;"
+                                        required
+                                    />
+                                </div>
+                                <span class="field-error" id="emailError"></span>
+                            </div>
+
+                            <!-- First Name -->
+                            <div class="form-group">
+                                <label for="fName">First Name <span style="color:var(--danger)">*</span></label>
+                                <input
+                                        th:field="*{fname}"
+                                    id="fName"
+                                    type="text"
+                                    placeholder="Arjun"
+                                    required
+                                />
+                                <span class="field-error" id="fNameError"></span>
+                            </div>
+
+                            <!-- Last Name -->
+                            <div class="form-group">
+                                <label for="lName">Last Name <span style="color:var(--danger)">*</span></label>
+                                <input
+                                    th:field="*{lname}"
+                                    id="lName"
+                                    type="text"
+                                    placeholder="Sharma"
+                                    required
+                                />
+                                <span class="field-error" id="lNameError"></span>
+                            </div>
+
+                            <!-- School -->
+                            <div class="form-group full">
+                                <label for="school">School Name <span style="color:var(--danger)">*</span></label>
+                                <div style="position:relative;">
+                                    <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:0.95rem;pointer-events:none;">🏫</span>
+                                    <input
+                                            th:field="*{schoolname}"
+                                        id="school"
+                                        type="text"
+                                        placeholder="Delhi Public School – Nashik"
+                                        style="padding-left:38px;"
+                                        required
+                                    />
+                                </div>
+                                <span class="field-error" id="schoolError"></span>
+                            </div>
+
+                            <!-- Role Dropdown -->
+                            <div class="form-group full">
+                                <label for="roleName">Role <span style="color:var(--danger)">*</span></label>
+                                <div style="position:relative;">
+                                    <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:0.95rem;pointer-events:none;">🎭</span>
+                                    <select
+                                            th:field="*{role}"
+                                        id="roleName"
+                                        style="padding-left:38px;"
+                                        required
+                                        onchange="updateRolePreview(this.value)"
+                                    >
+                                        <option value="2">Student</option>
+                                        <option value="3">Principal</option>
+                                        <option value="4">Teacher</option>
+                                        <option value="5">Librarian</option>
+                                        <option value="6">Accountant</option>
+                                    </select>
+                                </div>
+                                <span class="field-error" id="roleError"></span>
+                            </div>
+
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid var(--border);">
+                            <button type="button" class="btn btn-ghost" onclick="resetForm()">↺ Reset</button>
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                <span id="submitBtnText">✓ Create User</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- ── SIDE PANEL ── -->
+                <div style="display:flex;flex-direction:column;gap:16px;">
+
+                    <!-- Role Preview Card -->
+                    <div class="card" id="rolePreviewCard">
+                        <div class="card-title"><span class="dot" style="background:var(--accent2)"></span> Role Preview</div>
+                        <div id="rolePreviewContent">
+                            <div style="text-align:center;padding:24px 0;color:var(--text3);font-size:0.85rem;">
+                                <div style="font-size:2.5rem;margin-bottom:12px;opacity:0.4;">👤</div>
+                                Select a role to see permissions
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tips Card -->
+                    <div class="card">
+                        <div class="card-title"><span class="dot" style="background:var(--accent4)"></span> Guidelines</div>
+                        <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
+                            <div style="display:flex;gap:10px;align-items:flex-start;">
+                                <span style="color:var(--accent3);flex-shrink:0;margin-top:2px;">✓</span>
+                                <span style="font-size:0.82rem;color:var(--text2);line-height:1.5;">Use the official school email address for each user</span>
+                            </div>
+                            <div style="display:flex;gap:10px;align-items:flex-start;">
+                                <span style="color:var(--accent3);flex-shrink:0;margin-top:2px;">✓</span>
+                                <span style="font-size:0.82rem;color:var(--text2);line-height:1.5;">The user will set their own password when they sign up</span>
+                            </div>
+                            <div style="display:flex;gap:10px;align-items:flex-start;">
+                                <span style="color:var(--accent4);flex-shrink:0;margin-top:2px;">⚠</span>
+                                <span style="font-size:0.82rem;color:var(--text2);line-height:1.5;">Role assignment grants immediate access — assign carefully</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Users Preview -->
+                    <div class="card">
+                        <div class="card-title"><span class="dot" style="background:var(--accent3)"></span> Recently Added</div>
+                        <div id="recentUsers" style="margin-top:4px;">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <div th:replace="~{Fragments/Modals :: modals}"></div>
+    <div th:replace="~{Fragments/Scripts :: scripts}"></div>
+
+    <!-- Toast container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <style>
+        /* ── ADD USER PAGE SPECIFIC STYLES ── */
+        .field-error {
+            font-size: 0.73rem;
+            color: var(--danger);
+            margin-top: 2px;
+            min-height: 16px;
+            display: block;
+        }
+        .input-error {
+            border-color: var(--danger) !important;
+        }
+        .input-success {
+            border-color: var(--accent3) !important;
+        }
+        .role-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.73rem;
+            font-weight: 600;
+        }
+        .perm-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.82rem;
+            color: var(--text2);
+        }
+        .perm-row:last-child { border-bottom: none; }
+        .perm-row .check { color: var(--accent3); font-weight: 700; flex-shrink: 0; }
+        .perm-row .cross  { color: var(--text3);   flex-shrink: 0; }
+        @media (max-width: 900px) {
+            #page-add-user > div:nth-child(2) {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+
+    <script>
+        // ── ROLE CONFIG ──────────────────────────────────────────────────
+        const roleConfig = {
+            2: {
+                label: 'Student',
+                icon: '👨‍🎓',
+                color: 'var(--accent3)',
+                bg: 'rgba(6,214,160,0.1)',
+                perms: [
+                    { label: 'View own results & grades', allowed: true },
+                    { label: 'Check timetable & schedule', allowed: true },
+                    { label: 'View fee receipts', allowed: true },
+                    { label: 'Access notice board', allowed: true },
+                    { label: 'Manage student records', allowed: false },
+                    { label: 'Access fee management', allowed: false },
+                    { label: 'System administration', allowed: false },
+                ]
+            },
+            3: {
+                label: 'Principal',
+                icon: '🎓',
+                color: 'var(--accent2)',
+                bg: 'rgba(124,58,237,0.1)',
+                perms: [
+                    { label: 'Full student & teacher management', allowed: true },
+                    { label: 'View all reports & analytics', allowed: true },
+                    { label: 'Fee overview & approvals', allowed: true },
+                    { label: 'School settings configuration', allowed: true },
+                    { label: 'Notice board management', allowed: true },
+                    { label: 'Create system users', allowed: false },
+                    { label: 'Database administration', allowed: false },
+                ]
+            },
+            4: {
+                label: 'Teacher',
+                icon: '🧑‍🏫',
+                color: 'var(--accent)',
+                bg: 'rgba(79,142,247,0.1)',
+                perms: [
+                    { label: 'Mark & manage attendance', allowed: true },
+                    { label: 'Enter exam marks & results', allowed: true },
+                    { label: 'View student profiles', allowed: true },
+                    { label: 'Notice board access', allowed: true },
+                    { label: 'Manage fee records', allowed: false },
+                    { label: 'Manage teacher records', allowed: false },
+                    { label: 'System administration', allowed: false },
+                ]
+            },
+            5: {
+                label: 'Librarian',
+                icon: '📚',
+                color: 'var(--accent4)',
+                bg: 'rgba(245,158,11,0.1)',
+                perms: [
+                    { label: 'Manage book issuance & returns', allowed: true },
+                    { label: 'View student details', allowed: true },
+                    { label: 'Access notice board', allowed: true },
+                    { label: 'Mark student attendance', allowed: false },
+                    { label: 'Access fee management', allowed: false },
+                    { label: 'Manage teacher records', allowed: false },
+                    { label: 'System administration', allowed: false },
+                ]
+            },
+            6: {
+                label: 'Accountant',
+                icon: '💳',
+                color: 'var(--danger)',
+                bg: 'rgba(239,68,68,0.1)',
+                perms: [
+                    { label: 'Full fee management access', allowed: true },
+                    { label: 'Generate financial reports', allowed: true },
+                    { label: 'View student records', allowed: true },
+                    { label: 'Access notice board', allowed: true },
+                    { label: 'Mark student attendance', allowed: false },
+                    { label: 'Manage teacher records', allowed: false },
+                    { label: 'System administration', allowed: false },
+                ]
+            }
+        };
+
+        // ── ROLE PREVIEW ────────────────────────────────────────────────
+        function updateRolePreview(role) {
+            const el = document.getElementById('rolePreviewContent');
+            if (!role || !roleConfig[role]) {
+                el.innerHTML = `<div style="text-align:center;padding:24px 0;color:var(--text3);font-size:0.85rem;">
+                    <div style="font-size:2.5rem;margin-bottom:12px;opacity:0.4;">👤</div>
+                    Select a role to see permissions
+                </div>`;
+                return;
+            }
+            const r = roleConfig[role];
+            const permsHtml = r.perms.map(p => `
+                <div class="perm-row">
+                    <span class="${p.allowed ? 'check' : 'cross'}">${p.allowed ? '✓' : '✕'}</span>
+                    <span style="${!p.allowed ? 'opacity:0.5;' : ''}">${p.label}</span>
+                </div>
+            `).join('');
+            el.innerHTML = `
+                <div style="text-align:center;padding:16px 0 12px;">
+                    <div style="font-size:2.2rem;margin-bottom:8px;">${r.icon}</div>
+                    <span class="role-pill" style="background:${r.bg};color:${r.color};">${r.label}</span>
+                </div>
+                <div style="margin-top:12px;">${permsHtml}</div>
+            `;
+        }
+
+        // ── FORM SUBMIT ─────────────────────────────────────────────────
+        function handleSubmit(e) {
+            let valid = true;
+
+            // Email
+            const email = document.getElementById('email');
+            const emailErr = document.getElementById('emailError');
+            if (!email.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+                emailErr.textContent = 'Please enter a valid email address';
+                email.classList.add('input-error');
+                valid = false;
+            } else {
+                emailErr.textContent = '';
+                email.classList.remove('input-error');
+            }
+
+            // First Name
+            const fName = document.getElementById('fName');
+            const fNameErr = document.getElementById('fNameError');
+            if (!fName.value.trim()) {
+                fNameErr.textContent = 'First name is required';
+                fName.classList.add('input-error');
+                valid = false;
+            } else {
+                fNameErr.textContent = '';
+                fName.classList.remove('input-error');
+            }
+
+            // Last Name
+            const lName = document.getElementById('lName');
+            const lNameErr = document.getElementById('lNameError');
+            if (!lName.value.trim()) {
+                lNameErr.textContent = 'Last name is required';
+                lName.classList.add('input-error');
+                valid = false;
+            } else {
+                lNameErr.textContent = '';
+                lName.classList.remove('input-error');
+            }
+
+            // School
+            const school = document.getElementById('school');
+            const schoolErr = document.getElementById('schoolError');
+            if (!school.value.trim()) {
+                schoolErr.textContent = 'School name is required';
+                school.classList.add('input-error');
+                valid = false;
+            } else {
+                schoolErr.textContent = '';
+                school.classList.remove('input-error');
+            }
+
+            // Role
+            const role = document.getElementById('roleName');
+            const roleErr = document.getElementById('roleError');
+            if (!role.value) {
+                roleErr.textContent = 'Please select a role';
+                role.classList.add('input-error');
+                valid = false;
+            } else {
+                roleErr.textContent = '';
+                role.classList.remove('input-error');
+            }
+
+            if (!valid) {
+                showToast('Please fix the errors before submitting', 'error');
+                e.preventDefault();
+                return false;
+            }
+
+            // Show loading state
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            document.getElementById('submitBtnText').textContent = '⏳ Creating…';
+            return true;
+        }
+
+        // ── RESET FORM ──────────────────────────────────────────────────
+        function resetForm() {
+            document.getElementById('addUserForm').reset();
+            document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
+            document.querySelectorAll('.input-error,.input-success').forEach(el => {
+                el.classList.remove('input-error','input-success');
+            });
+            updateRolePreview('');
+            showToast('Form has been reset', 'info');
+        }
+
+        // ── RECENTLY ADDED USERS (demo) ──────────────────────────────────
+        const recentAddedUsers = [
+            { name: 'Priya Patel',   role: 'TEACHER',   icon: '🧑‍🏫', color: 'var(--accent)',  bg: 'rgba(79,142,247,0.1)',   time: '2 hours ago' },
+            { name: 'Rohan Mehta',   role: 'STUDENT',   icon: '👨‍🎓', color: 'var(--accent3)', bg: 'rgba(6,214,160,0.1)',    time: 'Yesterday' },
+            { name: 'Sunita Raje',   role: 'LIBRARIAN', icon: '📚', color: 'var(--accent4)', bg: 'rgba(245,158,11,0.1)',   time: '2 days ago' },
+        ];
+
+        (function buildRecentUsers() {
+            const el = document.getElementById('recentUsers');
+            if (!el) return;
+            el.innerHTML = recentAddedUsers.map(u => `
+                <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+                    <div style="width:34px;height:34px;border-radius:50%;background:${u.bg};color:${u.color};display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">${u.icon}</div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:0.84rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${u.name}</div>
+                        <div style="font-size:0.7rem;color:var(--text3);">${u.role} · ${u.time}</div>
+                    </div>
+                </div>
+            `).join('') + `<div style="border-bottom:none;"></div>`;
+        })();
+
+        // ── SUCCESS FLASH MESSAGE ────────────────────────────────────────
+        // Show a success toast if a success param is present in URL
+        (function checkSuccessParam() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('success') === 'true') {
+                showToast('User created successfully!', 'success');
+                // Clean the URL
+                window.history.replaceState({}, '', window.location.pathname);
+            }
+            if (params.get('error')) {
+                showToast('Error: ' + params.get('error'), 'error');
+                window.history.replaceState({}, '', window.location.pathname);
+            }
+        })();
+    </script>
+</body>
+</html>

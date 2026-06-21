@@ -182,6 +182,11 @@ label{display:block;font-size:.75rem;font-weight:500;color:var(--text2);margin-b
 
 .errorMsg{
     background: var(--red);
+    height:30px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 @keyframes rotate{to{transform:rotate(360deg)}}
 
