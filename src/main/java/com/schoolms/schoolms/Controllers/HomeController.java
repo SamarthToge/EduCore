@@ -19,13 +19,16 @@ public class HomeController {
     }
 
     @RequestMapping(value = {"/login"})
-    public String loginPage(@RequestParam(value ="error",required = false) String error, @RequestParam(value="logout",required = false) String logout, Model model){
+    public String loginPage(@RequestParam(value ="error",required = false) String error, @RequestParam(value="logout",required = false) String logout,@RequestParam(value="register",required = false) String register ,Model model){
         String errorMessage=null;
         if(error!=null){
             errorMessage="Username or password is incorrect";
         }
-        if(logout!=null){
+       else if(logout!=null){
             errorMessage="Logout successfully";
+        }
+       else if(register!=null){
+            errorMessage="Registration successfully";
         }
         model.addAttribute("errorMessage",errorMessage);
         return "Log-in";

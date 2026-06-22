@@ -172,6 +172,16 @@
         .err-msg{font-size:.7rem;color:var(--red);margin-top:4px;display:none}
         .err-msg.show{display:block}
 
+        .errorMsg{
+            background: var(--red);
+            height:30px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
         .pw-str{margin-top:7px;display:none}
         .pw-str.show{display:block}
         .pw-bars{display:flex;gap:3px;height:3px;margin-bottom:4px}
@@ -307,7 +317,6 @@
                 </div>
             </div>
             <div class="or-row"><div class="or-line"></div><span class="or-text">or with email</span><div class="or-line"></div></div>
-            <div class="err-msg" th:text
             <form method="post" th:action="@{/public/createuser}" th:object="${newuser}">
             <div class="field-2">
                 <div>
@@ -328,11 +337,18 @@
                 <div class="err-msg" id="su-sch-e">Required.</div>
             </div>
 
-            <div class="field">
-                <label>Email address</label>
-                <div class="inp-wrap"><input th:field="*{email}" type="email" id="su-em" placeholder="you@school.edu.in"/><span class="inp-ico">✉️</span></div>
-                <div class="err-msg" id="su-em-e">Enter a valid email.</div>
-            </div>
+                <div class="field">
+                    <label>Email address</label>
+                    <div class="inp-wrap">
+                        <input th:field="*{email}" type="email" id="su-em" placeholder="you@school.edu.in"/>
+                        <span class="inp-ico">✉️</span>
+                    </div>
+                    <div class="err-msg show"
+                         th:if="${#fields.hasErrors('email')}"
+                         th:text="${#fields.errors('email')[0]}"
+                         id="su-em-e">
+                    </div>
+                </div>
 
             <div class="field">
                 <label>Password</label>
@@ -371,7 +387,10 @@
             </button>
 
             <div class="switch-row">Already have an account? <a href="/login">Sign in</a></div>
-            </form>
+                <div th:if="${#fields.hasGlobalErrors()}">
+                    <p class="errorMsg" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+                </div> </form>
+
         </div>
     </div>
 </div>

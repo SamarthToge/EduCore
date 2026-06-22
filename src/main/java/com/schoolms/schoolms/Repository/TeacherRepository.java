@@ -1,11 +1,7 @@
 package com.schoolms.schoolms.Repository;
 
 import com.schoolms.schoolms.Models.Teachers;
-import com.schoolms.schoolms.RowMappers.TeacherRowMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;

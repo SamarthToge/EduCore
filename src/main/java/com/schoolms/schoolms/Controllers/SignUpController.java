@@ -1,6 +1,7 @@
 package com.schoolms.schoolms.Controllers;
 
 import com.schoolms.schoolms.Models.User;
+import com.schoolms.schoolms.Services.SignUpService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.webmvc.autoconfigure.WebMvcProperties;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("public")
 @Slf4j
 public class SignUpController {
-
+    private final SignUpService signUpService;
+    public SignUpController(SignUpService signUpService){
+        this.signUpService=signUpService;
+    }
     @RequestMapping(value = "/signup" ,method = {RequestMethod.GET})
     public String signupPage(Model model){
         model.addAttribute("newuser",new User());
@@ -24,11 +28,11 @@ public class SignUpController {
     }
 
     @PostMapping(value = "/createuser")
-    public String createnewuser(@Valid @ModelAttribute("newuser") User user, Errors errors){
+    public String createnewuser(@Valid @ModelAttribute("newuser") User user, Errors errors, Model model){
         if(errors.hasErrors()){
             return "Sign-up";
         }
-        log.info(user.toString());
-        return "redirect:/sigup";
+        signUpService.saveUser(user);
+        return "redirect:/login?register=true";
     }
 }

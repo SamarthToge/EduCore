@@ -12,18 +12,18 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "employee")
 public class Teachers extends BaseClass {
     @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO,generator = "native")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String fname;
-    private String lname;
     private String subject;
     private int experience;
     private String qualification;
     private String conNo;
     private String email;
-    //school mail forgin key
-    private String schoolemail;
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST,targetEntity = RegUsers.class)
+    @JoinColumn(name = "schoolemail", referencedColumnName = "school_email",nullable = false)
+    private RegUsers users;
 }

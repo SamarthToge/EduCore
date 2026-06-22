@@ -17,7 +17,7 @@ public class User extends BaseClass{
     private String fname;
     private String lname;
     private String schoolname;
-    @isEmailValid
+    @isEmailValid(  message = "Email Invalid or Contact to admin!!!")
     private String email;
     private String password;
     @Transient

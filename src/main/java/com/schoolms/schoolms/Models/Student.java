@@ -13,9 +13,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Student extends BaseClass {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String fName;
-    private String lName;
     private LocalDate dob;
     @Enumerated(EnumType.STRING)
     private Gender gender;
