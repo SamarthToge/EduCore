@@ -69,8 +69,15 @@
         <a th:href="@{/profile}" class="user-card" th:classappend="${currentPage == 'profile' ? 'active' : ''}" style="text-decoration:none;">
             <div class="user-avatar" sec:authentication="name" th:text="${#strings.substring(#authentication.name, 0, 1).toUpperCase()}">U</div>
             <div>
-                <div class="user-name" sec:authentication="name">User Name</div>
-                <div class="user-role" sec:authentication="principal.authorities">Role</div>
+                <div class="user-name"
+                     th:text="${#authentication.principal.fname + ' ' + #authentication.principal.lname}">
+                    User Name
+                </div>
+
+                <div class="user-role"
+                     th:text="${#authentication.principal.role.roleName}">
+                    Role
+                </div>
             </div>
             <span style="margin-left:auto;color:var(--text3);font-size:0.8rem;">👤</span>
         </a>

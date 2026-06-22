@@ -15,7 +15,11 @@ public class RegUsers extends BaseClass{
     @Column(name = "school_name")
     private String schoolname;
     private String password;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Roles role;
+
+    public String getName(){
+        return fname+" "+lname;
+    }
 }

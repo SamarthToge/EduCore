@@ -47,38 +47,4 @@ public class ProjectSecConfig {
 
         return http.build();
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
-
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder encoder){
-        UserDetails student = User.withUsername("student@gmail.com")
-                .password(encoder.encode("password"))
-                .roles("STUDENT")
-                .build();
-        UserDetails admin = User.withUsername("admin@gmail.com")
-                .password(encoder.encode("password"))
-                .roles("ADMIN")
-                .build();
-        UserDetails principal = User.withUsername("principal@gmail.com")
-                .password(encoder.encode("password"))
-                .roles("PRINCIPAL")
-                .build();
-        UserDetails teacher = User.withUsername("teacher@gmail.com")
-                .password(encoder.encode("password"))
-                .roles("TEACHER")
-                .build();
-        UserDetails librarian = User.withUsername("librarian@gmail.com")
-                .password(encoder.encode("password"))
-                .roles("LIBRARIAN")
-                .build();
-        UserDetails accountant = User.withUsername("accountant@gmail.com")
-                .password(encoder.encode("password"))
-                .roles("ACCOUNTANT")
-                .build();
-        return new InMemoryUserDetailsManager(admin, librarian, teacher, principal, student, accountant);
-    }
 }
