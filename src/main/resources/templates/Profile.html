@@ -37,9 +37,9 @@
                         <div style="margin-top:6px;"><span class="badge info">Student</span></div>
                         <div style="font-size:0.78rem;color:var(--text3);margin-top:8px;" th:text="${profile != null ? 'Class ' + profile.stantard + ' – Sec ' + profile.section : ''}"></div>
                         <div class="divider"></div>
-                        <div style="font-size:0.8rem;color:var(--text2);">
-                            <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Attendance</span><span style="color:var(--accent3);font-weight:600;" th:text="${profile != null ? profile.addentance + '%' : '—'}">—</span></div>
-                            <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Grade</span><span style="color:var(--accent);font-weight:600;" th:text="${profile != null ? profile.grade : '—'}">—</span></div>
+                        <div style="font-size:0.8rem;color:var(--text2);" th:object="${student}">
+                            <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Attendance</span><span style="color:var(--accent3);font-weight:600;" th:text="${student.getAddentance()}">—</span></div>
+                            <div style="display:flex;justify-content:space-between;padding:5px 0;"><span>Grade</span><span style="color:var(--accent);font-weight:600;" th:text="${student.getGrade()}">—</span></div>
                         </div>
                     </div>
                     <!-- School Email -->
@@ -56,79 +56,151 @@
                 <div style="display:flex;flex-direction:column;gap:16px;">
 
                     <form id="studentForm" method="post" th:action="@{/saveStudent}" th:object="${student}">
-                                            <!-- Personal Info -->
-                    <div class="card">
-                        <div class="card-title"><span class="dot"></span> Personal Information</div>
-                        <div class="form-grid" style="margin-top:8px;">
-                            <div class="form-group">
-                                <label>Student ID</label>
-                                <input th:field="*{id}" type="text" id="s_id" th:value="${profile != null ? profile.id : ''}" disabled />
-                            </div>
-                            <div class="form-group">
-                                <label>Date of Birth</label>
-                                <input th:field="*{dob}" type="date" id="s_dob" th:value="${profile != null ? profile.dob : ''}" disabled />
-                            </div>
-                            <div class="form-group">
-                                <label>First Name</label>
-                                <input  th:field="*{users.fname}"
-                                        type="text"
-                                       id="s_fname"
-                                       th:value="${#authentication.principal.fname}"
-                                       disabled />
-                            </div>
-                            <div class="form-group">
-                                <label>Last Name</label>
-                                <input th:field="*{users.lname}" type="text" id="s_lname" th:value="${profile != null ? profile.lName : ''}" disabled />
-                            </div>
-                            <div class="form-group">
-                                <label>Gender</label>
-                                <input th:field="*{gender}" type="text" id="s_gender" th:value="${profile != null ? profile.gender : ''}" disabled />
-                            </div>
-                            <div class="form-group">
-                                <label>Contact Number</label>
-                                <input th:field="*{contNo}" type="tel" id="s_contno" th:value="${profile != null ? profile.contNo : ''}" disabled />
-                            </div>
-                            <div class="form-group full">
-                                <label>Address</label>
-                                <textarea th:field="*{address}" id="s_address" rows="2" disabled th:text="${profile != null ? profile.address : ''}"></textarea>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Academic Info -->
-                    <div class="card">
-                        <div class="card-title"><span class="dot" style="background:var(--accent2)"></span> Academic Information</div>
-                        <div class="form-grid" style="margin-top:8px;">
-                            <div class="form-group">
-                                <label>Class / Standard</label>
-                                <input th:field="*{stantard}" type="text" id="s_std" th:value="${profile != null ? profile.stantard : ''}" disabled />
+                        <!-- VIEW MODE: Show details card (hidden in edit mode) -->
+                        <div th:if="${!editMode}">
+                            <div class="card">
+                                <div class="card-title"><span class="dot"></span> Personal Information</div>
+                                <div class="form-grid" style="margin-top:8px;">
+                                    <div class="form-group">
+                                        <label>Student ID</label>
+                                        <p class="display-value" th:text="*{id}"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Date of Birth</label>
+                                        <p class="display-value" th:text="*{dob}"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <p class="display-value" th:text="*{users.fname}"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <p class="display-value" th:text="*{users.lname}"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Gender</label>
+                                        <p class="display-value" th:text="*{gender}"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Contact Number</label>
+                                        <p class="display-value" th:text="*{contNo}"></p>
+                                    </div>
+                                    <div class="form-group full">
+                                        <label>Address</label>
+                                        <p class="display-value" th:text="*{address}"></p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>Section</label>
-                                <input th:field="*{section}" type="text" id="s_sec" th:value="${profile != null ? profile.section : ''}" disabled />
-                            </div>
-                            <div class="form-group">
-                                <label>Date of Admission</label>
-                                <input th:field="*{doa}" type="date" id="s_doa" th:value="${profile != null ? profile.doa : ''}" disabled />
-                            </div>
-                            <div class="form-group">
-                                <label>Previous School</label>
-                                <input th:field="*{prevSchool}" type="text" id="s_prev" th:value="${profile != null ? profile.prevSchool : ''}" disabled />
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Guardian Info -->
-                    <div class="card">
-                        <div class="card-title"><span class="dot" style="background:var(--accent3)"></span> Guardian Information</div>
-                        <div class="form-grid" style="margin-top:8px;">
-                            <div class="form-group full">
-                                <label>Parent / Guardian Name</label>
-                                <input th:field="*{parName}" type="text" id="s_par" th:value="${profile != null ? profile.parName : ''}" disabled />
+                            <div class="card">
+                                <div class="card-title"><span class="dot" style="background:var(--accent2)"></span> Academic Information</div>
+                                <div class="form-grid" style="margin-top:8px;">
+                                    <div class="form-group">
+                                        <label>Class / Standard</label>
+                                        <p class="display-value" th:text="*{stantard}"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Section</label>
+                                        <p class="display-value" th:text="*{section}"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Date of Admission</label>
+                                        <p class="display-value" th:text="*{doa}"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Previous School</label>
+                                        <p class="display-value" th:text="*{prevSchool}"></p>
+                                    </div>
+                                </div>
                             </div>
+
+                            <div class="card">
+                                <div class="card-title"><span class="dot" style="background:var(--accent3)"></span> Guardian Information</div>
+                                <div class="form-grid" style="margin-top:8px;">
+                                    <div class="form-group full">
+                                        <label>Parent / Guardian Name</label>
+                                        <p class="display-value" th:text="*{parName}"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Update button navigates to edit mode -->
+                            <a th:href="@{/profile/edit}" class="btn btn-primary">Update Profile</a>
                         </div>
-                    </div>
-                        <button type="submit">Submit</button>
+
+                        <!-- EDIT MODE: Show editable fields -->
+                        <div th:if="${editMode}">
+                            <div class="card">
+                                <div class="card-title"><span class="dot"></span> Personal Information</div>
+                                <div class="form-grid" style="margin-top:8px;">
+                                    <div class="form-group">
+                                        <label>Student ID</label>
+                                        <input th:field="*{id}" type="text" disabled />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Date of Birth</label>
+                                        <input th:field="*{dob}" type="date" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input th:field="*{users.fname}" type="text" disabled />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input th:field="*{users.lname}" type="text" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Gender</label>
+                                        <input th:field="*{gender}" type="text" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Contact Number</label>
+                                        <input th:field="*{contNo}" type="tel" />
+                                    </div>
+                                    <div class="form-group full">
+                                        <label>Address</label>
+                                        <textarea th:field="*{address}" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-title"><span class="dot" style="background:var(--accent2)"></span> Academic Information</div>
+                                <div class="form-grid" style="margin-top:8px;">
+                                    <div class="form-group">
+                                        <label>Class / Standard</label>
+                                        <input th:field="*{stantard}" type="text" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Section</label>
+                                        <input th:field="*{section}" type="text" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Date of Admission</label>
+                                        <input th:field="*{doa}" type="date" disabled />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Previous School</label>
+                                        <input th:field="*{prevSchool}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-title"><span class="dot" style="background:var(--accent3)"></span> Guardian Information</div>
+                                <div class="form-grid" style="margin-top:8px;">
+                                    <div class="form-group full">
+                                        <label>Parent / Guardian Name</label>
+                                        <input th:field="*{parName}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary" type="submit">Save Changes</button>
+                            <a th:href="@{/profile}" class="btn btn-secondary">Cancel</a>
+                        </div>
+
                     </form>
                 </div>
 
@@ -452,14 +524,14 @@
         </div>
 
         <!-- ── NO PROFILE DATA BANNER ── -->
-        <div th:if="${profile == null}" id="noProfileBanner"
-             style="margin-top:20px;padding:20px 24px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:var(--radius);display:flex;align-items:center;gap:14px;">
-            <span style="font-size:1.4rem;">⚠️</span>
-            <div>
-                <div style="font-weight:600;font-size:0.9rem;color:var(--accent4);">Profile not yet filled</div>
-                <div style="font-size:0.82rem;color:var(--text2);margin-top:3px;">Your profile details haven't been added yet. Please contact the admin, or click <strong>Edit Profile</strong> to fill in your information.</div>
-            </div>
-        </div>
+<!--        <div th:if="${profile == null}" id="noProfileBanner"-->
+<!--             style="margin-top:20px;padding:20px 24px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:var(&#45;&#45;radius);display:flex;align-items:center;gap:14px;">-->
+<!--            <span style="font-size:1.4rem;">⚠️</span>-->
+<!--            <div>-->
+<!--                <div style="font-weight:600;font-size:0.9rem;color:var(&#45;&#45;accent4);">Profile not yet filled</div>-->
+<!--                <div style="font-size:0.82rem;color:var(&#45;&#45;text2);margin-top:3px;">Your profile details haven't been added yet. Please contact the admin, or click <strong>Edit Profile</strong> to fill in your information.</div>-->
+<!--            </div>-->
+<!--        </div>-->
 
     </section>
 </main>
@@ -476,6 +548,9 @@
     #page-profile textarea:disabled {
         opacity: 0.75;
         cursor: default;
+    }
+    .card{
+        margin: 10px;
     }
     #page-profile input:not(:disabled),
     #page-profile select:not(:disabled),
