@@ -29,7 +29,7 @@ public class StudentsController {
     @PostMapping(value = "/saveStudent")
     public String saveStd(Model model,@ModelAttribute("student") Student std){
         stdservice.isSave(std);
-        return "redirect:/students";
+        return "redirect:/profile";
     }
 
 }

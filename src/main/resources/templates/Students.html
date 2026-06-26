@@ -55,8 +55,10 @@
 
                     <div class="student-card" th:each="s:${studentlist}">
                         <div class="student-card-top">
-                            <div class="student-av" style="background:#4f8ef7;color:white" th:text="${#strings.substring(s.fName,0,1) + #strings.substring(s.lName,0,1)}"></div>
-                            <div><div class="student-name" th:text="${s.fName} + ' '+${s.lName}"></div><div class="student-id" th:text="'STU ' +${s.id} + '   Class '+ ${s.stantard}+${s.section}"></div></div>
+<!--                            <div class="student-av" style="background:#4f8ef7;color:white" th:text="${#strings.substring(s.users.fname,0,1) + #strings.substring(s.users.lname,0,1)}"></div>-->
+                            <div><div class="student-name" th:text="${s.users.fname} + ' ' + ${s.users.lname}"></div><div class="student-id"
+                                                                                                                       th:text="'|STU'+ ${s.id} +'Class' +${s.stantard}+${s.section}+'|'">
+                            </div> </div>
                         </div>
                         <div class="student-stats">
                             <div class="student-stat"><div class="val" style="color:#4f8ef7" th:text="${s.addentance}+'%'"></div><div class="lbl" >Attendance</div></div>
@@ -70,60 +72,58 @@
                 </main>
 
                 <!-- STUDENT MODAL (Isolated to this page) -->
-                <div class="overlay" id="addStudentModal">
-                <div class="modal">
-                <div class="modal-header">
-                    <div class="modal-title">Add New Student</div>
-                    <div class="modal-close" onclick="closeModal('addStudentModal')">✕</div>
-                </div>
-                <form method="post" th:action="@{/saveStudent}" th:object="${student}">
-                    <div class="form-grid">
+<!--                <div class="overlay" id="addStudentModal">-->
+<!--                <div class="modal">-->
+<!--                <div class="modal-header">-->
+<!--                    <div class="modal-title">Add New Student</div>-->
+<!--                    <div class="modal-close" onclick="closeModal('addStudentModal')">✕</div>-->
+<!--                </div>-->
+<!--                <form method="post" th:action="@{/saveStudent}" th:object="${student}">-->
+<!--                    <div class="form-grid">-->
 
-                        <div class="form-group"><label>First Name</label><input type="text" placeholder="Arjun"
-                                                                                th:field="*{fName}"/></div>
-                        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Sharma"
-                                                                               th:field="*{lName}"/></div>
-                        <div class="form-group"><label>Date of Birth</label><input type="date" th:field="*{dob}"/></div>
-                        <div class="form-group"><label>Gender</label><select th:field="*{gender}">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select></div>
-                        <div class="form-group"><label>Class</label><select th:field="*{stantard}">
-                            <option value="Grade 6">Grade 6</option>
-                            <option value="Grade 7">Grade 7</option>
-                            <option value="Grade 8">Grade 8</option>
-                            <option value="Grade 9">Grade 9</option>
-                            <option value="Grade 10">Grade 10</option>
-                        </select></div>
-                        <div class="form-group"><label>Section</label><select th:field="*{section}">
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                        </select></div>
-                        <div class="form-group"><label>Parent/Guardian Name</label><input th:field="*{parName}" type="text"
-                                                                                          placeholder="Ramesh Sharma"/>
-                        </div>
-                        <div class="form-group"><label>Contact Number</label><input th:field="*{contNo}" type="tel"
-                                                                                    placeholder="+91 98765 43210"/></div>
-                        <div class="form-group full"><label>Address</label><textarea th:field="*{address}" rows="2"
-                                                                                     placeholder="House No, Street, City"></textarea>
-                        </div>
-                        <div class="form-group"><label>Admission Date</label><input type="date" th:field="*{doa}"/></div>
-                        <div class="form-group"><label>Previous School</label><input th:field="*{prevSchool}" type="text"
-                                                                                     placeholder="St. Xavier's High School"/>
-                        </div>
+<!--                        <div class="form-group"><label>First Name</label><input type="text" placeholder="Arjun"-->
+<!--                                                                                th:field="*{fName}"/></div>-->
+<!--                        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Sharma"-->
+<!--                                                                               th:field="*{lName}"/></div>-->
+<!--                        <div class="form-group"><label>Date of Birth</label><input type="date" th:field="*{dob}"/></div>-->
+<!--                        <div class="form-group"><label>Gender</label><select th:field="*{gender}">-->
+<!--                            <option value="Male">Male</option>-->
+<!--                            <option value="Female">Female</option>-->
+<!--                            <option value="Other">Other</option>-->
+<!--                        </select></div>-->
+<!--                        <div class="form-group"><label>Class</label><select th:field="*{stantard}">-->
+<!--                            <option value="Grade 6">Grade 6</option>-->
+<!--                            <option value="Grade 7">Grade 7</option>-->
+<!--                            <option value="Grade 8">Grade 8</option>-->
+<!--                            <option value="Grade 9">Grade 9</option>-->
+<!--                            <option value="Grade 10">Grade 10</option>-->
+<!--                        </select></div>-->
+<!--                        <div class="form-group"><label>Section</label><select th:field="*{section}">-->
+<!--                            <option value="A">A</option>-->
+<!--                            <option value="B">B</option>-->
+<!--                            <option value="C">C</option>-->
+<!--                        </select></div>-->
+<!--                        <div class="form-group"><label>Parent/Guardian Name</label><input th:field="*{parName}" type="text"-->
+<!--                                                                                          placeholder="Ramesh Sharma"/>-->
+<!--                        </div>-->
+<!--                        <div class="form-group"><label>Contact Number</label><input th:field="*{contNo}" type="tel"-->
+<!--                                                                                    placeholder="+91 98765 43210"/></div>-->
+<!--                        <div class="form-group full"><label>Address</label><textarea th:field="*{address}" rows="2"-->
+<!--                                                                                     placeholder="House No, Street, City"></textarea>-->
+<!--                        </div>-->
+<!--                        <div class="form-group"><label>Admission Date</label><input type="date" th:field="*{doa}"/></div>-->
+<!--                        <div class="form-group"><label>Previous School</label><input th:field="*{prevSchool}" type="text"-->
+<!--                                                                                     placeholder="St. Xavier's High School"/>-->
+<!--                        </div>-->
 
-                    </div>
-                    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
-                        <button type="button" class="btn btn-ghost" onclick="closeModal('addStudentModal')">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Add Student</button>
-                    </div>
-                </form>
-                </div>
-                </div>
-
-                <div th:replace="~{Fragments/Modals :: modals}"></div>
+<!--                    </div>-->
+<!--                    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">-->
+<!--                        <button type="button" class="btn btn-ghost" onclick="closeModal('addStudentModal')">Cancel</button>-->
+<!--                        <button type="submit" class="btn btn-primary">Add Student</button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--                </div>-->
+<!--                </div>-->
     <div th:replace="~{Fragments/Scripts :: scripts}"></div>
 </body>
 </html>

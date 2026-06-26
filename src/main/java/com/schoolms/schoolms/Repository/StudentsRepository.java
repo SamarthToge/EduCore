@@ -1,6 +1,7 @@
 package com.schoolms.schoolms.Repository;
 
 import com.schoolms.schoolms.Models.Gender;
+import com.schoolms.schoolms.Models.RegUsers;
 import com.schoolms.schoolms.Models.Student;
 import com.schoolms.schoolms.Services.Studentservice;
 import org.springframework.data.repository.CrudRepository;
@@ -10,9 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Repository
 public interface StudentsRepository extends CrudRepository<Student,Integer> {
+    Optional<Student> findByUsers_Schoolemail(String schoolemail);
 //    List<Student> students = new ArrayList<>();
 //    public StudentsRepository(){
 //        students.add(new Student(1, "Aarav", "Sharma", LocalDate.of(2010, 5, 12), Gender.Male,
