@@ -27,7 +27,7 @@ public class Student extends BaseClass {
     private String prevSchool;
     private int addentance;
     private String Grade;
-    @OneToOne(fetch = FetchType.EAGER,targetEntity = RegUsers.class)
-    @JoinColumn(name = "schoolemail", referencedColumnName = "school_email",nullable = false)
+    @OneToOne(fetch = FetchType.EAGER, targetEntity = RegUsers.class)
+    @JoinColumn(name = "schoolemail", referencedColumnName = "school_email", nullable = false)
     private RegUsers users;
 }

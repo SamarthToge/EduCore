@@ -21,13 +21,14 @@
                         <option th:value="@{/teachers/English}">English</option>
                         <option th:value="@{/teachers/History}">History</option>
                         <option th:value="@{/teachers/Geography}">Geography</option>
-                    </select><button sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL')" class="btn btn-primary" onclick="openModal('addTeacherModal')">+ Add Teacher</button>
+                    </select>
+<!--                    <button sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL')" class="btn btn-primary" onclick="openModal('addTeacherModal')">+ Add Teacher</button>-->
                 </div>
             </div>
             <div class="grid-auto" th:object="${Teacherlist}">
                 <div class="teacher-card" th:each="t:${Teacherlist}">
-                    <div class="teacher-av" style="background:#4f8ef7;color:white" th:text="${#strings.substring(t.fname,0,1) + #strings.substring(t.lname,0,1)}"></div>
-                    <div class="teacher-name" th:text="${t.fname} +' ' +${t.lname}"></div>
+                    <div class="teacher-av" style="background:#4f8ef7;color:white" th:text="${#strings.substring(t.users.fname,0,1) + #strings.substring(t.users.lname,0,1)}"></div>
+                    <div class="teacher-name" th:text="${t.users.fname} +' ' +${t.users.lname}"></div>
                     <div class="teacher-subject" th:text="${t.subject}"></div>
                     <div class="teacher-exp" th:text="'Experience: '+ ${t.experience}"></div>
                     <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px;align-items:center;">
@@ -42,40 +43,40 @@
         </section>
     </main>
 
-    <div class="overlay" id="addTeacherModal">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title">Add New Teacher</div>
-                <div class="modal-close" onclick="closeModal('addTeacherModal')">✕</div>
-            </div>
-            <form th:action="@{/saveTeacher}" method="post" th:object="${Teacher}">
-                <div class="form-grid">
-                    <div class="form-group"><label>First Name</label><input th:field="*{fname}" type="text" placeholder="Priya"/></div>
-                    <div class="form-group"><label>Last Name</label><input th:field="*{lname}" type="text" placeholder="Patel"/></div>
-                    <div class="form-group"><label>Subject</label><select th:field="*{subject}">
-                        <option value="Mathematics">Mathematics</option>
-                        <option value="Science">Science</option>
-                        <option value="English">English</option>
+<!--    <div class="overlay" id="addTeacherModal">-->
+<!--        <div class="modal">-->
+<!--            <div class="modal-header">-->
+<!--                <div class="modal-title">Add New Teacher</div>-->
+<!--                <div class="modal-close" onclick="closeModal('addTeacherModal')">✕</div>-->
+<!--            </div>-->
+<!--            <form th:action="@{/saveTeacher}" method="post" th:object="${Teacher}">-->
+<!--                <div class="form-grid">-->
+<!--                    <div class="form-group"><label>First Name</label><input th:field="*{fname}" type="text" placeholder="Priya"/></div>-->
+<!--                    <div class="form-group"><label>Last Name</label><input th:field="*{lname}" type="text" placeholder="Patel"/></div>-->
+<!--                    <div class="form-group"><label>Subject</label><select th:field="*{subject}">-->
+<!--                        <option value="Mathematics">Mathematics</option>-->
+<!--                        <option value="Science">Science</option>-->
+<!--                        <option value="English">English</option>-->
 
-                        <option value="Hindi">Hindi</option>
-                        <option value="Social Studies" >Social Studies</option>
-                        <option value="Computer Science">Computer Science</option>
-                    </select></div>
-                    <div class="form-group"><label>Experience (years)</label><input th:field="*{experience}" type="number" placeholder="5"/></div>
-                    <div class="form-group"><label>Qualification</label><input th:field="*{qualification}" type="text" placeholder="M.Sc. Mathematics"/>
-                    </div>
-                    <div class="form-group"><label>Contact</label><input th:field="*{conNo}" type="tel" placeholder="+91 99887 76655"/></div>
-                    <div class="form-group full"><label>Email</label><input th:field="*{email}" type="email"
-                                                                            placeholder="teacher@school.edu.in"/></div>
-                </div>
-                <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
-                    <button class="btn btn-ghost" onclick="closeModal('addTeacherModal')">Cancel</button>
-                    <button class="btn btn-primary" type="submit">Add Teacher</button>
-                </div>
-            </form>
+<!--                        <option value="Hindi">Hindi</option>-->
+<!--                        <option value="Social Studies" >Social Studies</option>-->
+<!--                        <option value="Computer Science">Computer Science</option>-->
+<!--                    </select></div>-->
+<!--                    <div class="form-group"><label>Experience (years)</label><input th:field="*{experience}" type="number" placeholder="5"/></div>-->
+<!--                    <div class="form-group"><label>Qualification</label><input th:field="*{qualification}" type="text" placeholder="M.Sc. Mathematics"/>-->
+<!--                    </div>-->
+<!--                    <div class="form-group"><label>Contact</label><input th:field="*{conNo}" type="tel" placeholder="+91 99887 76655"/></div>-->
+<!--                    <div class="form-group full"><label>Email</label><input th:field="*{email}" type="email"-->
+<!--                                                                            placeholder="teacher@school.edu.in"/></div>-->
+<!--                </div>-->
+<!--                <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">-->
+<!--                    <button class="btn btn-ghost" onclick="closeModal('addTeacherModal')">Cancel</button>-->
+<!--                    <button class="btn btn-primary" type="submit">Add Teacher</button>-->
+<!--                </div>-->
+<!--            </form>-->
 
-        </div>
-    </div>
+<!--        </div>-->
+<!--    </div>-->
 
     <div th:replace="~{Fragments/Scripts :: scripts}"></div>
 </body>

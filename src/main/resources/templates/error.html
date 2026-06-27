@@ -296,6 +296,7 @@
 <!-- MAIN -->
 <main>
     <div class="error-wrap" id="errorWrap">
+        <div th:text="${errormsg}"></div>
         <!-- filled by JS -->
     </div>
 </main>
@@ -323,6 +324,8 @@
 </div>
 
 <script th:inline="javascript">
+
+    const serverErrorMsg = /*[[${errormsg}]]*/ "The page you're looking for doesn't exist, was moved, or the link might be broken.";
     // ── ERROR DEFINITIONS ─────────────────────────────────────────────────
     const errors = {
         404: {
@@ -331,7 +334,7 @@
             chipColor: '#4a8cff',
             chipBg: 'rgba(74,140,255,0.1)',
             title: "This page took a wrong turn",
-            desc: "The page you're looking for doesn't exist, was moved, or the link might be broken. Double-check the URL or head back to somewhere safe.",
+            desc: serverErrorMsg || "The page you're looking for doesn't exist, was moved, or the link might be broken. Double-check the URL or head back to somewhere safe.",
             actions: [
                 { label: '← Back to Dashboard', primary: true,  href: 'school-management.html' },
                 { label: 'Go Home',             primary: false, href: 'educore-landing.html' },
@@ -375,7 +378,7 @@
             chipColor: '#f5a623',
             chipBg: 'rgba(245,166,35,0.1)',
             title: "You don't have access to this",
-            desc: "Your account doesn't have permission to view this page. If you think this is a mistake, contact your school administrator.",
+            desc: serverErrorMsg || "Our servers ran into an unexpected problem. We've been notified and are working on a fix.",
             actions: [
                 { label: '← Back to Dashboard', primary: true,  href: 'school-management.html' },
                 { label: 'Contact Admin',        primary: false, href: '#' },
@@ -411,7 +414,7 @@
             chipColor: '#ff4d4f',
             chipBg: 'rgba(255,77,79,0.1)',
             title: "Something broke on our end",
-            desc: "Our servers ran into an unexpected problem. We've been notified and are working on a fix. Try refreshing in a moment.",
+            desc: serverErrorMsg || "Our servers ran into an unexpected problem. We've been notified and are working on a fix. Try refreshing in a moment.",
             actions: [
                 { label: '↻ Try Again',          primary: true,  href: '#', onClick: 'location.reload()' },
                 { label: '← Back to Dashboard', primary: false, href: 'school-management.html' },
@@ -461,7 +464,7 @@
             chipColor: '#00d4aa',
             chipBg: 'rgba(0,212,170,0.1)',
             title: "We're down for maintenance",
-            desc: "EduCore is undergoing scheduled maintenance to improve your experience. Everything will be back shortly. Thank you for your patience.",
+            desc: serverErrorMsg || "EduCore is undergoing scheduled maintenance to improve your experience. Everything will be back shortly. Thank you for your patience.",
             actions: [
                 { label: '↻ Check Again', primary: true,  href: '#', onClick: 'location.reload()' },
                 { label: '📊 Status Page', primary: false, href: '#' },
