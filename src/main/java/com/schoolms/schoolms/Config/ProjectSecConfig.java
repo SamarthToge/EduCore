@@ -20,7 +20,8 @@ public class ProjectSecConfig {
 
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/signup", "/home", "/login.css", "/style.css", "/script.js", "/h2-console/**","/public/**").permitAll()
+                        .dispatcherTypeMatchers(jakarta.servlet.DispatcherType.FORWARD, jakarta.servlet.DispatcherType.ERROR).permitAll()
+                        .requestMatchers("/", "/login", "/signup", "/home", "/login.css", "/style.css", "/script.js", "/h2-console/**","/public/**","/error").permitAll()
                         .requestMatchers("/dashboard", "/notices").hasAnyRole("ADMIN", "PRINCIPAL", "TEACHER", "STUDENT", "LIBRARIAN", "ACCOUNTANT")
                         .requestMatchers("/schedule", "/exams", "/attendance").hasAnyRole("ADMIN", "PRINCIPAL", "TEACHER", "STUDENT")
                         .requestMatchers("/library").hasAnyRole("ADMIN", "PRINCIPAL", "LIBRARIAN", "STUDENT")
