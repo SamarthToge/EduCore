@@ -29,7 +29,12 @@ public class ProjectSecConfig {
                         .requestMatchers("/fees").hasAnyRole("ADMIN", "PRINCIPAL", "ACCOUNTANT")
                         .requestMatchers("/add-user").hasAnyRole("ADMIN")
                         .requestMatchers("/teachers", "/settings").hasAnyRole("ADMIN", "PRINCIPAL")
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()   // Unknown URLs reach MVC → real 404 error page for everyone
+                )
+                .exceptionHandling(ex -> ex
+                        // Authenticated user accesses a URL their role doesn't allow → 403 error page
+                        .accessDeniedHandler((request, response, accessDeniedException) ->
+                                response.sendError(403, "Access Denied"))
                 )
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
                 .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))

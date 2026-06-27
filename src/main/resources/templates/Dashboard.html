@@ -1,4 +1,4 @@
-<section class="page active" id="page-dashboard" th:fragment="content" xmlns:sec="http://www.w3.org/1999/xhtml">
+<section class="page active" id="page-dashboard" th:fragment="content" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <div class="page-header">
         <div class="page-header-left">
             <h1>Good Morning, Admin 👋</h1>
@@ -6,47 +6,46 @@
         </div>
         <div class="page-header-actions">
             <button class="btn btn-ghost">📊 Reports</button>
-           <button class="btn btn-primary" sec:authorize="hasRole('ADMIN')" ><a th:href="@{/add-user}"> + Add User</a></button>
+            <a th:href="@{/add-user}" class="btn btn-primary" sec:authorize="hasRole('ADMIN')"> + Add User</a>
         </div>
     </div>
 
-    <!-- STAT CARDS -->
-    <div class="grid-4 mb-20"><div sec:authorize="hasAnyRole('ADMIN','PRINCIPAL')">
-        <div class="stat-card blue">
-            <div class="stat-icon blue">👥</div>
-            <div class="stat-value">1,247</div>
-            <div class="stat-label">Total Students</div>
-            <div class="stat-change up">↑ 4.2% vs last month</div>
+    <th:block sec:authorize="hasAnyRole('ADMIN','PRINCIPAL')">
+        <div class="grid-4 mb-20">
+            <div class="stat-card blue">
+                <div class="stat-icon blue">👥</div>
+                <div class="stat-value">1,247</div>
+                <div class="stat-label">Total Students</div>
+                <div class="stat-change up">↑ 4.2% vs last month</div>
+            </div>
+            <div class="stat-card purple">
+                <div class="stat-icon purple">🧑‍🏫</div>
+                <div class="stat-value">86</div>
+                <div class="stat-label">Teachers</div>
+                <div class="stat-change up">↑ 2 new this term</div>
+            </div>
+            <div class="stat-card green">
+                <div class="stat-icon green">✅</div>
+                <div class="stat-value">94.3%</div>
+                <div class="stat-label">Avg Attendance</div>
+                <div class="stat-change down">↓ 1.1% vs yesterday</div>
+            </div>
+            <div class="stat-card amber">
+                <div class="stat-icon amber">💳</div>
+                <div class="stat-value">₹4.8L</div>
+                <div class="stat-label">Fees Collected</div>
+                <div class="stat-change up">↑ 12% this month</div>
+            </div>
         </div>
-        <div class="stat-card purple">
-            <div class="stat-icon purple">🧑‍🏫</div>
-            <div class="stat-value">86</div>
-            <div class="stat-label">Teachers</div>
-            <div class="stat-change up">↑ 2 new this term</div>
-        </div>
-        <div class="stat-card green">
-            <div class="stat-icon green">✅</div>
-            <div class="stat-value">94.3%</div>
-            <div class="stat-label">Avg Attendance</div>
-            <div class="stat-change down">↓ 1.1% vs yesterday</div>
-        </div>
-        <div class="stat-card amber">
-            <div class="stat-icon amber">💳</div>
-            <div class="stat-value">₹4.8L</div>
-            <div class="stat-label">Fees Collected</div>
-            <div class="stat-change up">↑ 12% this month</div>
-        </div>
-    </div>
+    </th:block>
 
     <div class="grid-3 mb-20">
-        <!-- Attendance breakdown -->
-        <div class="card" style="grid-column:span 2;">
+        <div class="card" style="grid-column: span 2;">
             <div class="card-title"><span class="dot"></span> Weekly Attendance Overview</div>
             <div class="bar-chart" id="barChart"></div>
             <div class="bar-labels" id="barLabels"></div>
         </div>
 
-        <!-- Mini calendar -->
         <div class="card">
             <div class="card-title"><span class="dot" style="background:var(--accent4)"></span> June 2026</div>
             <div class="cal-header">
@@ -59,7 +58,6 @@
     </div>
 
     <div class="grid-2">
-        <!-- Recent students -->
         <div class="card">
             <div class="card-title" style="justify-content:space-between;margin-bottom:8px;">
                 <span style="display:flex;align-items:center;gap:8px;"><span class="dot" style="background:var(--accent2)"></span> Recent Admissions</span>
@@ -75,11 +73,9 @@
             </div>
         </div>
 
-        <!-- Upcoming events -->
         <div class="card">
             <div class="card-title"><span class="dot" style="background:var(--accent3)"></span> Upcoming Events</div>
             <div id="upcomingEvents"></div>
         </div>
-    </div>
     </div>
 </section>

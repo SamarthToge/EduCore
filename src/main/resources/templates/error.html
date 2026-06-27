@@ -262,6 +262,9 @@
         .footer-link { font-size: .76rem; color: var(--text3); cursor: pointer; transition: color .15s; }
         .footer-link:hover { color: var(--text2); }
 
+        a{
+            text-decoration: none;
+        }
         /* ── RESPONSIVE ── */
         @media (max-width: 600px) {
             nav { padding: 0 20px; }
@@ -286,7 +289,7 @@
     </a>
     <div class="nav-right">
         <button class="nav-btn nav-btn-ghost" onclick="history.back()">← Go Back</button>
-        <button class="nav-btn nav-btn-primary" onclick="window.location.href='educore-landing.html'">Home</button>
+        <button class="nav-btn nav-btn-primary" onclick="window.location.href='educore-landing.html'"><a th:href="@{/home}">Home</a></button>
     </div>
 </nav>
 
