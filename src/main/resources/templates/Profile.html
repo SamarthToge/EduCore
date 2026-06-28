@@ -312,43 +312,43 @@
                 </div>
 
                 <!-- Detail Card -->
-                <div class="card">
+                <form method="post" th:action="@{/saveTeacher}" th:object="${teacher}">
                     <div class="card-title"><span class="dot"></span> Professional Information</div>
                     <div class="form-grid" style="margin-top:8px;">
                         <div class="form-group">
                             <label>ID</label>
-                            <input type="text" th:value="${profile != null ? profile.id : ''}" disabled />
+                            <input type="text" th:field="*{id}" th:value="${teacher != null ? teacher.id : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" id="t_fname" th:value="${profile != null ? profile.fname : ''}" disabled />
+                            <input type="text" id="t_fname" th:field="*{users.fname}" th:value="${teacher != null ? teacher.users.fname : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" id="t_lname" th:value="${profile != null ? profile.lname : ''}" disabled />
+                            <input type="text" id="t_lname" th:field="*{users.lname}" th:value="${teacher != null ? teacher.users.lname : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Subject</label>
-                            <input type="text" id="t_subject" th:value="${profile != null ? profile.subject : ''}" disabled />
+                            <input type="text" id="t_subject" th:field="*{subject}" th:value="${teacher != null ? teacher.subject : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Experience (years)</label>
-                            <input type="number" id="t_exp" th:value="${profile != null ? profile.experience : ''}" disabled />
+                            <input type="number" id="t_exp" th:field="*{experience}" th:value="${teacher != null ? teacher.experience : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Qualification</label>
-                            <input type="text" id="t_qual" th:value="${profile != null ? profile.qualification : ''}" disabled />
+                            <input type="text" id="t_qual" th:field="*{qualification}" th:value="${teacher != null ? teacher.qualification : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Contact Number</label>
-                            <input type="tel" id="t_conno" th:value="${profile != null ? profile.conNo : ''}" disabled />
+                            <input type="tel" id="t_conno" th:field="*{conNo}" th:value="${teacher != null ? teacher.conNo : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Personal Email</label>
-                            <input type="email" id="t_email" th:value="${profile != null ? profile.email : ''}" disabled />
+                            <input type="email" id="t_email" th:field="*{email}" th:value="${teacher != null ? teacher.email : ''}" disabled />
                         </div>
-                    </div>
-                </div>
+                    </div><button type="submit" class="btn-primary btn">Submit</button>
+                </form>
 
             </div>
         </div>
@@ -383,43 +383,43 @@
                 </div>
 
                 <!-- Detail Card -->
-                <div class="card">
+                <form method="post" th:action="@{/saveTeacher}" th:object="${teacher}">
                     <div class="card-title"><span class="dot"></span> Professional Information</div>
                     <div class="form-grid" style="margin-top:8px;">
                         <div class="form-group">
                             <label>ID</label>
-                            <input type="text" th:value="${profile != null ? profile.id : ''}" disabled />
+                            <input type="text" th:field="*{id}" th:value="${teacher != null ? teacher.id : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" id="l_fname" th:value="${profile != null ? profile.fname : ''}" disabled />
+                            <input type="text" id="l_fname" th:field="*{users.fname}" th:value="${teacher != null ? teacher.users.fname : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" id="l_lname" th:value="${profile != null ? profile.lname : ''}" disabled />
+                            <input type="text" id="l_lname" th:field="*{users.lname}" th:value="${teacher != null ? teacher.users.lname : ''}" disabled />
                         </div>
                         <div class="form-group">
-                            <label>Subject / Department</label>
-                            <input type="text" id="l_subject" th:value="${profile != null ? profile.subject : ''}" disabled />
+                            <label>Subject</label>
+                            <input type="text" id="l_subject" th:field="*{subject}" th:value="${teacher != null ? teacher.subject : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Experience (years)</label>
-                            <input type="number" id="l_exp" th:value="${profile != null ? profile.experience : ''}" disabled />
+                            <input type="number" id="l_exp" th:field="*{experience}" th:value="${teacher != null ? teacher.experience : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Qualification</label>
-                            <input type="text" id="l_qual" th:value="${profile != null ? profile.qualification : ''}" disabled />
+                            <input type="text" id="l_qual" th:field="*{qualification}" th:value="${teacher != null ? teacher.qualification : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Contact Number</label>
-                            <input type="tel" id="l_conno" th:value="${profile != null ? profile.conNo : ''}" disabled />
+                            <input type="tel" id="l_conno" th:field="*{conNo}" th:value="${teacher != null ? teacher.conNo : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Personal Email</label>
-                            <input type="email" id="l_email" th:value="${profile != null ? profile.email : ''}" disabled />
+                            <input type="email" id="l_email" th:field="*{email}" th:value="${teacher != null ? teacher.email : ''}" disabled />
                         </div>
-                    </div>
-                </div>
+                    </div><button type="submit" class="btn-primary btn">Submit</button>
+                </form>
 
             </div>
         </div>
@@ -454,43 +454,43 @@
                 </div>
 
                 <!-- Detail Card -->
-                <div class="card">
+                <form method="post" th:action="@{/saveTeacher}" th:object="${teacher}">
                     <div class="card-title"><span class="dot"></span> Professional Information</div>
                     <div class="form-grid" style="margin-top:8px;">
                         <div class="form-group">
                             <label>ID</label>
-                            <input type="text" th:value="${profile != null ? profile.id : ''}" disabled />
+                            <input type="text" th:field="*{id}" th:value="${teacher != null ? teacher.id : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" id="a_fname" th:value="${profile != null ? profile.fname : ''}" disabled />
+                            <input type="text" id="a_fname" th:field="*{users.fname}" th:value="${teacher != null ? teacher.users.fname : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" id="a_lname" th:value="${profile != null ? profile.lname : ''}" disabled />
+                            <input type="text" id="a_lname" th:field="*{users.lname}" th:value="${teacher != null ? teacher.users.lname : ''}" disabled />
                         </div>
                         <div class="form-group">
-                            <label>Subject / Department</label>
-                            <input type="text" id="a_subject" th:value="${profile != null ? profile.subject : ''}" disabled />
+                            <label>Subject</label>
+                            <input type="text" id="a_subject" th:field="*{subject}" th:value="${teacher != null ? teacher.subject : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Experience (years)</label>
-                            <input type="number" id="a_exp" th:value="${profile != null ? profile.experience : ''}" disabled />
+                            <input type="number" id="a_exp" th:field="*{experience}" th:value="${teacher != null ? teacher.experience : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Qualification</label>
-                            <input type="text" id="a_qual" th:value="${profile != null ? profile.qualification : ''}" disabled />
+                            <input type="text" id="a_qual" th:field="*{qualification}" th:value="${teacher != null ? teacher.qualification : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Contact Number</label>
-                            <input type="tel" id="a_conno" th:value="${profile != null ? profile.conNo : ''}" disabled />
+                            <input type="tel" id="a_conno" th:field="*{conNo}" th:value="${teacher != null ? teacher.conNo : ''}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Personal Email</label>
-                            <input type="email" id="a_email" th:value="${profile != null ? profile.email : ''}" disabled />
+                            <input type="email" id="a_email" th:field="*{email}" th:value="${teacher != null ? teacher.email : ''}" disabled />
                         </div>
-                    </div>
-                </div>
+                    </div><button type="submit" class="btn-primary btn">Submit</button>
+                </form>
 
             </div>
         </div>

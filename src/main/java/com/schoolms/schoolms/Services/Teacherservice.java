@@ -21,9 +21,18 @@ public class Teacherservice {
         this.teacherRepository=teacherRepository;
     }
     public boolean issave(Teachers teachers){log.info(teachers.toString());
-        Teachers existing = teacherRepository.findById(teachers.getId()).orElseThrow();
-        teachers.setUsers(existing.getUsers());
-        teachers.setId(existing.getId());
+//        Teachers existing = teacherRepository.findById(teachers.getId()).orElseThrow();
+//        teachers.setUsers(existing.getUsers());
+//        teachers.setId(existing.getId());
+//        teacherRepository.save(teachers);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        RegUsers user = (RegUsers) authentication.getPrincipal();
+        Teachers teacher = teacherRepository
+                .findByUsers_Schoolemail(user.getSchoolemail())
+                .orElseThrow(() -> new RuntimeException("Teacher not found"));
+        teachers.setUsers(teacher.getUsers());
+        teachers.setId(teacher.getId());
+        teachers.setStatus("Active");
         teacherRepository.save(teachers);
         return true;
     }
