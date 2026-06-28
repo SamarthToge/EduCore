@@ -1,5 +1,6 @@
 package com.schoolms.schoolms.Repository;
 
+import com.schoolms.schoolms.Models.Student;
 import com.schoolms.schoolms.Models.Teachers;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -8,10 +9,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TeacherRepository extends CrudRepository<Teachers,Integer> {
-
+    Optional<Teachers> findByUsers_Schoolemail(String schoolemail);
 //    private final JdbcTemplate jdbcTemplate;
 //
 //    @Autowired

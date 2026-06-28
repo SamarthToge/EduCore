@@ -2,6 +2,7 @@ package com.schoolms.schoolms.Controllers;
 
 import com.schoolms.schoolms.Models.Teachers;
 import com.schoolms.schoolms.Services.Teacherservice;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@Slf4j
 public class TeachersController {
 
     private final Teacherservice teacherservice;
@@ -32,9 +34,10 @@ public class TeachersController {
     }
 
     @PostMapping("/saveTeacher")
-    public String saveTeacher(@ModelAttribute ("Teacher") Teachers teacher, Model model){
+    public String saveTeacher(@ModelAttribute ("teacher") Teachers teacher, Model model){
+        log.info(teacher.toString());
         teacherservice.issave(teacher);
-        return "redirect:/teachers/All";
+        return "redirect:/profile";
     }
 
     @PostMapping("/updateTeacherStatus/{id}/{status}")

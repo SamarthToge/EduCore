@@ -1,9 +1,12 @@
 package com.schoolms.schoolms.Services;
 
+import com.schoolms.schoolms.Models.RegUsers;
 import com.schoolms.schoolms.Models.Teachers;
 import com.schoolms.schoolms.Repository.TeacherRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +20,10 @@ public class Teacherservice {
     public Teacherservice(TeacherRepository teacherRepository){
         this.teacherRepository=teacherRepository;
     }
-    public boolean issave(Teachers teachers){
-        log.info(teachers.toString());
+    public boolean issave(Teachers teachers){log.info(teachers.toString());
+        Teachers existing = teacherRepository.findById(teachers.getId()).orElseThrow();
+        teachers.setUsers(existing.getUsers());
+        teachers.setId(existing.getId());
         teacherRepository.save(teachers);
         return true;
     }

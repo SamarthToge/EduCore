@@ -23,7 +23,7 @@ public class Teachers extends BaseClass {
     private String qualification;
     private String conNo;
     private String email;
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST,targetEntity = RegUsers.class)
+    @OneToOne(fetch = FetchType.EAGER,targetEntity = RegUsers.class)
     @JoinColumn(name = "schoolemail", referencedColumnName = "school_email",nullable = false)
     private RegUsers users;
 }
