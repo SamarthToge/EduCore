@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduCore — School Management System</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
     <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -416,8 +417,14 @@
             <a class="nav-link" href="#preview">Preview</a>
         </div>
         <div class="nav-cta">
-            <a href="/login" class="btn-ghost-nav">Sign In</a>
-            <a href="/dashboard" class="btn-primary-nav">Get Started →</a>
+            <a sec:authorize="not isAuthenticated()" th:if="${#authentication.principal} != null " href="/login" class="btn-ghost-nav">Sign In</a>
+
+            <div class="sidebar-footer" sec:authorize="isAuthenticated()">
+                <a th:href="@{/profile}" class="user-card" th:classappend="${currentPage == 'profile' ? 'active' : ''}" style="text-decoration:none;">
+                    <div class="user-avatar" sec:authentication="name" th:text="${#strings.substring(#authentication.name, 0, 1).toUpperCase()}">U</div>
+                </a>
+            </div>
+            <a href="/dashboard" class="btn-primary-nav" sec:authorize="isAuthenticated()">Get Started →</a>
         </div>
     </nav>
 
@@ -441,7 +448,7 @@
                 Manage students, teachers, fees, attendance, and results — all from one beautifully unified platform. Built for Indian schools.
             </p>
             <div class="hero-actions">
-                <a th:href="@{/public/signup}" class="btn-hero btn-hero-primary">
+                <a sec:authorize="not isAuthenticated()" th:href="@{/public/signup}" class="btn-hero btn-hero-primary">
                     Start for free →
                 </a>
                 <button class="btn-hero btn-hero-secondary" onclick="document.getElementById('preview').scrollIntoView({behavior:'smooth'})">
@@ -538,7 +545,7 @@
     </section>
 
     <!-- ROLES -->
-    <section class="roles-section" id="roles">
+    <section class="roles-section" id="roles" sec:authorize="not isAuthenticated()">
         <div class="reveal">
             <div class="section-tag">✦ Made for everyone</div>
             <h2 class="section-h2">One platform, every role</h2>
@@ -591,7 +598,7 @@
     </section>
 
     <!-- CTA -->
-    <div class="cta-section reveal">
+    <div class="cta-section reveal" sec:authorize="not isAuthenticated()">
         <div class="cta-inner">
             <h2>Ready to modernise<br>your school?</h2>
             <p>Join hundreds of schools already running on EduCore. Set up your account in minutes — completely free.</p>

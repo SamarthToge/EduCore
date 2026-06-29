@@ -38,7 +38,11 @@ public class ProfileController {
                 model.addAttribute("user", user);
                 model.addAttribute("editMode", false);
 
-            } else {
+            }
+            else if ("ADMIN".equals(user.getRole().getRoleName())) {
+                
+            }
+            else {
                 Teachers teacher = teachersRepository
                         .findByUsers_Schoolemail(user.getSchoolemail())
                         .orElseThrow(() -> new RuntimeException("Teacher not found"));

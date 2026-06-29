@@ -514,12 +514,12 @@
                             <label>School Email / Username</label>
                             <div style="display:flex;align-items:center;gap:8px;">
                                 <span>📧</span>
-                                <input type="email" sec:authentication="name"  disabled style="flex:1;" />
+                                <span th:text="${#authentication.principal.schoolemail}"></span>
                             </div>
                         </div>
                          <div class="form-group full">
                             <label>Role</label>
-                            <input type="text" value="Administrator" disabled />
+                             <span> Admin</span>
                         </div>
                     </div>
                 </div>

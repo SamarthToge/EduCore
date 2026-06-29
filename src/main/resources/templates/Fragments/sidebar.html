@@ -23,7 +23,7 @@
             <span class="nav-badge">1,247</span>
         </a>
         <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL')" th:href="@{/teachers/All}" class="nav-item" th:classappend="${currentPage == 'teachers' ? 'active' : ''}">
-            <span class="nav-icon">🧑‍🏫</span> Teachers
+            <span class="nav-icon">🧑‍🏫</span> Employees
         </a>
         <a sec:authorize="hasAnyRole('ADMIN', 'PRINCIPAL', 'TEACHER')" th:href="@{/classes}" class="nav-item" th:classappend="${currentPage == 'classes' ? 'active' : ''}">
             <span class="nav-icon">📚</span> Classes
