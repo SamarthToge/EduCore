@@ -22,7 +22,6 @@ public class UsernamePwdAuthenticationProvider implements AuthenticationProvider
                 new SimpleGrantedAuthority("ROLE_" + role)
         );
     }
-
     @Autowired
     regUserRepository RegUserRepository;
 
